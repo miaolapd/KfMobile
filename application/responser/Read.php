@@ -202,9 +202,9 @@ class Read extends Responser
 
         // 楼层顶部信息
         $floorNum = 0;
-        $pqFloorTop = $pqFloor->find('table > tr > td:first-child > div:first-child > div:nth-child(2)');
-        $pqFloorUser = $pqFloor->prev('div')->find(' > .readidms');
-        $pid = $pqFloor->prev('div')->prev('.readlou')->prev('a')->attr('name');
+        $pqFloorTop = $pqFloor->find('table > tr > td:nth-child(2) > div:first-child > div:nth-child(2)');
+        $pqFloorUser = $pqFloor->find('.readidms');
+        $pid = $pqFloor->prev('.readlou')->prev('a')->attr('name');
         $floorNumText = $pqFloorTop->find('> span:first-child')->text();
         if (preg_match('/(\d+)楼/', $floorNumText, $matches)) {
             $floorNum = intval($matches[1]);
@@ -217,7 +217,7 @@ class Read extends Responser
         $uid = 0;
         $sf = '';
         $smColor = '';
-        if (preg_match('/#\w+/', $pqFloorUser->attr('style'), $matches)) {
+        if (preg_match('/#\w+/', $pqFloor->attr('style'), $matches)) {
             $smColor = $matches[0];
         }
         $pqAvatar = $pqFloorUser->find('.readidmstop > img');
@@ -225,18 +225,17 @@ class Read extends Responser
         if (strpos($avatar, 'none.gif') > 0) $avatar = '';
         elseif (!empty($avatar) && strpos($avatar, 'http') !== 0) $avatar = '/' . $avatar;
 
-        $pqUserInfo = $pqFloorUser->find('.readidmsbottom');
-        $pqUserLink = $pqUserInfo->find('.readidmsbottom_n');
+        $pqUserLink = $pqFloorUser->find('.readidmsbottom:eq(0) > a');
         if (preg_match('/uid=(\d+)(?:&sf=(\w+))?/', $pqUserLink->attr('href'), $matches)) {
             $uid = intval($matches[1]);
             $sf = $matches[2];
         }
         $userName = trim_strip($pqUserLink->text());
 
-        $smLevel = trim_strip(str_replace(' ', '', $pqUserInfo->find('.readidmsbottom_s')->text()));
-        $gameRank = trim_strip($pqUserInfo->find('.readidmsbottom_j')->text());
+        $smLevel = trim_strip(str_replace(' ', '', $pqFloorUser->find('.readidmsbottom:eq(1) > span:nth-child(2)')->text()));
+        $gameRank = trim_strip($pqFloorUser->find('.readidmsbottom:eq(2) > span:nth-child(2)')->text());
 
-        $content = $this->getFloorContent($pqFloor->find('tr > td > div'));
+        $content = $this->getFloorContent($pqFloor->find('tr > td:nth-child(2) > div'));
 
         return [
             'pid' => $pid,
