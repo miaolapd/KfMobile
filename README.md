@@ -9,7 +9,7 @@ _Present for every KFer!_
 https://m.miaola.info/
 
 ## 讨论帖
-https://bbs.ikfol.com/read.php?tid=564787&sf=406
+https://bbs.fygal.com/read.php?tid=564787&sf=406
 
 ## 更新日志
 [详细日志请参见此页面&raquo;](https://github.com/miaolapd/KfMobile/releases)
