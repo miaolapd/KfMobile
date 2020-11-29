@@ -7036,6 +7036,9 @@ main {
   .select-layout-box td[colspan="3"] {
     height: 4rem; } }
 
+#faqPage .faq-thead th {
+  vertical-align: baseline; }
+
 .bg-sprite {
   background-image: url("../img/bg/small/sprite.jpg");
   background-repeat: no-repeat; }

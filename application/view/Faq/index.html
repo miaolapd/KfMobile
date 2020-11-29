@@ -23,17 +23,20 @@
   <!-- 问题导航 -->
   <nav class="nav nav-pills flex-column flex-md-row flex-wrap mb-3">
     {volist name="questionList" id="vo"}
-    <a class="nav-link {eq name='vo.id' value='$id'}active{else /}{eq name='vo.id' value='101'}text-danger{/eq}{/eq}"
-       href="{:url('Faq/index?id=' . $vo['id'])}">{$vo.title}</a>
+    <a class="nav-link {eq name='vo.id' value='$id'}active{/eq}" href="{:url('Faq/index?id=' . $vo['id'])}">{$vo.title}</a>
     {/volist}
   </nav>
 
   <!-- 问题内容 -->
   <div class="card">
     <h5 class="card-header">{$questionTitle}</h5>
-    <div class="card-body">
-      <p class="card-text">{$questionContent}</p>
-    </div>
+    {eq name='faqId' value='102'}
+      {$questionContent}
+    {else/}
+      <div class="card-body">
+        <div class="card-text">{$questionContent}</div>
+      </div>
+    {/eq}
   </div>
 
 </main>
