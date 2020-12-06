@@ -179,4 +179,18 @@ class SelfRate extends Base
         if ($request->isAjax()) return $data;
         else return $this->fetch('SelfRate/banUser', $data);
     }
+
+    /**
+     * 展示评分表内帖子搜索页面
+     * @param Request $request
+     * @return mixed
+     */
+    public function search(Request $request)
+    {
+        $response = Proxy::get('kf_fw_1wkfb.php?ping=10', $request->except('ping'));
+        $selfRate = new responser\SelfRate($response);
+        $data = $selfRate->search(['action' => $request->action(), 'keyword' => $request->param('ss')]);
+        if ($request->isAjax()) return $data;
+        else return $this->fetch('SelfRate/search', $data);
+    }
 }

@@ -772,4 +772,66 @@ class SelfRate extends Responser
         if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
         return array_merge($commonData, $data);
     }
+
+    /**
+     * 获取评分表内帖子搜索页面的响应数据
+     * @param array $extraData 额外参数
+     * @return array 响应数据
+     */
+    public function search($extraData = [])
+    {
+        debug('begin');
+        $doc = null;
+        $initTime = 0;
+        try {
+            debug('initBegin');
+            $doc = \phpQuery::newDocumentHTML($this->response['document']);
+            debug('initEnd');
+            $initTime = debug('initBegin', 'initEnd');
+        } catch (\Exception $ex) {
+            $this->handleError($ex);
+        }
+        $commonData = array_merge($this->getCommonData($doc), $extraData);
+        $matches = [];
+
+        $keyword = trim_strip($commonData['keyword']);
+
+        // 主题列表
+        $threadList = [];
+        foreach (pq('.adp1:last > tr:gt(2)') as $item) {
+            $pqItem = pq($item);
+
+            $publishTime = trim_strip($pqItem->find('> td:first-child')->text());
+
+            $pqThreadCell = $pqItem->find('> td:nth-child(2)');
+            $pqThreadLink = $pqThreadCell->find('a:first');
+            $threadUrl = convert_url($pqThreadLink->attr('href'));
+            $threadTitle = trim_strip($pqThreadLink->text());
+
+            $id = 0;
+            if (preg_match('/(?<!\w)id=(\d+)/i', $pqThreadCell->find('a:last')->attr('href'), $matches)) {
+                $id = intval($matches[1]);
+            }
+
+            $pqTagCell = $pqItem->find('> td:nth-child(3)');
+            $status = trim_strip($pqTagCell->text());
+
+            $threadList[] = [
+                'id' => $id,
+                'threadUrl' => $threadUrl,
+                'threadTitle' => $threadTitle,
+                'publishTime' => $publishTime,
+                'status' => $status,
+            ];
+        }
+
+        $data = [
+            'threadList' => $threadList,
+            'keyword' => $keyword,
+        ];
+        debug('end');
+        trace('phpQuery解析用时：' . debug('begin', 'end') . 's' . '（初始化：' . $initTime . 's）');
+        if (config('app_debug')) trace('响应数据：' . json_encode($data, JSON_UNESCAPED_UNICODE));
+        return array_merge($commonData, $data);
+    }
 }

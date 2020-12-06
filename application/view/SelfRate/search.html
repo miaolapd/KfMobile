@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <title>待检查的评分记录 - 自助发布奖励 - {$Think.config.site_name}</title>
+    {include file="Public/head" /}
+    {/* 编辑器提示用
+    <link rel="stylesheet" href="/public/static/src/css/app.css">
+    <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+    */}
+</head>
+<body id="selfRateWaitCheckPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+    <!-- 面包屑导航 -->
+    <ol class="breadcrumb mb-3">
+        <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+        <li class="breadcrumb-item active">自助发布奖励</li>
+    </ol>
+
+    {include file="SelfRate/header" /}
+
+    <!-- 搜索 -->
+    <form action="{:url('SelfRate/search')}" method="get">
+        <div class="input-group mb-3">
+            <input class="form-control" value="{$keyword}" data-toggle="tooltip" name="ss" type="search" maxlength="16"
+                   title="注意：本搜索没有建立任何索引缓存机制，不要过于频繁使用本搜索。最大返回50个结果" placeholder="帖子标题" aria-label="帖子标题">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">搜索</button>
+            </div>
+        </div>
+    </form>
+
+    {notempty name="threadList"}
+    <!-- 主题列表 -->
+    <section class="row">
+        <ul class="list-group thread-list-group">
+            {volist name="threadList" id="vo"}
+            <li class="list-group-item thread-list-item">
+                <div class="thread-link-item">
+                    <a class="thread-link" href="{$vo.threadUrl}" target="_blank">
+                        {eq name="vo.status" value="评分待查"}
+                        <span class="badge badge-primary">{$vo.status}</span>
+                        {/eq}
+                        {eq name="vo.status" value="评分完成"}
+                        <span class="badge badge-success">{$vo.status}</span>
+                        {/eq}
+                        {eq name="vo.status" value="未评分"}
+                        <span class="badge badge-secondary">{$vo.status}</span>
+                        {/eq}
+                        {$vo.threadTitle}
+                    </a>
+                </div>
+                <footer class="thread-footer">
+                    <div class="col-6 thread-footer-column">
+                      <span title="发表时间" aria-label="发表时间">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <time>{$vo.publishTime}</time>
+                      </span>
+                    </div>
+                    <div class="col-6 thread-footer-column text-right">
+                        <a class="text-danger" href="{:url('SelfRate/check', 'safeid=' . $safeId . '&id=' . $vo['id'])}" target="_blank">
+                            <i class="fa fa-check-square" aria-hidden="true"></i> 查看详细
+                        </a>
+                    </div>
+                </footer>
+            </li>
+            {/volist}
+        </ul>
+    </section>
+    {else /}
+    {notempty name="keyword"}
+    <div class="alert alert-danger text-center" role="alert">未找到匹配的帖子</div>
+    {/notempty}
+    {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>
