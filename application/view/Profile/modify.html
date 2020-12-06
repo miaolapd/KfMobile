@@ -34,7 +34,7 @@
     <div class="form-group">
       <label for="oldpwd">原密码</label>
       <input class="form-control" name="oldpwd" id="oldpwd" type="password" maxlength="16" placeholder="原密码" aria-describedby="oldpwdHelp">
-      <small class="form-text text-secondary" id="oldpwdHelp">修改<b class="text-danger">密码和Email</b>时需要密码验证</small>
+      <small class="form-text text-secondary" id="oldpwdHelp">修改<b class="text-danger">密码</b>时需要密码验证</small>
     </div>
 
     <div class="form-group">
@@ -52,40 +52,6 @@
       <label for="proemail">Email</label>
       <input class="form-control" name="proemail" id="proemail" type="email" value="{$proemail|default=''}" maxlength="75"
              placeholder="Email">
-    </div>
-
-    <div class="form-group">
-      <label for="prooicq">QQ</label>
-      <input class="form-control" name="prooicq" id="prooicq" type="text" value="{$prooicq|default=''}" maxlength="14" placeholder="QQ">
-    </div>
-
-    <div class="form-group">
-      <label for="promsn">MSN</label>
-      <input class="form-control" name="promsn" id="promsn" type="text" value="{$promsn|default=''}" placeholder="MSN">
-    </div>
-
-    <div class="form-group">
-      <label for="prohomepage">个人主页</label>
-      <input class="form-control" name="prohomepage" id="prohomepage" type="url" value="{$prohomepage|default=''}" maxlength="75"
-             placeholder="个人主页">
-    </div>
-
-    <div class="form-group">
-      <label for="progender">性别</label>
-      <select class="custom-select" id="progender" name="progender">
-        <option value="0" {eq name="progender" value="0"}selected{/eq}>保密</option>
-        <option value="1" {eq name="progender" value="1"}selected{/eq}>男</option>
-        <option value="2" {eq name="progender" value="2"}selected{/eq}>女</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="birthday">生日</label>
-      <input class="form-control" id="birthday" type="date" value="{$birthday|default=''}" placeholder="生日" aria-describedby="birthdayHelp">
-      <small class="form-text text-secondary" id="birthdayHelp">须选择<b>2001</b>年以前的日期</small>
-      <input name="proyear" type="hidden" value="{$proyear|default=''}">
-      <input name="promonth" type="hidden" value="{$promonth|default=''}">
-      <input name="proday" type="hidden" value="{$proday|default=''}">
     </div>
 
     <fieldset class="fieldset mb-3">
@@ -111,8 +77,11 @@
           必须是<b class="text-danger">140 + 整形优惠券{$couponNum|default=0}x20</b>之内的整数
         </small>
       </div>
+      <div class="alert alert-danger font-size-sm" role="alert">
+        禁止使用露点、血腥、恶心的图片，禁止涉及政治图片，禁止攻击其他会员的图片。<br><b>违规图片封禁7天起。</b>
+      </div>
       <div class="alert alert-warning font-size-sm mb-0" role="alert">
-        本反向代理服务器为了提高性能对图片设置了缓存，更新头像后可能需等待<b>最多30分钟</b>才能看到效果
+        反向代理服务器为了提高性能对图片设置了缓存，更新头像后可能需等待<b>最多30分钟</b>才能看到效果
       </div>
     </fieldset>
 

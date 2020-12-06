@@ -267,10 +267,6 @@ class Profile extends Responser
             if (empty($name)) continue;
             $data[$name] = trim_strip($pqItem->val());
         }
-        if (!(empty($data['proyear']) || empty($data['promonth']) || empty($data['proday']))) {
-            $data['birthday'] = $data['proyear'] . '-' . str_pad($data['promonth'], 2, '0', STR_PAD_LEFT) . '-' .
-                str_pad($data['proday'], 2, '0', STR_PAD_LEFT);
-        }
 
         // 头像
         $data['avatar'] = pq('img[name="useravatars"]')->attr('src');
