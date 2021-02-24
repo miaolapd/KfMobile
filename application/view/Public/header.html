@@ -31,7 +31,7 @@
             <i class="fa fa-at fa-fw" aria-hidden="true"></i> 被@记录
             {eq name="hasNewAtTips" value="true"}<span class="badge badge-primary">New</span>{/eq}
           </a>
-          <a class="dropdown-item" href="{:url('Personal/topic')}">
+          <a class="dropdown-item" href="{:url('search/index?authorid=' . $uid)}">
             <i class="fa fa-comments fa-fw" aria-hidden="true"></i> 我的主题
           </a>
           <a class="dropdown-item" href="{:url('Personal/reply')}">
