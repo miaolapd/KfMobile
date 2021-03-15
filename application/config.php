@@ -7,9 +7,9 @@ return [
     // 应用版本号
     'app_version' => '5.2',
     // 反向代理的KF目标域名
-    'proxy_domain' => 'https://www.bakabbs.com/',
+    'proxy_domain' => 'https://www.kfmax.com/',
     // 注册页面反向代理的KF目标域名
-    'register_page_proxy_domain' => 'https://www.bakabbs.com/',
+    'register_page_proxy_domain' => 'https://www.kfmax.com/',
     // 电脑版的域名
     'pc_version_domain' => 'https://kf.miaola.info/',
     // 游戏介绍图片的域名
