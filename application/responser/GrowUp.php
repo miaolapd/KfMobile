@@ -28,18 +28,14 @@ class GrowUp extends Responser
         $commonData = array_merge($this->getCommonData($doc), $extraData);
         $matches = [];
 
-        $pqArea = pq('#alldiv > .drow:nth-child(4) > .dcol:nth-child(2) > div:first');
+        $pqArea = pq('#alldiv > .drow:nth-child(3) > .dcol:nth-child(2) > div:first');
 
         // 等级经验
         $expInfo = '';
         $expPercent = 0;
-        $expRemain = 0;
         $expInfo = $pqArea->find('> div:first')->html();
         $expInfo = preg_replace('/神秘系数\s*(\d+)\s*\|\s*/', '神秘系数 [ <b>$1</b> ] | <br class="d-sm-none">', $expInfo);
         $pgExpProgress = $pqArea->find('> div:eq(1) > div:first');
-        if (preg_match('/(\d+)成长/', $pgExpProgress->find('> div:first > span')->text(), $matches)) {
-            $expRemain = intval($matches[1]);
-        }
         if (preg_match('/(\d+)%/', $pgExpProgress->find('> div:last > span')->text(), $matches)) {
             $expPercent = intval($matches[1]);
         }
@@ -77,7 +73,6 @@ class GrowUp extends Responser
         $data = [
             'expInfo' => $expInfo,
             'expPercent' => $expPercent,
-            'expRemain' => $expRemain,
             'dailyBonusList' => $dailyBonusList,
             'getBonusText' => $getBonusText,
             'colorList' => $colorList,
