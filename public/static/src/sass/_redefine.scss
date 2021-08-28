@@ -1,0 +1,59 @@
+// 导航栏
+.navbar {
+  // 导航栏菜单按钮
+  .navbar-toggler {
+    color: rgba(0, 0, 0, .9);
+    border-color: transparent;
+  }
+
+  // 导航栏下拉菜单按钮
+  .dropdown-toggle {
+    color: $gray-900;
+    text-decoration: none;
+  }
+}
+
+// 下拉菜单
+.dropdown-menu {
+  line-height: 2.2;
+}
+
+// 下拉菜单项（激活状态）
+.dropdown-item.active {
+  color: #fff !important;
+}
+
+// 分页链接
+.page-link {
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+
+// 分页链接（激活状态）
+.page-item.active {
+  .page-link {
+    min-width: 40px;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+// 引用框
+.blockquote {
+  background-color: $blockquote-bg;
+}
+
+// 选择控件容器（行内）
+.form-check-inline {
+  vertical-align: middle;
+}
+
+// 自定义选择框（小）
+.custom-select-sm {
+  padding: 0 ($custom-select-padding-x * .9 + $custom-select-indicator-padding) 0 $custom-select-padding-x * .9;
+  line-height: $custom-select-line-height * .95;
+}

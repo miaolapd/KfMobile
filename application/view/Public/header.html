@@ -1,0 +1,371 @@
+{notempty name="Think.config.top_announcement"}{$Think.config.top_announcement}{/notempty}
+<header>
+  <!-- 导航栏 -->
+  <nav class="navbar fixed-top navbar-light bg-light px-0">
+    <div class="container d-flex px-3">
+      <!-- 首页按钮 -->
+      <a class="navbar-brand mr-0 pr-3 py-0" href="__PUBLIC__" title="首页">
+        <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+        <span class="sr-only">首页</span>
+      </a>
+
+      <!-- 用户菜单 -->
+      <div class="dropdown">
+        <a class="dropdown-toggle d-inline-block align-middle py-0" id="userMenuDropdownBtn" data-toggle="dropdown" href="#"
+           title="{$userTitle}" role="button" aria-haspopup="true" aria-expanded="false">
+          {$userName}
+          {if condition="$hasNewMsg OR $hasNewAtTips OR $hasNewRateMsg"}
+          <span class="badge badge-{$hasNewMsg ? 'danger' : ($hasNewAtTips ? 'primary' : 'success')}">New</span>
+          {/if}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="userMenuDropdownBtn">
+          <a class="dropdown-item" href="{:url('Profile/show?uid=' . $uid)}">
+            <i class="fa fa-user fa-fw" aria-hidden="true"></i> 个人信息
+          </a>
+          <div class="dropdown-divider" role="separator"></div>
+          <a class="dropdown-item" href="{:url('Message/index')}">
+            <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> 我的消息
+            {eq name="hasNewMsg" value="true"}<span class="badge badge-danger">New</span>{/eq}
+          </a>
+          <a class="dropdown-item" href="{:url('GuanJianCi/index', 'gjc=' . $userName)}">
+            <i class="fa fa-at fa-fw" aria-hidden="true"></i> 被@记录
+            {eq name="hasNewAtTips" value="true"}<span class="badge badge-primary">New</span>{/eq}
+          </a>
+          <a class="dropdown-item" href="{:url('search/index?authorid=' . $uid)}">
+            <i class="fa fa-comments fa-fw" aria-hidden="true"></i> 我的主题
+          </a>
+          <a class="dropdown-item" href="{:url('Personal/reply')}">
+            <i class="fa fa-commenting fa-fw" aria-hidden="true"></i> 我的回复
+          </a>
+          <a class="dropdown-item" href="{:url('SelfRate/my')}">
+            <i class="fa fa-star fa-fw" aria-hidden="true"></i> 我的评分
+            {eq name="hasNewRateMsg" value="true"}<span class="badge badge-success">New</span>{/eq}
+          </a>
+          <div class="dropdown-divider" role="separator"></div>
+          <a class="dropdown-item" href="{:url('Profile/favor')}">
+            <i class="fa fa-bookmark fa-fw" aria-hidden="true"></i> 收藏
+          </a>
+          <a class="dropdown-item" href="{:url('Profile/friend')}">
+            <i class="fa fa-heart fa-fw" aria-hidden="true"></i> 好友
+          </a>
+          <a class="dropdown-item" href="{:url('Profile/modify')}">
+            <i class="fa fa-cog fa-fw" aria-hidden="true"></i> 设置
+          </a>
+          <div class="dropdown-divider" role="separator"></div>
+          <a class="dropdown-item" href="{:url('Login/logout', 'verify=' . $verify)}" onclick="return confirm('是否登出账号？');">
+            <i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> 退出
+          </a>
+        </div>
+      </div>
+
+      <div class="ml-auto">
+        <!-- 搜索按钮 -->
+        <button class="navbar-toggler" data-toggle="modal" data-target="#searchDialog" type="button" title="搜索">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          <span class="sr-only">搜索</span>
+        </button>
+
+        <!-- 版块列表按钮 -->
+        <button class="navbar-toggler" data-toggle="modal" data-target="#forumListDialog" type="button" title="版块列表">
+          <i class="fa fa-map-signs" aria-hidden="true"></i>
+          <span class="sr-only">版块列表</span>
+        </button>
+
+        <!-- 主菜单按钮 -->
+        <button class="navbar-toggler" id="mainMenuTogglerBtn" data-toggle="collapse" data-target="#mainMenu" type="button"
+                aria-expanded="false" aria-controls="mainMenu">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 主菜单 -->
+    <div class="collapse bg-light w-100 pt-3" id="mainMenu">
+      <ul class="container flex-column nav">
+        <li class="nav-item">
+          <a class="nav-link" data-name="openConfigDialog" href="#" role="button">
+            <i class="fa fa-cog fa-fw" aria-hidden="true"></i> 助手设置
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{:url('Bank/index')}">
+            <i class="fa fa-yen fa-fw" aria-hidden="true"></i> 贡献转账
+          </a>
+        </li>
+        <li class="dropdown-divider" role="separator"></li>
+        <li class="nav-item">
+          <a href="javascript:;" class="nav-link disabled">
+            <i class="fa fa-trophy fa-fw" aria-hidden="true"></i> KFOL
+          </a>
+          <ul class="nav  flex-column ml-3">
+            <li class="nav-item">
+              <a class="nav-link" href="{:url('GrowUp/index')}">等级经验</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/fyg_sjcdwj.php?go=play">咕咕镇</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/kf_fw_ig_index.php">争夺奖励</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/kf_fw_ig_mybp.php">我的物品</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{:url('Item/shop')}">物品商店</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{:url('Fight/halo')}">战力光环</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{:url('Rank/index')}">论坛排行</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-divider" role="separator"></li>
+        <li class="nav-item">
+          <a class="nav-link" href="{:url('Share/index')}">
+            <i class="fa fa-gg fa-fw" aria-hidden="true"></i> 最新共享
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{:url('Faq/index?id=1')}">
+            <i class="fa fa-question-circle fa-fw" aria-hidden="true"></i> 帮助
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{:url('Read/index', 'tid=564787&sf=406')}">
+            <i class="fa fa-commenting fa-fw" aria-hidden="true"></i> 反馈
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<section class="text-center change-domain-tips">
+  <div class="alert alert-danger" role="alert">
+    重要提示：<strong>miaola.info</strong>域名将于近期失效，请各位KFer改用<a href="https://m.miaola.work/"><strong>m.miaola.work</strong></a>访问！
+  </div>
+</section>
+
+<!-- 搜索对话框 -->
+<div class="modal fade" id="searchDialog" tabindex="-1" role="dialog" aria-labelledby="searchDialogTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchDialogTitle">搜索</h5>
+        <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form action="{:url('Search/index')}" method="post" target="_blank">
+          <input name="step" type="hidden" value="2">
+          <input name="method" type="hidden" value="AND">
+          <input name="sch_area" type="hidden" value="0">
+          <input name="s_type" type="hidden" value="forum">
+          <input name="f_fid" type="hidden" value="all">
+          <input name="orderway" type="hidden" value="lastpost">
+          <input name="asc" type="hidden" value="DESC">
+
+          <div class="input-group mb-3">
+            <label class="sr-only" for="searchKeyword">关键字</label>
+            <input class="form-control" id="searchKeyword" name="keyword" type="search">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                搜索
+              </button>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" id="searchDialog_searchRange_all" name="searchRange" type="radio" value="all" autocomplete="off" checked>
+              <label class="form-check-label" for="searchDialog_searchRange_all">全站</label>
+            </div>
+            <div class="form-check form-check-inline mr-3 disabled">
+              <input class="form-check-input" id="searchDialog_searchRange_current" name="searchRange" type="radio" value="current" autocomplete="off" disabled>
+              <label class="form-check-label" for="searchDialog_searchRange_current">本版</label>
+            </div>
+            <label class="sr-only" for="searchType">搜索类型</label>
+            <select class="custom-select w-auto" id="searchType" autocomplete="off">
+              <option value="title" selected>标题</option>
+              <option value="author">作者</option>
+              <option value="gjc">关键词</option>
+              <option value="username" hidden>用户名</option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 版块列表对话框 -->
+<div class="modal fade" id="forumListDialog" tabindex="-1" role="dialog" aria-labelledby="forumListDialogTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forumListDialogTitle">版块列表</h5>
+        <button class="close" data-dismiss="modal" type="button" aria-label="关闭">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- Gal讨论 & Gal分享 版块列表 Tab -->
+        <ul class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#commonForumPanel" role="tab" aria-controls="commonForumPanel">常用版块</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-btn edit-common-forum-btn px-2" href="#" title="编辑常用版块" aria-label="编辑常用版块">
+              <i class="fa fa-edit" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#galTalkForumPanel" role="tab" aria-controls="galTalkForumPanel">Gal讨论</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#galShareForumPanel" role="tab" aria-controls="galShareForumPanel">Gal分享</a>
+          </li>
+        </ul>
+        <!-- Gal讨论 & Gal分享 版块列表 Panel -->
+        <div class="tab-content">
+          <div class="tab-pane active common-forum-panel" id="commonForumPanel" role="tabpanel"></div>
+
+          <div class="tab-pane" id="galTalkForumPanel" role="tabpanel">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=102')}">游戏推荐</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作动态</a>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=52')}">游戏综合讨论</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=24')}">游戏疑难互助</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="galShareForumPanel" role="tabpanel">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=16')}">BT下载</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-4">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
+              </div>
+              <div class="col-4">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=57')}">同人漫本</a>
+              </div>
+              <div class="col-4">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=9')}">无限制资源</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 聊天交流 & 动漫音乐 & ACG相关 版块列表 Tab -->
+        <ul class="nav nav-tabs mb-3" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#discussForumPanel" role="tab" aria-controls="discussForumPanel">聊天交流</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#animeMusicForumPanel" role="tab" aria-controls="animeMusicForumPanel">动漫音乐</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#acgForumPanel" role="tab" aria-controls="acgForumPanel">ACG相关</a>
+          </li>
+        </ul>
+        <!-- 聊天交流 & 动漫音乐 & ACG相关 版块列表 Panel -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="discussForumPanel" role="tabpanel">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论区</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记区</a>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">意见投诉</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">内部管理</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="animeMusicForumPanel" role="tabpanel">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=84')}">动漫综合讨论</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=92')}">动画资源下载</a>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-4">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=127')}">漫画小说</a>
+              </div>
+              <div class="col-4">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=68')}">ACG音乐</a>
+              </div>
+              <div class="col-4">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=163')}">LIVE资源</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="acgForumPanel" role="tabpanel">
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=94')}">原创绘画美图</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=87')}">ACG实物交流</a>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=86')}">电子产品交流</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=115')}">ACG文字作品</a>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=96')}">图片来源出处</a>
+              </div>
+              <div class="col-6">
+                <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=36')}">寻求资源共享</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

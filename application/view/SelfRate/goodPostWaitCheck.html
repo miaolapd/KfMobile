@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>待检查的优秀帖 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateGoodPostWaitCheckPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">自助发布奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  {notempty name="threadList"}
+  <!-- 优秀帖列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{$vo.threadUrl}" target="_blank">
+            {eq name="vo.type" value="回帖"}
+            <span class="badge badge-success">{$vo.type}</span>
+            {else /}
+            <span class="badge badge-warning">{$vo.type}</span>
+            {/eq}
+            {$vo.threadTitle}
+          </a>
+        </div>
+        <footer class="thread-footer">
+          <div class="col-6 thread-footer-column">
+            <span title="提交时间" aria-label="提交时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i> {$vo.submitTime}
+            </span>
+          </div>
+          <div class="col-6 thread-footer-column text-right">
+            <a href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" title="提交用户ID" aria-label="提交用户ID"
+               class="not-click-link {eq name='vo.uid' value='$uid'}text-danger{/eq}" data-not-click="true">
+              <i class="fa fa-user" aria-hidden="true"></i> uid[{$vo.uid}]
+            </a>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无待检查的优秀帖</div>
+  {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

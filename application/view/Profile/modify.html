@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>账号设置 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="modifyPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">账号设置</li>
+  </ol>
+
+  <form id="creator" name="creator" action="{:url('Profile/modify')}" method="post" enctype="multipart/form-data">
+    <input name="tpskin" type="hidden" value="{$tpskin|default='wind'}">
+    <input name="editor" type="hidden" value="{$editor|default=0}">
+    <input name="timedf" type="hidden" value="{$timedf|default=0}">
+    <input name="d_type" type="hidden" value="{$d_type|default=0}">
+    <input name="time_f" type="hidden" value="{$time_f|default=24}">
+    <input name="step" type="hidden" value="{$step|default=2}">
+    <input name="propublicemail" type="hidden" value="{$propublicemail|default=0}">
+    <input name="proreceivemail" type="hidden" value="{$propublicemail|default=0}">
+    <input name="facetype" type="hidden" value="{$facetype|default=3}">
+
+    <div class="form-group">
+      <label for="oldpwd">原密码</label>
+      <input class="form-control" name="oldpwd" id="oldpwd" type="password" maxlength="16" placeholder="原密码" aria-describedby="oldpwdHelp">
+      <small class="form-text text-secondary" id="oldpwdHelp">修改<b class="text-danger">密码</b>时需要密码验证</small>
+    </div>
+
+    <div class="form-group">
+      <label for="propwd">新密码</label>
+      <input class="form-control" name="propwd" id="propwd" type="password" maxlength="16" placeholder="新密码" aria-describedby="propwdHelp">
+      <small class="form-text text-secondary" id="propwdHelp">新密码最大不要超过<b class="text-danger">16</b>字节</small>
+    </div>
+
+    <div class="form-group">
+      <label for="check_pwd">确认密码</label>
+      <input class="form-control" name="check_pwd" id="check_pwd" type="password" maxlength="16" placeholder="确认密码">
+    </div>
+
+    <div class="form-group">
+      <label for="proemail">Email</label>
+      <input class="form-control" name="proemail" id="proemail" type="email" value="{$proemail|default=''}" maxlength="75"
+             placeholder="Email">
+    </div>
+
+    <fieldset class="fieldset mb-3">
+      <legend style="font-weight: normal;">论坛头像</legend>
+      <img class="d-block rounded mb-2" id="avatar" src="{$avatar|default=''}" width="{$avatarWidth|default=''}"
+           height="{$avatarHeight|default=''}" alt="论坛头像">
+      <label class="mb-2">
+        <input class="form-control-file" id="browseAvatar" name="upload" type="file" aria-label="选择头像">
+      </label>
+      <div class="form-group">
+        <label for="avatarWidth">头像宽度</label>
+        <input class="form-control" name="uploadurl[1]" id="avatarWidth" type="number" value="{$avatarWidth|default=''}" maxlength="3"
+               min="0" max="140" placeholder="头像宽度" aria-describedby="avatarWidthHelp">
+        <small class="form-text text-secondary" id="avatarWidthHelp">
+          必须是<b class="text-danger">140</b>之内的整数（高度和宽度必填，否则默认最大值）
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="avatarHeight">头像高度</label>
+        <input class="form-control" name="uploadurl[2]" id="avatarHeight" type="number" value="{$avatarHeight|default=''}" maxlength="3"
+               min="0" max="200" placeholder="头像高度" aria-describedby="avatarHeightHelp">
+        <small class="form-text text-secondary" id="avatarHeightHelp">
+          必须是<b class="text-danger">140 + 整形优惠券{$couponNum|default=0}x20</b>之内的整数
+        </small>
+      </div>
+      <div class="alert alert-danger font-size-sm" role="alert">
+        禁止使用露点、血腥、恶心的图片，禁止涉及政治图片，禁止攻击其他会员的图片。<br><b>违规图片封禁7天起。</b>
+      </div>
+      <div class="alert alert-warning font-size-sm mb-0" role="alert">
+        反向代理服务器为了提高性能对图片设置了缓存，更新头像后可能需等待<b>最多30分钟</b>才能看到效果
+      </div>
+    </fieldset>
+
+    <div class="form-group">
+      <label for="prohonor">个性签名</label>
+      <input class="form-control" name="prohonor" id="prohonor" type="text" value="{$prohonor|default=''}" placeholder="个性签名">
+    </div>
+
+    <div class="form-group">
+      <label for="t_num">主题列表每页个数</label>
+      <select class="custom-select" id="t_num" name="t_num" aria-describedby="t_numHelp">
+        <option value="0" {eq name="t_num" value="0"}selected{/eq}>0</option>
+        <option value="10" {eq name="t_num" value="10"}selected{/eq}>10</option>
+        <option value="20" {eq name="t_num" value="20"}selected{/eq}>20</option>
+        <option value="30" {eq name="t_num" value="30"}selected{/eq}>30</option>
+        <option value="40" {eq name="t_num" value="40"}selected{/eq}>40</option>
+      </select>
+      <small class="form-text text-secondary" id="t_numHelp">设置为<b>0</b>使用默认</small>
+    </div>
+
+    <div class="form-group">
+      <label for="p_num">文章列表每页个数</label>
+      <select class="custom-select" id="p_num" name="p_num" aria-describedby="p_numHelp">
+        <option value="0" {eq name="p_num" value="0"}selected{/eq}>0</option>
+        <option value="10" {eq name="p_num" value="10"}selected{/eq}>10</option>
+        <option value="20" {eq name="p_num" value="20"}selected{/eq}>20</option>
+        <option value="30" {eq name="p_num" value="30"}selected{/eq}>30</option>
+      </select>
+      <small class="form-text text-secondary" id="p_numHelp">设置为<b>0</b>使用默认</small>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit">
+      <i class="fa fa-check-square-o" aria-hidden="true"></i> 修改
+    </button>
+  </form>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>我的主题 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.currentPageNum = {$currentPageNum};
+    Info.maxPageNum = {$maxPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="myTopicPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">我的主题</li>
+  </ol>
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Personal/topic')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  {notempty name="threadList"}
+  <!-- 主题列表 -->
+  <section class="row mb-3">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a href="{:url('Read/index', 'tid=' . $vo['tid'])}" class="thread-link" target="_blank">
+            {$vo.threadTitle}
+          </a>
+        </div>
+        <footer class="thread-footer">
+          <div class="col-4 thread-footer-column">
+            {notempty name="vo.threadForum"}
+            <span class="text-dark" title="所属版块" aria-label="所属版块">
+              <i class="fa fa-map-signs" aria-hidden="true"></i>
+              {$vo.threadForum}
+            </span>&nbsp;
+            {/notempty}
+          </div>
+          <div class="col-4 thread-footer-column text-center">
+            <span title="回复数" aria-label="回复数">
+              <i class="fa fa-commenting-o" aria-hidden="true"></i>
+              {$vo.replyNum|number_format}
+            </span>
+            |
+            <span title="点击数" aria-label="点击数">
+              <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+              {$vo.hitNum|number_format}
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
+            <span title="发表时间" aria-label="发表时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.publishTime}</time>
+            </span>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无主题</div>
+  {/notempty}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Personal/topic')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Personal/topic', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

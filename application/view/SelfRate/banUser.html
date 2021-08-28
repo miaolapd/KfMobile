@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>指定会员评分限制 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateBanUserPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">自助发布奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <form name="mail1" action="{:url('SelfRate/submit')}" method="get" onsubmit="return confirm('确认禁止该会员？')">
+    <input name="safeid" type="hidden" value="{$safeId}">
+    <input name="do" type="hidden" value="5">
+    <div class="form-group">
+      <label class="form-control-label" for="banuid">需要禁止自助评分的会员UID编号</label>
+      <div class="input-group">
+        <input class="form-control" id="banuid" name="banuid" type="text" maxlength="20" pattern="\d+" placeholder="UID编号">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">提交</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="alert alert-warning font-size-sm" role="alert">
+    测试期间，禁止自助评分默认都是限制30天（2592000秒）时间
+  </div>
+
+  {notempty name="banList"}
+  <!-- 禁止自助评分的会员列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="banList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <footer class="thread-footer py-2">
+          <div class="col-5 thread-footer-column font-size-sm">
+            UID:
+            <a class="not-click-link" href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" data-not-click="true">{$vo.uid}</a>
+          </div>
+          <div class="col-7 thread-footer-column text-right font-size-sm">{$vo.banInfo}</div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无禁止自助评分的会员</div>
+  {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

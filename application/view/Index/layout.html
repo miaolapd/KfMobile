@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>自定义布局 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="layoutPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <div class="alert alert-info text-center" role="alert">
+    请选择你的首页帖子列表所包含的板块
+  </div>
+
+  <!-- 综合回复 + 分栏主题 -->
+  <section class="card bg-light mb-3 select-layout-box">
+    <div class="card-header">综合回复 + 分栏主题</div>
+    <div class="card-body">
+      <div class="card-text">
+        <table class="table table-bordered table-dark text-center">
+          <tbody>
+          <tr>
+            <td class="bg-success align-middle" colspan="3">综合最新回复</td>
+          </tr>
+          <tr>
+            <td class="bg-warning">ACG讨论<br class="d-sm-none">最新主题</td>
+            <td class="bg-warning">其他讨论<br class="d-sm-none">最新主题</td>
+            <td class="bg-warning">资源分享<br class="d-sm-none">最新主题</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a class="btn btn-primary btn-block" href="{:url('index/changeLayout', 'lan=1')}">选择布局</a>
+    </div>
+  </section>
+
+  <!-- 分栏回复 + 综合主题 -->
+  <section class="card bg-light mb-3 select-layout-box">
+    <div class="card-header">分栏回复 + 综合主题</div>
+    <div class="card-body">
+      <div class="card-text">
+        <table class="table table-bordered table-dark text-center">
+          <tbody>
+          <tr>
+            <td class="bg-success">ACG讨论<br class="d-sm-none">最新回复</td>
+            <td class="bg-success">其他讨论<br class="d-sm-none">最新回复</td>
+            <td class="bg-success">资源分享<br class="d-sm-none">最新回复</td>
+          </tr>
+          <tr>
+            <td class="bg-warning align-middle" colspan="3">综合最新主题</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a class="btn btn-primary btn-block" href="{:url('index/changeLayout', 'lan=2')}">选择布局</a>
+    </div>
+  </section>
+
+  <!-- 综合回复 + 综合主题 -->
+  <section class="card bg-light mb-3 select-layout-box">
+    <div class="card-header">综合回复 + 综合主题</div>
+    <div class="card-body">
+      <div class="card-text">
+        <table class="table table-bordered table-dark text-center">
+          <tbody>
+          <tr>
+            <td class="bg-success align-middle" colspan="3">综合最新回复</td>
+          </tr>
+          <tr>
+            <td class="bg-warning align-middle" colspan="3">综合最新主题</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a class="btn btn-primary btn-block" href="{:url('index/changeLayout', 'lan=3')}">选择布局</a>
+    </div>
+  </section>
+
+  <!-- 分栏回复 + 分栏主题 -->
+  <section class="card bg-light mb-3 select-layout-box">
+    <div class="card-header">分栏回复 + 分栏主题</div>
+    <div class="card-body">
+      <div class="card-text">
+        <table class="table table-bordered table-dark text-center">
+          <tbody>
+          <tr>
+            <td class="bg-success">ACG讨论<br class="d-sm-none">最新回复</td>
+            <td class="bg-success">其他讨论<br class="d-sm-none">最新回复</td>
+            <td class="bg-success">资源分享<br class="d-sm-none">最新回复</td>
+          </tr>
+          <tr>
+            <td class="bg-warning">ACG讨论<br class="d-sm-none">最新主题</td>
+            <td class="bg-warning">其他讨论<br class="d-sm-none">最新主题</td>
+            <td class="bg-warning">资源分享<br class="d-sm-none">最新主题</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <a class="btn btn-primary btn-block" href="{:url('index/changeLayout', 'lan=4')}">选择布局</a>
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$propertyName} - 萌属性介绍 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.id = {$id};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="gameIntroPropertyPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">萌属性介绍</li>
+  </ol>
+
+  {include file="GameIntro/searchArea" /}
+
+  <!-- 萌属性名称 -->
+  <h5 class="text-center mb-3">{$propertyName}</h5>
+
+  <!-- 萌属性封面 -->
+  <div class="text-center mb-3">
+    <div class="mb-3">
+      <img class="img-thumbnail game-intro-cover" src="{$propertyCover}" alt="萌属性封面">
+    </div>
+    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数" data-type="property"
+       data-url="{:url('GameIntro/property', 'id=' . $id . '&tui=1')}">
+      <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
+    </a>
+  </div>
+
+  <!-- 基本信息 -->
+  <div class="card mb-3">
+    <h6 class="card-header">基本信息</h6>
+    <div class="card-body">
+      <p class="card-text">{$propertyInfo}</p>
+    </div>
+  </div>
+
+  <!-- 萌属性说明 -->
+  <div class="card mb-3">
+    <h6 class="card-header">萌属性说明</h6>
+    <div class="card-body">
+      <p class="card-text">{$propertyIntro|trim|default="暂无"}</p>
+    </div>
+  </div>
+
+  <!-- 人物举例 -->
+  <div class="card mb-3">
+    <h6 class="card-header">人物举例</h6>
+    <div class="card-body">
+      <p class="card-text">{$personExample|trim|default="暂无"}</p>
+    </div>
+  </div>
+
+  <!-- 相关信息 -->
+  <div class="card mb-3">
+    <h6 class="card-header">相关信息</h6>
+    <div class="card-body">
+      <p class="card-text">{$propertyExtraInfo|trim|default="暂无"}</p>
+    </div>
+  </div>
+
+  <!-- 萌属性受关注排行 -->
+  <div class="list-group list-group-sm" role="list">
+    <h6 class="list-group-item list-group-item-header">萌属性受关注排行</h6>
+    {volist name="gameAttentionRankList" id="vo"}
+    <a class="list-group-item" href="{:url('GameIntro/property?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.name}</a>
+    {/volist}
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

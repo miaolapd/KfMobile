@@ -1,0 +1,13 @@
+// 生成字体大小
+@mixin font-size-make($name, $size) {
+  .font-size-#{$name} {
+    font-size: $size !important;
+  }
+}
+
+// 生成警告框背景颜色
+@mixin alert-bg-make($name, $color, $opacity: $bg-opacity-lightest) {
+  .alert-#{$name} {
+    background-color: rgba($color, $opacity);
+  }
+}

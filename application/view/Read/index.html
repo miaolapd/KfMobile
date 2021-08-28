@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  <script>
+      Info.fid = {$fid};
+      Info.tid = {$tid};
+      Info.floor = {$floor};
+      Info.currentPageNum = {$currentPageNum};
+      Info.maxPageNum = {$maxPageNum};
+      Info.sf = '{$sf}';
+      Info.goodPostTips = '{$goodPostTips}';
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="readPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    {notempty name="parentForumName"}
+    <li class="breadcrumb-item">
+      <a href="{:url('Thread/index?fid=' . $parentFid)}">{$parentForumName}</a>
+    </li>
+    {/notempty}
+    <li class="breadcrumb-item active">
+      <a href="{:url('Thread/index?fid=' . $fid . ($fpage > 1 ? '&page=' . $fpage : ''))}">{$forumName}</a>
+    </li>
+  </ol>
+
+  {notempty name="voteList"}
+  <!-- 投票区域 -->
+  <section>
+    <form name="vote" action="{:url('Job/vote')}" method="post">
+      {eq name="voteStatus" value="modify"}
+      <input name="voteaction" type="hidden" value="modify">
+      {/eq}
+      <input name="tid" type="hidden" value="{$tid}">
+      <h6 class="mb-3">{$voteTitle}</h6>
+      <ul class="list-group list-group-sm vote-group mb-3">
+        {volist name="voteList" id="vo"}
+        <li class="list-group-item">
+          <div class="form-check mb-1 {empty name='vo.itemType'}pl-0{/empty}">
+            {notempty name="vo.itemType"}
+            <input class="form-check-input" id="voteid_{$i}" name="voteid[]" type="{$vo.itemType}" value="{$vo.itemValue}">
+            <label class="form-check-label" for="voteid_{$i}"><b>{$vo.itemName}</b></label>
+            {else /}
+            <b>{$vo.itemName}</b>
+            {/notempty}
+          </div>
+          {eq name="vo.itemVoteCount" value="-1"}
+          <div class="d-inline-block small text-secondary pl-1">* 票</div>
+          {else /}
+          {assign name="itemVotePercent" value="$maxVoteCount > 0 ? $vo.itemVoteCount / $maxVoteCount * 100 : 0"}
+          <div class="progress w-100">
+            <div class="progress-bar progress-bar-striped bg-{:get_color_from_number($i-1)}" style="width: {$itemVotePercent|intval}%"
+                 role="progressbar" aria-valuenow="{$itemVotePercent|intval}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="small text-{:get_color_from_number($i-1)}">
+            {$vo.itemVoteCount} 票 ({:number_format($voteTotalCount > 0 ? $vo.itemVoteCount / $voteTotalCount * 100 : 0, 2)}%)
+          </div>
+          {/eq}
+        </li>
+        {/volist}
+      </ul>
+      <footer class="form-group">
+        <div class="small text-secondary mb-3">
+          {notempty name="voteTotalCount"}合计<b>{$voteTotalCount}</b>票{/notempty}
+          {$votedInfo}
+        </div>
+        {switch name="voteStatus"}
+        {case value="open|modify"}
+        <button class="btn btn-primary" type="submit">
+          <i class="fa fa-check-square-o" aria-hidden="true"></i> 投票
+        </button>
+        {notempty name="voteLimitNum"}<span class="text-danger">&nbsp;(限选个数：{$voteLimitNum})</span>{/notempty}
+        {/case}
+        {case value="voted"}
+        <a class="btn btn-warning btn-sm" href="{:url('Read/index', 'fid=' . $fid . '&tid=' . $tid . '&action=modify')}">
+          <i class="fa fa-pencil" aria-hidden="true"></i> 修改投票
+        </a>
+        {/case}
+        {/switch}
+      </footer>
+    </form>
+  </section>
+  <hr>
+  {/notempty}
+
+  <!-- 主题标题 -->
+  <h1 class="thread-title">{$threadTitle}</h1>
+
+  <!-- 主题信息 -->
+  <section class="small text-secondary mb-3 float-md-left">
+    <span data-toggle="tooltip" title="点击数" aria-label="点击数">
+      <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>
+      {eq name="hitNum|is_numeric" value="true"}{$hitNum|number_format}{else /}{$hitNum}{/eq}
+    </span>&nbsp;
+    <span data-toggle="tooltip" title="回复数" aria-label="回复数">
+      <i class="fa fa-commenting-o" aria-hidden="true"></i> {$replyNum|number_format}
+    </span>&nbsp;
+    <span data-toggle="tooltip" title="发表时间" aria-label="发表时间">
+      <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$publishTime}</time>
+    </span>&nbsp;
+    <a href="{:url('Job/addFavor?tid=' . $tid)}">
+      <i class="fa fa-bookmark" aria-hidden="true"></i> 收藏
+    </a>&nbsp;
+    {eq name="hasMoveThreadLink" value="true"}
+    <br class="d-sm-none">
+    <a class="text-danger" id="moveThreadBtn" href="#" role="button">管理：将本主题移到[无限制资源区]</a>
+    {/eq}
+  </section>
+
+  <!-- 功能区 -->
+  <section class="text-right">
+    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数">
+      <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
+    </a>
+    <a class="btn btn-info fast-goto-floor" data-url="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" href="#" title="快速直达指定楼层" role="button">
+      <i class="fa fa-bolt" aria-hidden="true"></i> 电梯
+    </a>
+    <a class="btn btn-primary" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid)}">
+      <i class="fa fa-reply" aria-hidden="true"></i> 回帖
+    </a>
+  </section>
+  <hr>
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" data-exclude="tid,sf" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  <!-- 楼层内容 -->
+  {volist name="floorList" id="vo"}
+  {if condition="$i === count($floorList)"}<a id="a"></a>{/if}
+  <a name="{$vo.pid}"></a>
+  <article class="read-floor" data-floor="{$vo.floorNum}" data-pid="{$vo.pid}" data-username="{$vo.userName}"
+           style="border-color: {$vo.smColor};">
+    <!-- 楼层顶部 -->
+    <header class="media">
+      {notempty name="vo.avatar"}
+      <img class="d-flex avatar rounded mr-2" src="{$vo.avatar}" alt="头像">
+      {/notempty}
+      <div class="media-body">
+        <div class="d-flex">
+          <div class="">
+            <a class="font-size-sm text-secondary floor-num" title="复制楼层链接"
+               href="{:url('Read/index', 'tid=' . $tid . ($vo['pid'] !== 'tpc' ? '&spid=' . $vo['pid'] : '') . '&sf=' . $sf)}" role="button">
+              {eq name='vo.floorNum' value='0'}楼主{else /}{$vo.floorNum}楼{/eq}
+            </a>
+            <a class="floor-user" href="{:url('Profile/show', 'uid=' . $vo['uid'] . '&sf=' . $vo['sf'])}" style="color: {$vo.smColor};">
+              {$vo.userName}
+            </a>
+            {eq name="vo.smLevel" value="*"}
+            &nbsp;<span class="badge badge-secondary" title="该用户已被禁言">禁</span>
+            {/eq}
+          </div>
+
+          <div class="ml-auto">
+            <div class="form-check form-check-inline mr-0">
+              <input class="form-check-input form-check-input-sm multi-quote-check" id="multiQuoteCheck{$i}" type="checkbox" autocomplete="off">
+              <label class="form-check-label font-size-sm text-secondary" for="multiQuoteCheck{$i}" title="多重引用" aria-label="多重引用">引</label>
+            </div>&nbsp;
+            <a class="btn btn-outline-primary btn-sm"
+               href="{:url('Post/index', 'action=quote&fid=' . $fid . '&tid=' . $tid . '&pid=' . $vo['pid'] . '&article=' . $vo['floorNum'])}">
+              引用
+            </a>
+            {eq name="vo.uid" value="$uid"}
+            <a class="btn btn-outline-primary btn-sm"
+               href="{:url('Post/index', 'action=modify&fid=' . $fid . '&tid=' . $tid . '&pid=' . $vo['pid'] . '&article=' . $vo['floorNum'])}">
+              编辑
+            </a>
+            {/eq}
+          </div>
+        </div>
+        <div class="small text-secondary floor-info mt-2">
+          {eq name='vo.isAdmin' value='true'}
+          <span class="text-danger" data-toggle="tooltip" title="管理成员" aria-label="管理成员">
+            <i class="fa fa-user-circle-o" aria-hidden="true"></i> <span class="d-none d-sm-inline">管理成员</span>
+          </span>&nbsp;
+          {/eq}
+          <span class="sm-level" title="神秘等级" aria-label="神秘等级">
+            <i class="fa fa-star-o" aria-hidden="true"></i> {$vo.smLevel}级
+          </span>&nbsp;
+          {notempty name="vo.gameRank"}
+          <span class="game-rank" title="段位" aria-label="段位" style="color: {$vo.smColor};">
+            <i class="fa fa-trophy" aria-hidden="true"></i> {$vo.gameRank}
+          </span>&nbsp;
+          {/notempty}
+          <span title="发表时间" aria-label="发表时间">
+            <i class="fa fa-calendar" aria-hidden="true"></i> <time>{$vo.publishTime}</time>
+          </span>&nbsp;
+          {eq name="isSeeAll" value="true"}
+          <a class="text-danger" href="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" title="显示全部发言">[全看]</a>
+          {else /}
+          <a href="{:url('Read/index', 'tid=' . $tid . '&uid=' . $vo['uid'] . '&sf=' . $sf)}" title="只看该会员的发言">[只看TA]</a>
+          {/eq}
+        </div>
+      </div>
+    </header>
+
+    <!-- 楼层内容 -->
+    <div class="read-content">
+      {$vo.content}
+    </div>
+
+    <!-- 楼层底部 -->
+    <footer class="d-flex">
+      {if condition="$canBlockFloor AND $vo['pid'] !== 'tpc'"}
+      {assign name="hasBlockFloor" value="true" /}
+      {/if}
+      <div class="floor-sign pr-3 small">
+        {notempty name="vo.sign"}
+        <span data-toggle="tooltip" title="{$vo.sign}"><i class="fa fa-pencil" aria-hidden="true"></i> {$vo.sign}</span>
+        {/notempty}
+      </div>
+      <div class="ml-auto text-nowrap">
+        {notempty name="hasBlockFloor"}
+        <a class="btn btn-outline-danger btn-sm block-floor"
+           href="{:url('Read/blockFloor', ['safeid'=>$safeId, 'tid'=>$tid, 'pid'=>$vo['pid']])}" role="button">
+          屏蔽此回帖
+        </a>
+        {/notempty}
+        <button class="btn btn-outline-danger btn-sm handle-post-btn" type="button">帖子操作</button>
+        <button class="btn btn-outline-primary btn-sm fast-reply-btn" type="button">快速回复</button>
+      </div>
+    </footer>
+  </article>
+  {/volist}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Read/index', 'tid=' . $tid . '&sf=' . $sf)}" data-exclude="tid,sf" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Read/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  {notempty name="postContentName"}
+  <!-- 功能区 -->
+  <hr>
+  <section class="d-flex justify-content-end mb-3">
+    <button class="btn btn-danger clear-multi-quote-data-btn ml-1" title="清除在浏览器中保存的多重引用数据" aria-label="清除引用">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-secondary multi-reply-btn ml-1" title="多重回复">
+      <i class="fa fa-reply-all" aria-hidden="true"></i> 回复
+    </button>
+    <a class="btn btn-secondary multi-quote-btn ml-1" href="{:url('Post/index', 'action=reply&fid=' . $fid .'&tid=' . $tid . '&multiquote=1')}"
+       title="多重引用">
+      <i class="fa fa-quote-left" aria-hidden="true"></i> 引用
+    </a>
+  </section>
+
+  <!-- 回复区域 -->
+  <section>
+    <form id="postForm" action="{:url('Post/post')}" method="post" enctype="multipart/form-data">
+      <input name="action" type="hidden" value="reply">
+      <input name="step" type="hidden" value="2">
+      <input name="atc_title" type="hidden" value="none">
+      <input name="fid" type="hidden" value="{$fid}">
+      <input name="tid" type="hidden" value="{$tid}">
+      <input name="verify" type="hidden" value="{$postVerify}">
+      <input name="atc_usesign" type="hidden" value="1">
+      <input name="atc_convert" type="hidden" value="1">
+      <input name="atc_autourl" type="hidden" value="1">
+
+      <div class="form-group d-flex">
+        <div class="col mr-3 px-0">
+          <label class="sr-only" for="postGjc">关键词</label>
+          <input class="form-control" id="postGjc" name="diy_guanjianci" type="text" placeholder="关键词"
+                 title="最多5个关键词，每个关键词允许16字节长度，每个关键词之间请用英语逗号,隔开，不要包含英文单引号、双引号。如果关键词是别人的ID名，系统就会@提示此人查看本帖子。">
+        </div>
+
+        <div class="dropdown ml-1">
+          <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
+                  aria-label="表情" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-smile-o" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right smile-panel" aria-labelledby="smileDropdownBtn">
+            {include file="Public/smile" /}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="sr-only" for="postContent">回复内容</label>
+        <textarea class="form-control" id="postContent" name="{$postContentName}" data-fast-submit="true" rows="9" placeholder="回帖请遵守版规"></textarea>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
+        </button>
+      </div>
+    </form>
+  </section>
+  {/notempty}
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

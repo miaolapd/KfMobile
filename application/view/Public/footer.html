@@ -1,0 +1,50 @@
+<footer class="main-footer py-4">
+  <div class="container">
+    <div>
+      Powered by <a href="https://github.com/miaolapd/KfMobile" target="_blank">KfMobile</a>
+      <b class="text-orange">v{$Think.config.app_version}</b> &copy; 2016-2020 喵拉布丁
+    </div>
+    {notempty name="pcVersionUrl"}
+    <div>移动版&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{$pcVersionUrl}" target="_blank">电脑版</a></div>
+    {/notempty}
+  </div>
+</footer>
+
+<!-- 侧边栏按钮组 -->
+<section class="d-flex flex-column sidebar-btn-group" hidden>
+  <!-- 首页按钮 -->
+  <span class="sidebar-btn" id="sidebarHomePageBtn" onclick="javascript:location.href='__PUBLIC__';" title="首页" aria-label="首页"
+        role="button" hidden>
+    <i class="fa fa-home fa-fw" aria-hidden="true"></i>
+  </span>
+  <!-- 搜索按钮 -->
+  <span class="sidebar-btn" id="sidebarSearchBtn" data-toggle="modal" data-target="#searchDialog" title="搜索" aria-label="搜索" role="button"
+        hidden>
+    <i class="fa fa-search fa-fw" aria-hidden="true"></i>
+  </span>
+  <!-- 版块列表按钮 -->
+  <span class="sidebar-btn" id="sidebarForumListBtn" data-toggle="modal" data-target="#forumListDialog" title="版块列表" aria-label="版块列表"
+        role="button" hidden>
+    <i class="fa fa-map-signs fa-fw" aria-hidden="true"></i>
+  </span>
+  <!-- 主菜单按钮 -->
+  <span class="sidebar-btn" id="sidebarMainMenuBtn" title="主菜单" aria-label="主菜单" role="button" hidden>
+    <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+  </span>
+  <!-- 滚动到页顶/页底按钮 -->
+  <span class="sidebar-btn" id="sidebarRollBtn" data-direction="bottom" title="滚动到页底" aria-label="滚动到页底" role="button" hidden>
+    <i class="fa fa-chevron-down fa-fw" aria-hidden="true"></i>
+  </span>
+</section>
+
+{notempty name="Think.config.static_file_cdn"}
+<script src="https://cdnjs.loli.net/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.loli.net/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<input name="dragulaScriptPath" type="hidden" value="https://cdnjs.loli.net/ajax/libs/dragula/3.7.2/dragula.min.js" autocomplete="off">
+{else/}
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/popper.min.js?v=1.14.3"></script>
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/bootstrap.min.js?v=4.1.3"></script>
+<input name="dragulaScriptPath" type="hidden" value="__PUBLIC__{$Think.config.static_path}js/lib/dragula.min.js?v=3.7.2" autocomplete="off">
+{/notempty}
+<script src="__PUBLIC__{$Think.config.static_path}js/app.min.js?ts={$Think.config.static_file_timestamp}"></script>
+{$Think.config.stat_script}

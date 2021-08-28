@@ -1,0 +1,172 @@
+// 首页版块列表面板
+#indexForumPanel {
+  padding: {
+    left: $grid-gutter-width / 2;
+    right: $grid-gutter-width / 2;
+  }
+}
+
+// 选择背景图片
+#selectBgImage {
+  max-height: 180px;
+  overflow-y: auto;
+
+  .img-thumbnail {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 3px 2px;
+    padding: 0;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  // 自定义背景样式
+  #customBgStyle {
+    line-height: 58px;
+  }
+}
+
+// 用户头像（个人信息页面）
+.user-avatar {
+  max-width: 140px;
+  max-height: 200px;
+}
+
+// ID颜色选择项目
+.id-color-item {
+  height: 3.571rem; // ~50px
+  color: #fff;
+  line-height: 3.571rem; // ~50px
+  text-align: center;
+
+  a {
+    color: #fff;
+  }
+
+  span {
+    font-size: $font-size-sm;
+  }
+}
+
+// 论坛排行列表，银行日志列表
+#rankList, #bankLogList {
+  th, td {
+    padding: {
+      left: $spacer-2;
+      right: $spacer-2;
+    }
+  }
+
+  thead {
+    th {
+      padding: $spacer;
+    }
+  }
+}
+
+// 银行日志列表
+#bankLogList {
+  tbody {
+    th, td {
+      vertical-align: middle;
+    }
+  }
+
+  // 描述字段
+  .description {
+    width: 448px;
+    text-align: left;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+}
+
+// 游戏搜索列表
+.game-search-list {
+  .media {
+    padding: $spacer-2;
+    background-color: $list-group-bg;
+    border: 1px solid $list-group-border-color;
+    border-radius: $list-group-border-radius;
+
+    &:hover {
+      background-color: $list-group-hover-bg;
+    }
+
+    .game-search-img {
+      max-width: 70px;
+      max-height: 100.8px;
+    }
+  }
+}
+
+// 游戏介绍封面 & 人物图片
+.game-intro-cover, .character-img {
+  max-width: 100%;
+  max-height: 203px;
+}
+
+// 好友列表
+#friendList {
+  .form-group {
+    margin-bottom: $spacer / 2;
+  }
+}
+
+// 账户设置页面
+#modifyPage {
+  // 头像
+  #avatar {
+    max-width: 140px;
+    max-height: 200px;
+  }
+}
+
+// 短消息信息框
+.message-box {
+  // 短消息头部
+  .message-header {
+    p {
+      margin-bottom: $spacer / 2;
+    }
+  }
+
+  // 短消息内容
+  .message-content {
+    padding: 0;
+    font-size: 1rem; // ~14px
+  }
+}
+
+// 争夺帮助说明内容
+#fightReadmeContent {
+  .card-block {
+    line-height: 1.8;
+  }
+}
+
+// 选择自定义布局
+.select-layout-box {
+  .card-header {
+    font-weight: 600;
+  }
+
+  td {
+    border: none;
+  }
+
+  @include media-breakpoint-down(xs) {
+    td[colspan="3"] {
+      height: 4rem;
+    }
+  }
+}
+
+#faqPage {
+  .faq-thead {
+    th {
+      vertical-align: baseline;
+    }
+  }
+}

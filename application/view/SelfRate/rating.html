@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>自助评分奖励 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateRatingPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助发布奖励</a></li>
+    <li class="breadcrumb-item active">自助评分奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 自助评分奖励 -->
+  <form name="selfRate" action="{:url('SelfRate/rating')}" method="get">
+    <input name="safeid" type="hidden" value="{$safeId}">
+    <input name="ptid" type="hidden" value="{$tid}">
+    <input type="hidden" name="pbad" value="1">
+
+    <div class="alert alert-warning font-size-sm" role="alert">{$ratingTimeInfo}</div>
+
+    <div class="alert alert-info font-size-sm" role="alert">
+      你正在为[<b>{$forumName}</b>]版块的《
+      <a class="alert-link font-size-base" data-title-size="{$titleSize}" href="{$threadUrl}" target="_blank">{$threadTitle}</a>
+      》帖子评分
+      {eq name="sizeStatus" value="-1"}
+      <span class="text-orange">(标题文件大小无法解析)</span>
+      {/eq}
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第一步 确认原创</h5>
+      <div class="card-body font-size-sm p-3">
+        首先，请先查看该帖子的内容是否应该发布于所在版块，并且符合<a href="{:url('Faq/index?id=100')}" target="_blank">站内定义</a>。<br>
+        然后，帖子里必须包含3部分[1.一张该资源的相关图片][2.一段文字的资源介绍][3.资源下载链接和原创证明信息]<br>
+        第三，进入下载链接的网络硬盘，确认文件名与帖子介绍内容一致<br>
+        接下来，检查帖子是否原创，本评分暂时只支持一种方式：<br>
+        <b>[帖子内贴出资源的压缩包截图，并且截图的（1.文件名）(2.压缩包注解)其中之一含有（发帖人的完整ID名称），即符合要求]</b><br>
+        如果发现不符合以上规则的帖子，请至<a href="{:url('Thread/index?fid=4')}" target="_blank">意见管理区</a>发帖举报，管理人员确认后会将投诉作为优秀帖奖励。
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第二步 填写体积</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          注意，资源体积为[<b>你在下载链接的网络硬盘中看到的文件大小</b>]而不是发帖人在帖子中自己说的文件大小。<br>
+          如果是大量文件要算总体积你觉得麻烦，可以不评分等本次建立评分失效，让有耐心的人去评。
+        </p>
+        <div class="form-group row mb-0 px-3">
+          <input class="form-control col-7" id="psize" name="psize" type="text" maxlength="20" placeholder="资源体积数值" aria-label="资源体积数值">
+          <select class="custom-select col-5" id="psizegb" name="psizegb" aria-label="资源体积单位">
+            <option value="1" selected>MB(小文件)</option>
+            <option value="2">GB(大文件)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第三步 附加判定</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          请用[该资源名称]在所在版块搜索，符合以下情况之一的，请选择本项：<br>
+          （1.该资源第一次出现在本版块中，之前没有人发过，属于首发）<br>
+          （2.该资源最后一次出现在本版块中超过2年时间，属于补档）
+        </p>
+        <div class="form-group mb-0">
+          <label class="sr-only" for="pnew">是否首发/补档</label>
+          <select class="custom-select" id="pnew" name="pnew">
+            <option value="1" selected>无</option>
+            <option value="2">首发/补档</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">第四步 自购认定</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          符合自购判定的资源，请选择本项，本评分只支持一种自购认定方式：<br>
+          <b>[帖子中给出对应照片，照片中含有（该资源的实物）和（发帖人的完整ID名称），即符合要求]</b><br>
+          <b>[附加要求：自购资源的商品价格在任意正规平台的新品价格低于500日元(限日本商品)，则不认定为自购]</b>
+        </p>
+        <div class="form-group mb-0">
+          <label class="sr-only" for="pgod">是否自购</label>
+          <select class="custom-select" id="pgod" name="pgod">
+            <option value="1" selected>无</option>
+            <option value="2">自购/自扫/自镜像</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <h5 class="card-header">附言</h5>
+      <div class="card-body font-size-sm p-3">
+        <p>
+          选填，无需要特别说明内容则不用填写。（40汉字以内）
+        </p>
+        <div class="form-group mb-0">
+          <label class="sr-only" for="ptext">附言</label>
+          <textarea class="form-control" id="ptext" name="ptext" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit">
+      <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
+    </button>
+  </form>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

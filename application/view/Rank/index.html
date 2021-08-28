@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>论坛排行 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="rankPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">论坛排行</li>
+  </ol>
+
+  <!-- 我的神秘系数排名 -->
+  <div class="alert alert-success text-center" role="alert">
+    {empty name="myRank"}
+    我的神秘系数目前不在 <b>10000</b> 位以内
+    {else /}
+    我的神秘系数当前位于第 <b>{$myRank}</b> 位
+    {/empty}
+  </div>
+
+  <!-- 分类导航 -->
+  <nav class="nav nav-pills flex-column flex-md-row mb-3">
+    <a class="nav-link {eq name='type' value='sm'}active{/eq}" href="{:url('Rank/index?no1=sm')}">神秘系数排名</a>
+    <a class="nav-link {eq name='type' value='cz'}active{/eq}" href="{:url('Rank/index?no1=cz')}">KFB排名</a>
+    <a class="nav-link {eq name='type' value='ft'}active{/eq}" href="{:url('Rank/index?no1=ft')}">本月发帖排名</a>
+    <a class="nav-link {eq name='type' value='gx'}active{/eq}" href="{:url('Rank/index?no1=gx')}">贡献属性排名</a>
+  </nav>
+
+  <!-- 排行列表 -->
+  <section class="row">
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-hover table-center text-nowrap" id="rankList">
+        <thead>
+        <tr>
+          <th>名次</th>
+          <th>用户</th>
+          <th>神秘系数</th>
+          <th>贡献属性</th>
+          <th>KFB</th>
+          <th>本月发帖</th>
+          <th>综合等级</th>
+        </tr>
+        </thead>
+        <tbody class="font-size-sm">
+        {volist name="rankList" id="vo"}
+        <tr class="{eq name='vo.userName' value='$userName'}table-warning{/eq}">
+          <th scope="row">{$vo.no}</th>
+          <td><a class="not-click-link" href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank" data-not-click="true">{$vo.userName}</a></td>
+          <td>{$vo.smCoefficient|number_format} 级</td>
+          <td>{$vo.gongXian} 点</td>
+          <td>{$vo.kfb|number_format} KFB</td>
+          <td>{$vo.postNum|number_format} 帖子</td>
+          <td>{$vo.smLevel|number_format} 级</td>
+        </tr>
+        {/volist}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

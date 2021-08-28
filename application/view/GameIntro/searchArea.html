@@ -1,0 +1,22 @@
+<!-- 游戏介绍搜索 -->
+<section>
+  <form name="so" action="{:url('GameIntro/search')}">
+    <div class="input-group mb-3">
+      <input class="form-control" id="gameSearchKeyword" name="k" type="search" placeholder="关键字" aria-label="关键字">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">
+          <i class="fa fa-search" aria-hidden="true"></i>
+          搜索
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <select class="custom-select" id="gameSearchType" name="l" aria-label="搜索类别">
+        <option value="game" selected>游戏(介绍/讨论/攻略等)</option>
+        <option value="inc">会社(公司/同人社团等)</option>
+        <option value="cv">人名(原画/剧本/声优等)</option>
+      </select>
+    </div>
+  </form>
+</section>

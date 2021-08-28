@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="indexPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 功能区 -->
+  <section class="mb-4">
+    <a class="btn btn-outline-danger btn-block" href="{:url('GrowUp/index')}" title="{$smTips}"
+      data-smlevel="{$smLevel}" data-smrank="{$smRank}">
+      神秘<b>{$smLevel|intval|number_format}</b>级 (系数排名第<b class="text-primary">{$smRank}</b>位)
+    </a>
+    <a class="btn btn-outline-danger btn-block" data-kfb="{$kfb}" data-gongxian="{$gongXian}" href="javascript:;" title="网站虚拟货币">
+      <b>{$kfb|number_format}</b>KFB | <b>{$gongXian}</b>贡献
+    </a>
+    <a class="btn btn-outline-danger btn-block" href="{:url('SelfRate/latest')}" title="参与分享贴评分获得奖励">自助评分</a>
+    <a class="btn btn-outline-danger btn-block" href="/kf_fw_ig_index.php" title="通过简单游戏获得每日KFB奖励">争夺奖励</a>
+    <a class="btn btn-outline-danger btn-block" href="/fyg_sjcdwj.php?go=play" title="咕咕镇里咕咕咕">咕咕镇</a>
+  </section>
+
+  <!-- 版块列表 -->
+  <section class="row mb-3">
+    <h4 class="col-12 mb-3">
+      <i class="fa fa-signal" aria-hidden="true"></i> 版块列表
+    </h4>
+
+    <!-- 版块列表 Tab -->
+    <ul class="col-12 nav nav-tabs nav-extend mb-3" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#indexCommonForumPanel" role="tab" aria-controls="indexCommonForumPanel">常用版块</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-link-btn edit-common-forum-btn px-2" href="#" title="编辑常用版块" aria-label="编辑常用版块">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexDiscussForumPanel" role="tab" aria-controls="indexDiscussForumPanel">聊天交流</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexGalTalkForumPanel" role="tab" aria-controls="indexGalTalkForumPanel">Gal讨论</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexGalShareForumPanel" role="tab" aria-controls="indexGalShareForumPanel">Gal分享</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexAnimeMusicForumPanel" role="tab" aria-controls="indexAnimeMusicForumPanel">动漫音乐</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#indexAcgForumPanel" role="tab" aria-controls="indexAcgForumPanel">ACG相关</a>
+      </li>
+    </ul>
+
+    <!-- 版块列表 Panel -->
+    <div class="col-12 tab-content" id="indexForumPanel">
+      <div class="tab-pane active common-forum-panel" id="indexCommonForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作动态</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=16')}">BT下载</a>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=52')}">游戏讨论</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=84')}">动漫讨论</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=57')}">同人漫本</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="indexDiscussForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=5')}">自由讨论区</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=56')}">个人日记区</a>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=4')}">意见投诉</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=93')}">内部管理</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="indexGalTalkForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=102')}">游戏推荐</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=106')}">新作动态</a>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=52')}">游戏综合讨论</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=24')}">游戏疑难互助</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="indexGalShareForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=16')}">BT下载</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=41')}">网盘下载</a>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=67')}">CG下载</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=57')}">同人漫本</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=9')}">无限制资源</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="indexAnimeMusicForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=84')}">动漫综合讨论</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=92')}">动画资源下载</a>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=127')}">漫画小说</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=68')}">ACG音乐</a>
+          </div>
+          <div class="col-4">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=163')}">LIVE资源</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="indexAcgForumPanel" role="tabpanel">
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=94')}">原创绘画美图</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=87')}">ACG实物交流</a>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=86')}">电子产品交流</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=115')}">ACG文字作品</a>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=96')}">图片来源出处</a>
+          </div>
+          <div class="col-6">
+            <a class="btn btn-outline-primary btn-block" href="{:url('Thread/index?fid=36')}">寻求资源共享</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 最新回复 -->
+  <section class="row mb-4">
+    <h4 class="d-flex align-items-center col-12 mb-3">
+      <span>
+        <i class="fa fa-signal" aria-hidden="true"></i> 最新回复
+      </span>
+
+      <a class="btn btn-outline-primary btn-sm px-2 ml-auto edit-index-layout-btn" href="{:url('Index/layout')}" title="自定义首页布局" aria-label="自定义首页布局">
+        <i class="fa fa-edit" aria-hidden="true"></i> 自定义
+      </a>
+    </h4>
+
+    <!-- 最新回复 Tab -->
+    <ul class="col-12 nav nav-tabs mb-3" role="tablist">
+      {volist name="newReplyList" id="vo"}
+      <li class="nav-item">
+        <a class="nav-link {eq name='i' value='1'}active{/eq}" data-toggle="tab" href="#newReplyPanel{$i}" role="tab"
+           aria-controls="newReplyPanel{$i}">{$vo.title}</a>
+      </li>
+      {/volist}
+    </ul>
+
+    <!-- 最新回复 Panel -->
+    <div class="col-12 tab-content px-0">
+      {volist name="newReplyList" id="vo" key='index'}
+      <ul class="tab-pane list-group {eq name='index' value='1'}active{/eq}" id="newReplyPanel{$index}" role="tabpanel">
+        {volist name="vo['data']" id="link"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{$link.threadUrl}" title="《{$link.threadTitle}》">{$link.threadTitle}</a>
+          <a class="thread-link-jump" href="{$link.threadUrl}/page/e#a">{$link.threadTime}</a>
+        </li>
+        {/volist}
+      </ul>
+      {/volist}
+    </div>
+  </section>
+
+  <!-- 最新发表 -->
+  <section class="row mb-4">
+    <h4 class="col-12 mb-3">
+      <i class="fa fa-signal" aria-hidden="true"></i> 最新发表
+    </h4>
+
+    <!-- 最新发表 Tab -->
+    <ul class="col-12 nav nav-tabs mb-3" role="tablist">
+      {volist name="newPublishList" id="vo"}
+      <li class="nav-item">
+        <a class="nav-link {eq name='i' value='1'}active{/eq}" data-toggle="tab" href="#newPublishPanel{$i}" role="tab"
+           aria-controls="newPublishPanel{$i}">{$vo.title}</a>
+      </li>
+      {/volist}
+    </ul>
+
+    <!-- 最新发表 Panel -->
+    <div class="col-12 tab-content px-0">
+      {volist name="newPublishList" id="vo" key='index'}
+      <ul class="tab-pane list-group {eq name='index' value='1'}active{/eq}" id="newPublishPanel{$index}" role="tabpanel">
+        {volist name="vo['data']" id="link"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{$link.threadUrl}" title="《{$link.threadTitle}》">{$link.threadTitle}</a>
+          <a class="thread-link-jump" href="{$link.threadUrl}/page/e#a">{$link.threadTime}</a>
+        </li>
+        {/volist}
+      </ul>
+      {/volist}
+    </div>
+  </section>
+
+  <!-- 最新被推 & 内部管理 -->
+  <section class="row mb-4">
+    <h4 class="col-12 mb-3">
+      <i class="fa fa-signal" aria-hidden="true"></i> 最新被推
+    </h4>
+
+    <!-- 最新被推 & 内部管理 Tab -->
+    <ul class="col-12 nav nav-tabs mb-3 {eq name=':count($newExtraList)' value='1'}d-none{/eq}" role="tablist">
+      {volist name="newExtraList" id="vo"}
+      <li class="nav-item">
+        <a class="nav-link {eq name='i' value='1'}active{/eq}" data-toggle="tab" href="#newExtraPanel{$i}" role="tab"
+           aria-controls="newExtraPanel{$i}">{$vo.title}</a>
+      </li>
+      {/volist}
+    </ul>
+
+    <!-- 最新被推 & 内部管理 Panel -->
+    <div class="col-12 tab-content px-0">
+      {volist name="newExtraList" id="vo" key='index'}
+      <ul class="tab-pane list-group {eq name='index' value='1'}active{/eq}" id="newExtraPanel{$index}" role="tabpanel">
+        {volist name="vo['data']" id="link"}
+        <li class="list-group-item thread-link-group">
+          <a class="thread-link" href="{$link.threadUrl}" title="《{$link.threadTitle}》">{$link.threadTitle}</a>
+          <a class="thread-link-jump" href="{$link.threadUrl}/page/e#a">{$link.threadTime}</a>
+        </li>
+        {/volist}
+      </ul>
+      {/volist}
+    </div>
+  </section>
+
+  <!-- 选择背景 -->
+  <section class="row card">
+    <h4 class="col-12 card-header">
+      <i class="fa fa-signal" aria-hidden="true"></i> 选择背景
+    </h4>
+    <div class="col-12 card-body p-2" id="selectBgImage" data-path="__PUBLIC__{$Think.config.static_path}img/bg/">
+      {volist name="Think.config.const.bgImageList" id="vo"}
+      <span class="img-thumbnail bg-sprite bg-sprite-{$i}" data-id="{$i}" data-filename="{$vo}"></span>
+      {/volist}
+      <span class="img-thumbnail" data-color="#f6f4ec" style="background-color: #f6f4ec;"></span>
+      <span class="img-thumbnail" data-color="#dbeed9" style="background-color: #dbeed9;"></span>
+      <span class="img-thumbnail" data-color="#e8fdfe" style="background-color: #e8fdfe;"></span>
+      <span class="img-thumbnail" data-color="#f6f6f6" style="background-color: #f6f6f6;"></span>
+      <span class="img-thumbnail" data-color="#ded6d6" style="background-color: #ded6d6;"></span>
+      <span class="img-thumbnail" data-color="#fdd9d9" style="background-color: #fdd9d9;"></span>
+      <span class="img-thumbnail image-text" id="customBgStyle">自定义</span>
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

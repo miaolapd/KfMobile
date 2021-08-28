@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$gjc} - 关键词 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+      Info.gjc = '{$gjc}';
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="gjcPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">关键词：“{$gjc}”</li>
+  </ol>
+
+  <!-- 帖子列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{$vo.threadUrl}" title="{$vo.threadName}">
+            {eq name="vo.type" value="主题帖"}
+            <span class="badge badge-warning">{$vo.type}</span>
+            {else /}
+            <span class="badge badge-success">{$vo.type}</span>
+            {/eq}
+            {$vo.threadName}
+          </a>
+        </div>
+        <footer class="thread-footer">
+          <div class="col-6 thread-footer-column">
+            <time title="时间" aria-label="时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              {$vo.time}
+            </time>
+          </div>
+          <div class="col-6 thread-footer-column text-right">
+            <a class="not-click-link" data-author="{$vo.publisher}" href="{:url('Profile/show', 'username=' . $vo['publisher'])}" target="_blank" title="发表人"
+               aria-label="发表人" data-not-click="true">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              {$vo.publisher}
+            </a>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

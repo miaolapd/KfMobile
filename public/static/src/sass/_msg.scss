@@ -1,0 +1,61 @@
+// 遮罩
+.mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+// 消息框容器
+.msg-container {
+  position: fixed;
+  top: 11rem;
+  left: 50%;
+  @include media-breakpoint-down(xs) {
+    margin-left: -50%;
+    width: 100%;
+  }
+  @each $breakpoint, $container-max-width in $container-max-widths {
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+      margin-left: -$container-max-width / 2;
+    }
+  }
+  z-index: 1001;
+}
+
+// 消息框
+.msg {
+  display: none;
+  margin-bottom: $spacer / 1.4;
+  padding: .7rem;
+  color: #fff;
+  text-align: center;
+  background-color: rgba($gray-900, .8);
+  border-radius: $border-radius-lg;
+
+  .text-danger {
+    color: lighten($red, 8%) !important;
+  }
+
+  a {
+    color: lighten($link-color, 15%);
+    font-weight: $alert-link-font-weight;
+  }
+
+  // 条目
+  .text-item {
+    display: inline-block;
+    margin-right: $spacer-2;
+  }
+
+  em {
+    margin: {
+      left: 3px;
+      right: 3px;
+    }
+    font-weight: bolder;
+    font-style: normal;
+  }
+}

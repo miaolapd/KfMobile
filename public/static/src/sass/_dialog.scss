@@ -1,0 +1,50 @@
+// 对话框
+.dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($black, .5);
+  z-index: 1050;
+}
+
+// 对话框内容
+.dialog-content {
+  background-color: $gray-100;
+  border-radius: $border-radius;
+}
+
+// 对话框头部
+.dialog-header {
+  @extend .modal-header;
+  padding: {
+    left: 0;
+    right: 0;
+  }
+}
+
+// 对话框标题
+.dialog-title {
+  @extend .modal-title;
+}
+
+// 对话框主体
+.dialog-body {
+  @extend .modal-body;
+  max-height: 520px;
+  overflow-y: auto;
+  padding: {
+    left: 0;
+    right: 0;
+  }
+}
+
+// 对话框底部
+.dialog-footer {
+  @extend .modal-footer;
+  padding: {
+    left: 0;
+    right: 0;
+  }
+}

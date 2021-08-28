@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>发送消息 - 短消息 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="writeMessagePage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('Message/index')}">短消息</a></li>
+    <li class="breadcrumb-item active">发送消息</li>
+  </ol>
+
+  {include file="Message/nav" /}
+
+  <!-- 发送消息 -->
+  <div class="card">
+    <h5 class="card-header">发送消息</h5>
+    <div class="card-body p-3">
+      <form action="{:url('Message/job')}" method="post">
+        <input name="action" type="hidden" value="write">
+        <input name="step" type="hidden" value="2">
+        {notempty name="editMid"}
+        <input name="edmid" type="hidden" value="{$editMid}">
+        {/notempty}
+        <div class="form-group">
+          <label for="pwuser">用户名</label>
+          <input class="form-control" id="pwuser" name="pwuser" type="text" value="{$sendUserName}" maxlength="20" placeholder="用户名"
+                 required>
+        </div>
+        <div class="form-group">
+          <label for="msg_title">标题</label>
+          <input class="form-control" id="msg_title" name="msg_title" type="text" value="{$msgTitle}" maxlength="75" placeholder="标题"
+                 required>
+        </div>
+        <div class="form-group">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" id="smileDropdownBtn" type="button" data-toggle="dropdown" title="表情"
+                    aria-label="表情" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-smile-o" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-menu smile-panel" aria-labelledby="smileDropdownBtn">
+              {include file="Public/smile" /}
+            </div>
+          </div>
+        </div>
+        <div class="form-group mb-2">
+          <label class="sr-only" for="msgContent">内容</label>
+          <textarea class="form-control" id="msgContent" name="atc_content" data-fast-submit="true" rows="10" placeholder="短消息内容" required>{$msgContent}</textarea>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" id="ifsave" name="ifsave" type="checkbox" value="Y">
+          <label class="form-check-label" for="ifsave">保存到发件箱中</label>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-send" aria-hidden="true"></i> 发送
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

@@ -1,0 +1,158 @@
+// 各种字体大小样式
+@include font-size-make(base, $font-size-base);
+@include font-size-make(xl, $font-size-xl);
+@include font-size-make(lg, $font-size-lg);
+@include font-size-make(sm, $font-size-sm);
+@include font-size-make(xs, $font-size-xs);
+
+// 额外字体颜色
+@each $color, $value in $colors {
+  @include text-emphasis-variant('.text-#{$color}', $value);
+}
+
+// 列表组（紧凑）
+.list-group-sm {
+  .list-group-item {
+    padding: $spacer-2;
+  }
+}
+
+// 列表组项头部
+.list-group-item.list-group-item-header {
+  @extend .card-header;
+  margin-bottom: -1px;
+  padding: $card-spacer-y $card-spacer-x;
+}
+
+// 图片轮播（紧凑）
+.carousel-sm {
+  .carousel-caption {
+    bottom: 10px;
+    padding-bottom: 5px;
+  }
+  .carousel-indicators {
+    bottom: 0;
+    padding: {
+     top: $spacer;
+      bottom: $spacer;
+    }
+    margin-bottom: 0;
+  }
+  .carousel-item {
+    img {
+      height: 14.5rem; // ~203px
+    }
+  }
+}
+
+// 表格（居中）
+.table-center {
+  thead {
+    th {
+      text-align: center;
+    }
+  }
+
+  tbody {
+    th, td {
+      text-align: center;
+    }
+  }
+}
+
+// 图片文本
+.image-text {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  text-align: center;
+  vertical-align: middle;
+  background-color: $gray-100;
+}
+
+// 导航（延展）
+.nav-extend {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+  .nav-item {
+    display: inline-block;
+    float: none;
+  }
+}
+
+// 导航链接按钮
+.nav-tabs {
+  .nav-link-btn {
+    padding: {
+      left: 2px;
+      right: 2px;
+    }
+
+    &:focus, &:hover {
+      border-color: transparent;
+    }
+  }
+}
+
+// 控件组
+.fieldset {
+  padding: $spacer;
+  border: 1px solid $card-border-color;
+  border-radius: $card-border-radius;
+
+  legend {
+    width: auto;
+    margin-bottom: 0;
+    padding: {
+      left: $spacer-2;
+      right: $spacer-2;
+    }
+    font-size: 1rem;
+    font-weight: bolder;
+  }
+}
+
+// 提示
+.help {
+  cursor: help;
+}
+
+// 提示标签
+.tips {
+  color: $link-color;
+  cursor: help;
+
+  &:hover, &:focus {
+    color: $link-hover-color;
+  }
+}
+
+// 禁用的链接
+.disabled-link {
+  opacity: .65;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+// 禁止点击的链接
+.not-click-link {
+  color: $gray-800;
+  pointer-events: none;
+}
+
+// 复选框（小）
+.form-check-input-sm {
+  vertical-align: text-bottom;
+}
+@-moz-document url-prefix() {
+  .form-check-input-sm {
+    vertical-align: text-top;
+  }
+}
+
+// 等宽字体
+.font-monospace {
+  font-family: $font-family-monospace;
+}

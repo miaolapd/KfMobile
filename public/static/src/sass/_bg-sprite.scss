@@ -1,0 +1,70 @@
+// 生成背景雪碧图
+@mixin make-bg-sprite($x: 0, $y: 0) {
+  background-position: $x $y;
+}
+
+// 背景雪碧图
+.bg-sprite {
+  background-image: url("../img/bg/small/sprite.jpg");
+  background-repeat: no-repeat;
+
+  &.bg-sprite-1 {
+    @include make-bg-sprite(0, 0);
+  }
+
+  &.bg-sprite-2 {
+    @include make-bg-sprite(-60px, -120px);
+  }
+
+  &.bg-sprite-3 {
+    @include make-bg-sprite(-120px, -120px);
+  }
+
+  &.bg-sprite-4 {
+    @include make-bg-sprite(-180px, 0);
+  }
+
+  &.bg-sprite-5 {
+    @include make-bg-sprite(-180px, -60px);
+  }
+
+  &.bg-sprite-6 {
+    @include make-bg-sprite(-180px, -120px);
+  }
+
+  &.bg-sprite-7 {
+    @include make-bg-sprite(0, -180px);
+  }
+
+  &.bg-sprite-8 {
+    @include make-bg-sprite(-60px, -180px);
+  }
+
+  &.bg-sprite-9 {
+    @include make-bg-sprite(-120px, -180px);
+  }
+
+  &.bg-sprite-10 {
+    @include make-bg-sprite(-60px, 0);
+  }
+
+  &.bg-sprite-11 {
+    @include make-bg-sprite(-120px, 0);
+  }
+
+  &.bg-sprite-12 {
+    @include make-bg-sprite(0, -60px);
+  }
+
+  &.bg-sprite-13 {
+    @include make-bg-sprite(-60px, -60px);
+  }
+
+  &.bg-sprite-14 {
+    @include make-bg-sprite(-120px, -60px);
+  }
+
+  &.bg-sprite-15 {
+    @include make-bg-sprite(0, -120px);
+  }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>关于我的评分记录 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateMyPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">自助发布奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  {notempty name="threadList"}
+  <!-- 主题列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item thread-link-item-full font-size-sm">{$vo.rateInfo}</div>
+        <footer class="thread-footer">
+          <div class="col-6 thread-footer-column">
+            <span title="评分时间" aria-label="评分时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.rateTime}</time>
+            </span>
+          </div>
+          <div class="col-6 thread-footer-column text-right">
+            {empty name="vo.extraMemo"}
+            <span class="text-success">+[<b>{$vo.kfb|number_format}</b>]KFB</span>&nbsp;
+            <span class="text-info">+[<b>{$vo.gongXian}</b>]贡献</span>&nbsp;
+            {else /}
+            <span>{$vo.extraMemo}</span>&nbsp;
+            {/empty}
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无关于我的评分记录</div>
+  {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

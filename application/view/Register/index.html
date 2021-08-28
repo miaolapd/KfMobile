@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <meta name="robots" content="noindex,nofollow">
+  <title>注册 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+  <script>
+      var lastname = '';
+      {$nameCheckFunc}
+  </script>
+</head>
+<body id="registerPage">
+<header class="container">
+  <h1 class="py-4">{$Think.config.site_name}</h1>
+</header>
+<main class="container">
+  <form name="checkForm">
+    <input name="username" type="hidden" value="">
+    <input name="action" type="hidden" value="regnameck">
+    <input name="diy_yz" type="hidden" value="{$diy_yz|default=''}">
+    <input name="diy_yz2" type="hidden" value="{$diy_yz2|default=''}">
+    <span id="check_info" hidden></span>
+  </form>
+
+  <form id="registerForm" action="{:url('Register/register')}" method="post">
+    <input id="diy_ryzm" name="diy_ryzm" type="hidden" value="{$diy_ryzm|default=''}">
+    <input name="forward" type="hidden" value="{$forward|default=''}">
+    <input name="step" type="hidden" value="{$step|default=''}">
+
+    <div class="form-group">
+      <label for="regemail"><i class="fa fa-user fa-fw" aria-hidden="true"></i> 用户名</label>
+      <input class="form-control" id="regemail" name="regemail" type="text" maxlength="12" placeholder="用户名" aria-describedby="regemailHelp"
+             required>
+      <div class="form-control-feedback font-size-sm"></div>
+      <small class="form-text text-secondary" id="regemailHelp">长度控制在<b class="text-danger">2-12</b>字节以内</small>
+    </div>
+    <div class="form-group">
+      <label for="regpwd"><i class="fa fa-lock fa-fw" aria-hidden="true"></i> 密码</label>
+      <input class="form-control" id="regpwd" name="regpwd" type="password" maxlength="16" placeholder="密码" aria-describedby="regpwdHelp"
+             required>
+      <div class="form-control-feedback font-size-sm"></div>
+      <small class="form-text text-secondary" id="regpwdHelp">长度控制在<b class="text-danger">6-16</b>字节以内</small>
+    </div>
+    <div class="form-group">
+      <label for="regpwdrepeat"><i class="fa fa-lock fa-fw" aria-hidden="true"></i> 确认密码</label>
+      <input class="form-control" id="regpwdrepeat" name="regpwdrepeat" type="password" maxlength="16" placeholder="确认密码" required>
+      <div class="form-control-feedback font-size-sm"></div>
+    </div>
+    <div class="form-group mb-4">
+      <label for="regname"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i> Email</label>
+      <input class="form-control" id="regname" name="regname" type="email" maxlength="75" placeholder="Email" required>
+      <div class="form-control-feedback font-size-sm"></div>
+    </div>
+
+    <button class="btn btn-primary btn-lg btn-block mb-2" id="registerBtn" data-action="check" type="button">
+      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+      <span>下一步</span>
+    </button>
+    <div>
+      <span id="response" hidden></span>
+      <span class="form-control-feedback font-size-sm"></span>
+    </div>
+  </form>
+</main>
+<script src="/ys/r1129.js"></script>
+<script>
+    $(function () {
+        if (!$('#diy_ryzm').val()) {
+            $('#registerForm').prop('hidden', true);
+            alert('注册页面有错误');
+        }
+    });
+</script>
+{include file="Public/footer" /}
+</body>
+</html>

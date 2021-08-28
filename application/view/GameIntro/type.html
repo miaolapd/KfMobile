@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$typeName} - 游戏类型介绍 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.id = {$id};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="gameIntroTypePage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">游戏类型介绍</li>
+  </ol>
+
+  {include file="GameIntro/searchArea" /}
+
+  <!-- 游戏类型名称 -->
+  <h5 class="text-center mb-3">{$typeName}</h5>
+
+  <!-- 游戏类型封面 -->
+  <div class="text-center mb-3">
+    <div class="mb-3">
+      <img class="img-thumbnail game-intro-cover" src="{$typeCover}" alt="游戏类型封面">
+    </div>
+    <a class="btn btn-outline-danger tui-btn" href="#" title="推荐数" role="button" aria-label="推荐数" data-type="type"
+       data-url="{:url('GameIntro/type', 'id=' . $id . '&tui=1')}">
+      <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <span>{$tuiNum}</span>
+    </a>
+  </div>
+
+  <!-- 基本信息 -->
+  <div class="card mb-3">
+    <h6 class="card-header">基本信息</h6>
+    <div class="card-body">
+      <p class="card-text">{$typeInfo}</p>
+    </div>
+  </div>
+
+  <!-- 类型说明 -->
+  <div class="card mb-3">
+    <h6 class="card-header">类型说明</h6>
+    <div class="card-body">
+      <p class="card-text">{$typeIntro}</p>
+    </div>
+  </div>
+
+  <!-- 该类型游戏举例 -->
+  <div class="card mb-3">
+    <h6 class="card-header">该类型游戏举例</h6>
+    <div class="card-body">
+      <p class="card-text">{$typeExample}</p>
+    </div>
+  </div>
+
+  <!-- 相关信息 -->
+  <div class="card mb-3">
+    <h6 class="card-header">相关信息</h6>
+    <div class="card-body">
+      <p class="card-text">{$typeExtraInfo}</p>
+    </div>
+  </div>
+
+  <!-- 游戏类型受关注排行 -->
+  <div class="list-group list-group-sm mb-3" role="list">
+    <h6 class="list-group-item list-group-item-header">游戏类型受关注排行</h6>
+    {volist name="gameAttentionRankList" id="vo"}
+    <a class="list-group-item" href="{:url('GameIntro/game?id=' . $vo['id'])}" target="_blank">{$i}. {$vo.name}</a>
+    {/volist}
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

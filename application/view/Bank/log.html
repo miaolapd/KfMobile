@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>银行日志 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+  <script>
+    Info.currentPageNum = {$currentPageNum};
+    Info.maxPageNum = {$maxPageNum};
+  </script>
+</head>
+<body id="bankLogPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('Bank/index')}">银行</a></li>
+    <li class="breadcrumb-item active">银行日志</li>
+  </ol>
+
+  <!-- 分类导航 -->
+  <ul class="nav nav-pills flex-wrap mb-3">
+    <li class="nav-item">
+      <a class="nav-link {empty name='to'}active{/empty}" href="{:url('Bank/log')}">我的操作记录</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {notempty name='to'}active{/notempty}" href="{:url('Bank/log?to=1')}">对我的操作记录</a>
+    </li>
+  </ul>
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Bank/log')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  <!-- 操作记录 -->
+  <section class="row">
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-hover table-center text-nowrap" id="bankLogList">
+        <thead>
+        <tr>
+          <th>序号</th>
+          <th>类型</th>
+          <th class="text-left">描述</th>
+          <th>操作日期</th>
+          <th>IP</th>
+        </tr>
+        </thead>
+        <tbody class="font-size-sm">
+        {volist name="logList" id="vo"}
+        <tr>
+          <th>{$vo.no}</th>
+          {switch name="vo.type"}
+          {case value="存款"}{assign name="typeColor" value="success" /}{/case}
+          {case value="取款"}{assign name="typeColor" value="info" /}{/case}
+          {default /}{assign name="typeColor" value="danger" /}
+          {/switch}
+          <td class="text-{$typeColor}">{$vo.type}</td>
+          <td>
+            <div class="description">{$vo.description}</div>
+          </td>
+          <td>{$vo.actionTime}</td>
+          <td>{$vo.ip}</td>
+        </tr>
+        {/volist}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Bank/log')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Bank/log', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

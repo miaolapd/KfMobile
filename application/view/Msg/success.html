@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="refresh" content="{$wait};url={$url}">
+  <title>提示信息 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+  <style>
+  </style>
+</head>
+<body id="successPage">
+<main class="container px-0 pt-5">
+  <h1 class="display-1 font-weight-normal pl-3 pb-4">:)</h1>
+  <div class="alert alert-success" role="alert">
+    <p><b>提示信息</b></p>
+    <p>{$msg}</p>
+    <div>
+      <a class="alert-link" href="{$url}">页面自动跳转中…</a>&nbsp;&nbsp;等待时间：<b id="wait">{$wait}</b>
+    </div>
+  </div>
+</main>
+<script>
+  (function () {
+    var $wait = $('#wait');
+    var interval = window.setInterval(function () {
+      var time = parseInt($wait.text());
+      $wait.text(--time);
+      if (time <= 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+  })();
+</script>
+</body>
+</html>

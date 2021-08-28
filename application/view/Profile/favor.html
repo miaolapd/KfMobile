@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>收藏夹 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="favorPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">收藏夹</li>
+  </ol>
+
+  <!-- 目录导航 -->
+  <ul class="nav nav-pills flex-wrap mb-3">
+    <li class="nav-item">
+      <a class="nav-link {eq name='type' value='-1'}active{/eq}" href="{:url('Profile/favor')}">全部收藏</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {eq name='type' value='0'}active{/eq}" href="{:url('Profile/favor?type=0')}">默认分类</a>
+    </li>
+    {volist name="catalogList" id="vo"}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle {eq name='type' value='$vo.id'}active{/eq}" data-toggle="dropdown" href="#" role="button"
+         aria-haspopup="true" aria-expanded="false">{$vo.name}</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="{:url('Profile/favor?type=' . $vo['id'])}">查看</a>
+        <div class="dropdown-divider" role="separator"></div>
+        <a class="dropdown-item text-danger remove-catalog" href="{:url('Profile/favor?job=deltype&type=' . $vo['id'])}">删除</a>
+      </div>
+    </li>
+    {/volist}
+    <li class="nav-item">
+      <a class="nav-link" id="addCatalog" href="#" title="添加新目录">添加&hellip;</a>
+    </li>
+  </ul>
+
+  {notempty name="threadList"}
+  <form name="favorForm" method="post" action="{:url('Profile/favor')}">
+    <!-- 主题列表 -->
+    <section class="row mb-3">
+      <ul class="list-group thread-list-group">
+        {volist name="threadList" id="vo"}
+        <li class="list-group-item thread-list-item">
+          <div class="thread-link-item">
+            <div class="form-check form-check-inline mr-0">
+              <input class="form-check-input position-static" name="delid[]" type="checkbox" value="{$vo.tid}" aria-label="选择主题">
+            </div>
+            <a class="thread-link d-inline" href="{$vo.threadLink}" target="_blank">{$vo.threadTitle}</a>
+          </div>
+          <footer class="thread-footer">
+            <div class="col-6 thread-footer-column">
+              {notempty name="vo.threadForum"}
+              <span class="text-dark" title="所属版块" aria-label="所属版块">
+                <i class="fa fa-map-signs" aria-hidden="true"></i>
+                {$vo.threadForum}
+              </span>
+              {/notempty}
+            </div>
+            <div class="col-6 thread-footer-column text-right">
+              <a class="not-click-link" href="{:url('Profile/show?uid=' . $vo['authorUid'])}" title="作者" aria-label="作者" data-not-click="true">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                {$vo.author}
+              </a>
+            </div>
+          </footer>
+        </li>
+        {/volist}
+      </ul>
+    </section>
+
+    <!-- 功能区 -->
+    <section id="favorActionBtns">
+      <input name="job" type="hidden" value="">
+      <input name="type" type="hidden" value="">
+      <button class="btn btn-secondary" data-action="selectAll" type="button">全选</button>
+      <button class="btn btn-secondary" data-action="selectInverse" type="button">反选</button>
+      <div class="d-inline-block dropup">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="convertCatalogDropdownBtn" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+          转换到&hellip;
+        </button>
+        <div class="dropdown-menu" id="convertCatalogDropdownMenu" aria-labelledby="convertCatalogDropdownBtn">
+          <a class="dropdown-item" data-type="0" href="#">默认分类</a>
+          {volist name="catalogList" id="vo"}
+          <a class="dropdown-item" data-type="{$vo.id}" href="#">{$vo.name}</a>
+          {/volist}
+        </div>
+      </div>
+      <button class="btn btn-danger" data-action="delete" type="button">删除</button>
+    </section>
+  </form>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无收藏</div>
+  {/notempty}
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

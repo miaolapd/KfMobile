@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$profileUserName} - 详细信息 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="userPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">{$profileUserName} 详细信息</li>
+  </ol>
+
+  <!-- 头像 -->
+  <section class="text-center" id="profileBtns" data-username="{$profileUserName}">
+    {notempty name="profileAvatar"}
+    <img class="img-thumbnail user-avatar d-block mx-auto mb-3" src="{$profileAvatar}" alt="头像">
+    {/notempty}
+    <div class="mb-3">
+      <a class="btn btn-outline-primary" href="{:url('Message/write?touid=' . $profileUid)}">
+        <i class="fa fa-send" aria-hidden="true"></i> 发送短信
+      </a>&nbsp;
+      <a class="btn btn-outline-primary" href="{:url('search/index?authorid=' . $profileUid)}">
+        <i class="fa fa-search" aria-hidden="true"></i> 用户主题
+      </a>
+    </div>
+    <div class="mb-3">
+      <button class="btn btn-outline-primary" name="followUser" type="button">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <span>关注用户</span>
+      </button>
+      &nbsp;
+      <button class="btn btn-outline-primary" name="blockUser" type="button">
+        <i class="fa fa-ban" aria-hidden="true"></i>
+        <span>屏蔽用户</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 详细信息 -->
+  <ul class="list-group list-group-sm">
+    {volist name="profileDetails" id="vo"}
+    <li class="list-group-item">{$vo}</li>
+    {/volist}
+  </ul>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

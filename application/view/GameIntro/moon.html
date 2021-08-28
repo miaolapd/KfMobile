@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>本月新作 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="gameIntroMoonPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">本月新作</li>
+  </ol>
+
+  {include file="GameIntro/searchArea" /}
+
+  <!-- 游戏发售年份、月份列表 -->
+  <div class="btn-group" role="group">
+    <div class="btn-group" role="group">
+      <button class="btn btn-secondary dropdown-toggle" id="gameYearDropdownBtn" data-toggle="dropdown" type="button"
+              aria-haspopup="true" aria-expanded="false">
+        年份
+      </button>
+      <div class="dropdown-menu" style="z-index: 1031;" aria-labelledby="gameYearDropdownBtn">
+        {volist name="yearList" id="vo"}
+        {eq name="vo.year" value="0"}
+        <span class="dropdown-item active">{$vo.name}</span>
+        {else /}
+        <a class="dropdown-item" href="{:url('GameIntro/moon', 'year=' . $vo['year'] . '&month=' . $vo['month'])}">{$vo.name}</a>
+        {/eq}
+        {/volist}
+      </div>
+    </div>
+
+    <div class="btn-group" role="group">
+      <button class="btn btn-secondary dropdown-toggle" id="gameMonthDropdownBtn" data-toggle="dropdown" type="button"
+              aria-haspopup="true" aria-expanded="false">
+        月份
+      </button>
+      <div class="dropdown-menu" style="z-index: 1031;" aria-labelledby="gameMonthDropdownBtn">
+        {volist name="monthList" id="vo"}
+        {eq name="vo.year" value="0"}
+        <span class="dropdown-item active">{$vo.name}</span>
+        {else /}
+        <a class="dropdown-item" href="{:url('GameIntro/moon', 'year=' . $vo['year'] . '&month=' . $vo['month'])}">{$vo.name}</a>
+        {/eq}
+        {/volist}
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <!-- 标题 -->
+  <h5 class="mb-3">{$moonTitle}</h5>
+
+  {notempty name="gameImgList"}
+  <!-- 该月游戏图片 -->
+  <div class="row carousel carousel-sm slide mb-3" id="moonGameImagesCarousel" data-ride="carousel">
+    <ol class="carousel-indicators">
+      {volist name="gameImgList" id="vo"}
+      <li class="{eq name='i' value='1'}active{/eq}" data-target="#moonGameImagesCarousel" data-slide-to="{$i-1}"></li>
+      {/volist}
+    </ol>
+    <div class="carousel-inner">
+      {volist name="gameImgList" id="vo"}
+      <a class="carousel-item {eq name='i' value='1'}active{/eq}" href="{:url('GameIntro/game?id=' . $vo['id'])}">
+        <img class="d-block mx-auto" src="{$vo.img}" alt="游戏图片">
+        <div class="carousel-caption">
+          <p>{$vo.name}</p>
+        </div>
+      </a>
+      {/volist}
+    </div>
+    <a class="carousel-control-prev" data-slide="prev" href="#moonGameImagesCarousel" role="button">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">上一幅</span>
+    </a>
+    <a class="carousel-control-next" data-slide="next" href="#moonGameImagesCarousel" role="button">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">下一幅</span>
+    </a>
+  </div>
+  {/notempty}
+
+  {notempty name="moonGameList"}
+  <!-- 该月游戏列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="moonGameList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{:url('GameIntro/game?id=' . $vo['id'])}">{$vo.name}</a>
+        </div>
+        <footer class="thread-footer">
+          <div class="thread-footer-column">
+            <span title="发售时间" aria-label="发售时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.sellTime}</time>
+            </span>&nbsp;
+            {notempty name="vo.property"}
+            <span title="游戏属性" aria-label="游戏属性">
+              <i class="fa fa-info-circle" aria-hidden="true"></i>
+              {$vo.property}
+            </span>
+            {/notempty}
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">资料库内尚未添加该月数据</div>
+  {/notempty}
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

@@ -1,0 +1,103 @@
+body {
+  padding-top: 3rem; // ~42px
+}
+
+// 背景图片
+body, .modal-content, .dialog-content {
+  background-image: url("../img/bg/1.jpg");
+}
+
+// 个别页面上填充修正
+#successPage, #errorPage, #loginPage, #registerPage {
+  padding-top: 0;
+}
+
+// 主区域
+main {
+  margin-bottom: $spacer * 1.5;
+}
+
+// 主菜单
+#mainMenu {
+  overflow-y: auto;
+}
+
+// 用户菜单下拉按钮
+#userMenuDropdownBtn {
+  max-width: 163px;
+  line-height: 2;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+// 主页脚
+.main-footer {
+  font-size: $font-size-sm;
+  text-align: center;
+  background-color: rgba(darken($body-bg, 10%), $bg-opacity);
+}
+
+// 侧边栏按钮组
+.sidebar-btn-group {
+  position: fixed;
+  right: 6px;
+  bottom: 32px;
+}
+
+// 侧边栏按钮
+.sidebar-btn {
+  width: 3rem;
+  height: 3rem;
+  margin-top: $spacer-1;
+  font-size: $navbar-toggler-font-size;
+  line-height: 3rem;
+  text-align: center;
+  color: #fff;
+  background-color: $black;
+  border-radius: $border-radius;
+  cursor: pointer;
+  opacity: .15;
+
+  &:hover {
+    opacity: .35;
+  }
+}
+
+// 个别页面隐藏滚动到页顶/页底按钮
+#loginPage, #registerPage {
+  #rollToTopOrBottom {
+    display: none;
+  }
+}
+
+// 编辑版块列表
+.edit-forum-list {
+  min-height: 43.5px;
+
+  .btn {
+    margin: 5px;
+    min-width: 6.143rem; // ~86px
+    cursor: move !important;
+  }
+}
+
+// 自定义脚本列表
+#customScriptList {
+  .card-header {
+    border-bottom: none;
+  }
+
+  .custom-script-content {
+    border-top: $card-border-width solid $card-border-color;
+  }
+}
+
+// 更换域名提示框
+.change-domain-tips {
+  display: none;
+  position: fixed;
+  top: 3rem;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}

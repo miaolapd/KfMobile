@@ -1,0 +1,33 @@
+<!-- 分类导航 -->
+<ul class="nav nav-pills flex-wrap mb-3">
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='receivebox'}active{/eq}" href="{:url('Message/index?action=receivebox')}">收件箱</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='sendbox'}active{/eq}" href="{:url('Message/index?action=sendbox')}">发件箱</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='scout'}active{/eq}" href="{:url('Message/index?action=scout')}">消息跟踪</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='write'}active{/eq}" href="{:url('Message/write')}">写新消息</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link {eq name='action' value='banned'}active{/eq}" href="{:url('Message/banned')}">屏蔽列表</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-danger" id="clearMsgBox" data-url="{:url('Message/job', 'action=clear&ckcode=' . $clearMsgBoxVerifyCode)}"
+       href="#">清空</a>
+  </li>
+</ul>
+
+<script>
+  $(function () {
+    $('#clearMsgBox').click(function (e) {
+      e.preventDefault();
+      if (confirm('是否删除收件箱和发件箱内所有消息？')) {
+        location.href = $(this).data('url');
+      }
+    });
+  });
+</script>

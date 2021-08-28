@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>银行 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="bankPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">银行</li>
+  </ol>
+
+  <!-- 转账贡献 -->
+  <section class="card mb-3" id="transferArea">
+    <h5 class="card-header">转账贡献</h5>
+    <div class="card-body p-3">
+      <p>
+        <span class="text-danger">你所拥有的贡献：<b>{$gongXian}</b></span><br>
+        <span>手续费：<b>{$fee}%</b></span><br>
+        <a href="{:url('Bank/log')}">查看银行操作日志</a>
+      </p>
+      <hr>
+
+      <form action="{:url('Bank/service')}" method="post" autocomplete="off" onsubmit="return confirm('是否转账贡献？')">
+        <input name="action" type="hidden" value="virement">
+        <div class="form-group">
+          <label for="pwuser">对方用户名</label>
+          <input class="form-control" id="pwuser" name="pwuser" type="text" placeholder="对方用户名" required>
+        </div>
+        <div class="form-group">
+          <label for="to_money">转帐数额</label>
+          <input class="form-control" id="to_money" name="to_money" type="number" min="{$minTransferNum}" max="{$maxTransferNum}"
+                 step="0.1" placeholder="转帐数额" aria-describedby="to_moneyHelp" required>
+          <small id="to_moneyHelp" class="form-text text-danger">
+            注意你转账的是贡献，最小[<b>{$minTransferNum}</b>]，最大[<b>{$maxTransferNum}</b>]，超过最大值请分多次转账
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="memo">转帐附言（可留空）</label>
+          <textarea class="form-control" id="memo" name="memo" rows="3" placeholder="转帐附言"></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 转账
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 批量转账 -->
+  <!--<section class="card mb-3" id="batchTransferArea">
+    <h5 class="card-header">批量转账</h5>
+    <div class="card-body p-3">
+      <form id="batchTransferForm" autocomplete="off">
+        <div class="form-group">
+          <label for="transferCommonMoney">通用转帐数额</label>
+          <input class="form-control" id="transferCommonMoney" name="transferCommonMoney" type="number" min="{$minTransferNum}"
+                 step="0.1" placeholder="通用转帐数额" aria-describedby="transferCommonMoneyHelp">
+          <small id="transferCommonMoneyHelp" class="form-text text-secondary">如所有用户都已设定单独数额则可留空</small>
+        </div>
+        <div class="form-group">
+          <label for="transferUserList">用户列表</label>
+          <textarea class="form-control" id="transferUserList" name="transferUserList" rows="5" placeholder="用户列表" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="transferMemo">转帐附言（可留空）</label>
+          <textarea class="form-control" id="transferMemo" name="transferMemo" rows="3" placeholder="转帐附言"></textarea>
+        </div>
+        <div class="form-group">
+          <small class="form-control-label text-danger">注意：你转给对方的是贡献，每名用户的转账数额可超过单次转账的最大值，助手会自动分多次转账</small>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> 批量转账
+        </button>
+      </form>
+    </div>
+  </section>-->
+
+  <!-- 取KFB -->
+  <section class="card" id="drawKfbArea">
+    <h5 class="card-header">取KFB</h5>
+    <div class="card-body p-3">
+      <!-- 存款信息 -->
+      <p>
+        当前所持：<b id="cash">{$cash|number_format}</b> KFB<br>
+        活期存款：<b id="currentDeposit">{$currentDeposit|number_format}</b> KFB<br>
+        定期存款：<b id="fixedDeposit">{$fixedDeposit|number_format}</b> KFB<br>
+        <small class="text-secondary">(存款3个月，期间不存取定期，才可以获得利息)</small><br>
+        当前利息：<b class="{notempty name='interest'}text-danger{/notempty}">{$interest|number_format}</b> KFB
+        {if condition="!empty($expectedInterest) AND empty($interest)"}
+        <span class="text-success">(预期利息：<b>{$expectedInterest|number_format}</b> KFB)</span>
+        {/if}<br>
+        <small class="text-secondary">(在当前利息不为0的时候，取出定期将获得该数额的KFB利息)</small><br>
+        定期日利率：<b>{$interestRate}%</b>
+      </p>
+      <hr>
+
+      <form action="{:url('Bank/service')}" method="post" autocomplete="off">
+        <input name="action" type="hidden" value="draw">
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" id="drawBtype1" name="btype" type="radio" value="1" checked>
+            <label class="form-check-label" for="drawBtype1">活期</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" id="drawBtype2" name="btype" type="radio" value="2">
+            <label class="form-check-label" for="drawBtype2">定期</label>
+          </div>
+        </div>
+        <div class="input-group">
+          <input class="form-control" name="drawmoney" type="number" min="1" placeholder="取款金额" aria-label="取款金额" required>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-sign-out" aria-hidden="true"></i> 取款
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

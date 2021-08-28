@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.fid = {$fid};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="threadJpnPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">{$forumName}</li>
+    {notempty name="subForumList"}
+    <li class="breadcrumb-item dropdown">
+      <a class="dropdown-toggle" id="subBoardDropdownBtn" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">
+        子版块
+      </a>
+      <div class="dropdown-menu" aria-labelledby="subBoardDropdownBtn">
+        {volist name="subForumList" id="vo"}
+        <a class="dropdown-item" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
+        {/volist}
+      </div>
+    </li>
+    {/notempty}
+  </ol>
+
+  {notempty name="subForumList"}
+  <!-- 子版块列表 -->
+  <section class="row">
+    <ul class="list-group thread-list-group">
+      {volist name="subForumList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
+        </div>
+        <footer class="thread-footer text-truncate">
+          <div class="thread-footer-column">
+            <a class="text-secondary" href="{:url('Read/index?tid=' . $vo['tid'] . '&page=e#a')}">{$vo.threadInfo}</a>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {/notempty}
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

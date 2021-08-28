@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <meta name="robots" content="noindex,nofollow">
+  <title>登录 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="loginPage">
+<header class="container">
+  <h1 class="py-4">{$Think.config.site_name}</h1>
+</header>
+<main class="container">
+  <form class="mb-4" action="{:url('Login/login')}" method="post">
+    <input name="jumpurl" type="hidden" value="{$jumpUrl}">
+    <input name="step" type="hidden" value="2">
+    <input name="lgt" type="hidden" value="1">
+    <div class="form-group">
+      <label for="pwuser"><i class="fa fa-user fa-fw" aria-hidden="true"></i> 用户名</label>
+      <input class="form-control" id="pwuser" name="pwuser" type="text" maxlength="12" placeholder="用户名" required>
+    </div>
+    <div class="form-group">
+      <label for="pwpwd"><i class="fa fa-lock fa-fw" aria-hidden="true"></i> 密码</label>
+      <input class="form-control" id="pwpwd" name="pwpwd" type="password" maxlength="16" placeholder="密码" required>
+    </div>
+    <div class="form-group">
+      <a href="{:url('Register/index')}">马上注册</a>
+    </div>
+
+    <div class="form-group btn-group btn-group-toggle" data-toggle="buttons" aria-label="登录类型">
+      <label class="btn btn-info active">
+        <input type="radio" name="cktime" value="31536000" autocomplete="off" checked>
+        <i class="fa fa-calendar-check-o" aria-hidden="true"></i> 长期
+      </label>
+      <label class="btn btn-info">
+        <input type="radio" name="cktime" value="0" autocomplete="off">
+        <i class="fa fa-clock-o" aria-hidden="true"></i> 即时
+      </label>
+    </div>
+
+    <button class="btn btn-primary btn-lg btn-block" type="submit">
+      <i class="fa fa-sign-in" aria-hidden="true"></i> 登录
+    </button>
+  </form>
+
+  {notempty name="Think.config.login_page_msg"}
+  <div class="alert alert-info" role="alert">{$Think.config.login_page_msg}</div>
+  {/notempty}
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

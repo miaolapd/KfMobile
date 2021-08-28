@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <meta name="robots" content="noindex,nofollow">
+  <title>错误信息 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="errorPage">
+<main class="container px-0 pt-5">
+  <h1 class="display-1 font-weight-normal pl-3 pb-4">:(</h1>
+  <div class="alert alert-danger" role="alert">
+    <p><b>错误信息</b></p>
+    <p>{$msg}</p>
+    <div>
+      <a class="alert-link" href="javascript:history.go(-1);">返回上一步操作</a>
+      &nbsp;或&nbsp;
+      <a class="alert-link" href="__PUBLIC__">返回首页</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>帮助 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="faqPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">帮助</li>
+  </ol>
+
+  <!-- 问题导航 -->
+  <nav class="nav nav-pills flex-column flex-md-row flex-wrap mb-3">
+    {volist name="questionList" id="vo"}
+    <a class="nav-link {eq name='vo.id' value='$id'}active{/eq}" href="{:url('Faq/index?id=' . $vo['id'])}">{$vo.title}</a>
+    {/volist}
+  </nav>
+
+  <!-- 问题内容 -->
+  <div class="card">
+    <h5 class="card-header">{$questionTitle}</h5>
+    {eq name='faqId' value='102'}
+      {$questionContent}
+    {else/}
+      <div class="card-body">
+        <div class="card-text">{$questionContent}</div>
+      </div>
+    {/eq}
+  </div>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

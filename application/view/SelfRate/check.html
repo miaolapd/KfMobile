@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>自助评分检查 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateCheckPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('SelfRate/latest')}">自助发布奖励</a></li>
+    <li class="breadcrumb-item active">自助评分检查</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 自助评分奖励 -->
+  <div class="card">
+    <h5 class="card-header">自助评分检查</h5>
+    <div class="card-body p-3">
+      <form action="{:url('SelfRate/submit')}" method="get">
+        <input name="do" type="hidden" value="3">
+        <input name="safeid" type="hidden" value="{$safeId}">
+        <input name="pfid" type="hidden" value="{$id}">
+        <div class="form-group">
+          帖子：<a href="{$threadUrl}" target="_blank">{$threadTitle}</a>
+        </div>
+        <div class="form-group">
+          评分会员：<a class="not-click-link" href="{:url('Profile/show', 'username=' . $rateUserName)}" target="_blank" data-not-click="true">{$rateUserName}</a>
+        </div>
+        <div class="form-group">
+          <div>评分体积：<b>{$rateSize|number_format}</b> MB</div>
+          <small class="form-text text-danger">注：按贴子中资源实际大小计算，误差小于3%不认定为错评</small>
+        </div>
+        <div class="form-group">
+          <div>
+            首发/补档/多盘：{eq name="isNew" value="true"}<span class="text-success">是</span>{else /}<span class="text-secondary">否</span>{/eq}
+          </div>
+          <small class="form-text text-danger">注：贴子所在版块第一次出现才算首发。2年内无该资源帖出现才算补档</small>
+        </div>
+        <div class="form-group">
+          <div>
+            是否自购：{eq name="isSelfBuy" value="true"}<span class="text-success">是</span>{else /}<span class="text-secondary">否</span>{/eq}
+          </div>
+          <small class="form-text text-danger">注：贴子内附带自购商品照片才算自购资源<br>新规：资源的商品价格在正规平台的新品价格不得低于500日元(限日本)</small>
+        </div>
+        <div class="form-group">
+          <div>
+            是否伪原创：{eq name="isFake" value="true"}<span class="text-danger">是</span>{else /}<span class="text-secondary">否</span>{/eq}
+          </div>
+          <small class="form-text text-danger">注：如果本项为“是”，则请直接查看评分附言，核实附言内容真实性</small>
+        </div>
+        <div class="form-group">
+          <div>
+            评分附言：<br>
+            {notempty name="rateMsg"}{$rateMsg}{else /}无{/notempty}
+          </div>
+          <small class="form-text text-danger">注：请根据评分附言结合以上数据，确认该评分是否有误</small>
+        </div>
+        <hr>
+        {neq name="isDisagree" value="true"}
+        <div class="form-group">
+          <label for="pohno">是否对以上评分异议</label>
+          <select class="custom-select" id="pohno" name="pohno" aria-describedby="pohnoHelp">
+            <option value="1" selected>无评分错误</option>
+            <option class="text-danger" value="2">我有异议！</option>
+          </select>
+          <small class="form-text text-secondary" id="pohnoHelp">这里选择异议，并在下方填写理由，该评分将进入人工审核</small>
+        </div>
+        <div class="form-group">
+          <label for="ptext">附言</label>
+          <textarea class="form-control" id="ptext" name="ptext" rows="3" aria-describedby="ptextHelp"></textarea>
+          <small class="form-text text-secondary" id="ptextHelp">
+            选择异议则本项必填，请简单描述异议原因，人工审核确认后，本评分将被删除，对应贴子将重新处于等待评分状态。（40汉字以内）
+          </small>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          <i class="fa fa-check-square-o" aria-hidden="true"></i> 提交
+        </button>
+        {else /}
+        <div class="form-group">
+          异议提出人：<a class="not-click-link" href="{:url('Profile/show', 'username=' . $disagreeUserName)}" target="_blank" data-not-click="true">{$disagreeUserName}</a>
+        </div>
+        <div class="form-group">
+          异议附言：{$disagreeMsg}
+        </div>
+        <a class="btn btn-success btn-block" href="{:url('SelfRate/submit', 'do=4&pa=1&safeid='. $safeId . '&pfid=' . $id)}"
+           onclick="return confirm('是否确认评分？')">
+          <i class="fa fa-check-circle" aria-hidden="true"></i>
+          评分正确，异议无效，按照评分操作
+        </a>
+        <a class="btn btn-danger btn-block" href="{:url('SelfRate/submit', 'do=4&pa=2&safeid='. $safeId . '&pfid=' . $id)}"
+           onclick="return confirm('是否确认异议？')">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+          异议正确，评分无效，本评分将删除
+        </a>
+        {/neq}
+      </form>
+    </div>
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

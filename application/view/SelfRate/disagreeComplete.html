@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>异议评分处理记录 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+      Info.currentPageNum = {$currentPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateDisagreeCompletePage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">自助发布奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center mt-0">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/disagreeComplete', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/disagreeComplete', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('SelfRate/disagreeComplete')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/disagreeComplete', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item disabled" aria-hidden="true">
+        <span class="page-link">&hellip;</span>
+      </li>
+    </ul>
+  </nav>
+
+  {notempty name="disagreeList"}
+  <!-- 异议评分处理记录列表 -->
+  <section class="row mb-3">
+    <ul class="list-group thread-list-group">
+      {volist name="disagreeList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item thread-link-item-full font-size-sm pb-0">{$vo.disagreeInfo}</div>
+        <footer class="thread-footer">
+          <div class="col-12 thread-footer-column">
+            <span class="text-secondary font-size-xs" title="提交时间" aria-label="提交时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.submitTime}</time>
+            </span>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无异议评分处理记录</div>
+  {/notempty}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/disagreeComplete', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/disagreeComplete', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('SelfRate/disagreeComplete')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/disagreeComplete', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item disabled" aria-hidden="true">
+        <span class="page-link">&hellip;</span>
+      </li>
+    </ul>
+  </nav>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

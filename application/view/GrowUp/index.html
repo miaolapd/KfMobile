@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>等级经验 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="growUpPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">等级经验</li>
+  </ol>
+
+  <!-- 等级经验 -->
+  <section>
+    <p class="text-danger text-center">{$expInfo}</p>
+    {if condition="$expPercent >= 90"} {assign name="expColor" value="danger" /}
+    {elseif condition="$expPercent >= 60"} {assign name="expColor" value="warning" /}
+    {elseif condition="$expPercent >= 30"} {assign name="expColor" value="success" /}
+    {else /} {assign name="expColor" value="info" /}
+    {/if}
+    <div class="d-flex text-{$expColor} mb-1">
+      <span>已完成<b>{$expPercent}</b>%</span>
+    </div>
+    <div class="progress mb-3" style="height: 1.4rem;">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-{$expColor}" role="progressbar" aria-valuenow="{$expPercent}"
+           aria-valuemin="0" aria-valuemax="100" style="width: {$expPercent}%;"></div>
+    </div>
+  </section>
+
+  <!-- 每日奖励 -->
+  <ul class="list-group list-group-sm mb-2">
+    <li class="list-group-item list-group-item-header h5">每日奖励</li>
+    {volist name="dailyBonusList" id="vo"}
+    <li class="list-group-item font-size-sm {eq name='vo.isComplete' value='true'}list-group-item-success{/eq}">
+      {$vo.info}
+    </li>
+    {/volist}
+  </ul>
+  <div class="mb-3">
+    {notempty name="getBonusText"}
+    <a class="btn btn-primary btn-block" href="{:url('GrowUp/getBonus', 'safeid=' . $safeId)}" onclick="return confirm('是否领取奖励？')">
+      {$getBonusText}
+    </a>
+    {else /}
+    <button class="btn btn-primary btn-block" type="button" disabled>今天的每日奖励已经领过了，请明天继续</button>
+    {/notempty}
+  </div>
+
+  <!-- 自定义ID颜色 -->
+  <section class="card">
+    <h5 class="card-header">自定义ID颜色</h5>
+    <div class="row card-body px-3 py-0">
+      <div class="col-12 font-size-sm text-secondary p-3">你选择定义自己发帖时，自己的ID和发言框颜色，神秘等级越高，可选颜色越多。</div>
+      {volist name="colorList" id="vo"}
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2 id-color-item" style="background-color: {$vo.color}">
+        {eq name="vo.id" value="0"}
+        <span>需{$vo.level}神秘等级</span>
+        {else /}
+        <a href="{:url('GrowUp/changeColor', 'safeid=' . $safeId . '&color=' . $vo['id'])}">选择该颜色</a>
+        {/eq}
+      </div>
+      {/volist}
+    </div>
+  </section>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

@@ -1,0 +1,41 @@
+{empty name="noInfo"}
+<meta name="keywords" content="{$keywords}">
+<meta name="description" content="{$description}">
+{/empty}
+<link rel="apple-touch-icon" href="__PUBLIC__{$Think.config.static_path}img/favicon-128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="__PUBLIC__{$Think.config.static_path}img/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="__PUBLIC__{$Think.config.static_path}img/favicon-16x16.png" sizes="16x16">
+<link rel="shortcut icon" href="__PUBLIC__favicon.ico">
+
+<link rel="stylesheet" href="__PUBLIC__{$Think.config.static_path}css/app.min.css?ts={$Think.config.static_file_timestamp}">
+{notempty name="Think.config.static_file_cdn"}
+<link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.loli.net/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+{else/}
+<link rel="stylesheet" href="__PUBLIC__{$Think.config.static_path}css/font-awesome.min.css?v=4.7.0">
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/polyfill.min.js?v=6.26.0"></script>
+<script src="__PUBLIC__{$Think.config.static_path}js/lib/jquery.min.js?v=3.4.1"></script>
+{/notempty}
+
+{notempty name="Think.config.bg_style"}{$Think.config.bg_style}{/notempty}
+
+{empty name="noInfo"}
+<script>
+  // 页面信息
+  window.Info = {
+    'uid': {$uid},
+    'userName': '{$userName}',
+    'verify': '{$verify}',
+    'safeId': '{$safeId}',
+    'imgPath': '{$imgPath}',
+    'rootPath': '{$rootPath}',
+    'baseFile': '{$baseFile}',
+    'staticPath': '{$Think.config.static_path}',
+    'urlType': {$urlType},
+    'urlParam': '{$urlParam}',
+    'cookiePrefix': '{$Think.config.cookie.prefix}',
+    'resTimestamp': '{$Think.config.static_file_timestamp}'
+  }
+</script>
+{/empty}

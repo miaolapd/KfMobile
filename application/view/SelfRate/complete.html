@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>已完成的评分记录 - 自助发布奖励 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.currentPageNum = {$currentPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="selfRateCompletePage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">自助发布奖励</li>
+  </ol>
+
+  {include file="SelfRate/header" /}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center mt-0">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/complete', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/complete', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('SelfRate/complete')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/complete', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item disabled" aria-hidden="true">
+        <span class="page-link">&hellip;</span>
+      </li>
+    </ul>
+  </nav>
+
+  {notempty name="threadList"}
+  <!-- 主题列表 -->
+  <section class="row mb-3">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{$vo.threadUrl}" target="_blank">
+            {eq name="vo.isNew" value="true"}
+            <span class="badge badge-danger">新补</span>
+            {/eq}
+            {eq name="vo.isSelfBuy" value="true"}
+            <span class="badge badge-success">自购</span>
+            {/eq}
+            {$vo.threadTitle}
+          </a>
+        </div>
+        <footer class="thread-footer">
+          <div class="col-4 thread-footer-column">
+            <span title="评分时间" aria-label="评分时间">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time>{$vo.rateTime}</time>
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-center">
+            {switch name="vo.sizeStatus"}
+            {case value="-1"}{assign name="sizeColor" value="warning" /}{/case}
+            {case value="1"}{assign name="sizeColor" value="danger" /}{/case}
+            {default /}{assign name="sizeColor" value="dark" /}
+            {/switch}
+            <span class="text-{$sizeColor}" data-toggle="{notempty name='vo.sizeStatus'}tooltip{/notempty}" title="{$vo.sizeTips}"
+                  aria-label="{$vo.sizeTips}">
+              <i class="fa fa-file-o" aria-hidden="true"></i>
+              认定[{$vo.rateSize|number_format}]MB
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
+            <a class="text-danger" href="{:url('SelfRate/check', 'safeid=' . $safeId . '&id=' . $vo['id'])}" target="_blank">
+              <i class="fa fa-check-square" aria-hidden="true"></i> 查看详细
+            </a>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">暂无已完成的评分记录</div>
+  {/notempty}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/complete', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/complete', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('SelfRate/complete')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('SelfRate/complete', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item disabled" aria-hidden="true">
+        <span class="page-link">&hellip;</span>
+      </li>
+    </ul>
+  </nav>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

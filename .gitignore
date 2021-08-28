@@ -1,0 +1,14 @@
+.idea/
+node_modules/
+runtime/
+vps/
+public/my/
+application/my.php
+composer.lock
+*.log
+build.bat
+buildCustomScripts.bat
+composerUpdate.bat
+startWeb.bat
+.env
+gulp.cmd

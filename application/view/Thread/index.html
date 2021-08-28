@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$title}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.fid = {$fid};
+    Info.currentPageNum = {$currentPageNum};
+    Info.maxPageNum = {$maxPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="threadPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    {notempty name="parentForumName"}
+    <li class="breadcrumb-item">
+      <a href="{:url('Thread/index?fid=' . $parentFid)}">{$parentForumName}</a>
+    </li>
+    {/notempty}
+    <li class="breadcrumb-item active">{$forumName}</li>
+    {notempty name="subForumList"}
+    <li class="breadcrumb-item dropdown">
+      <a class="dropdown-toggle" id="subBoardDropdownBtn" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+         aria-expanded="false">
+        子版块
+      </a>
+      <div class="dropdown-menu" aria-labelledby="subBoardDropdownBtn">
+        {volist name="subForumList" id="vo"}
+        <a class="dropdown-item" href="{:url('Thread/index?fid=' . $vo['fid'])}">{$vo.forumName}</a>
+        {/volist}
+      </div>
+    </li>
+    {/notempty}
+  </ol>
+
+  {notempty name="forumRule"}
+  <!-- 版块规则 -->
+  <div class="forum-rule alert alert-info font-size-sm" role="alert">
+    {$forumRule}
+  </div>
+  {/notempty}
+
+  <!-- 功能按钮 -->
+  <section class="row">
+    <div class="col-7">
+      <div class="btn-group" role="group">
+        {notempty name="threadTypeList"}
+        <div class="btn-group" role="group" aria-label="主题分类">
+          <button class="btn btn-secondary dropdown-toggle" id="threadTypeDropdownBtn" data-toggle="dropdown" type="button"
+                  aria-haspopup="true" aria-expanded="false">
+            分类
+          </button>
+          <div class="dropdown-menu" aria-labelledby="threadTypeDropdownBtn">
+            <a class="dropdown-item  {eq name='type' value='0'}active{/eq}" href="{:url('Thread/index?fid=' . $fid)}">全部</a>
+            {volist name="threadTypeList" id="vo"}
+            <a class="dropdown-item  {eq name='type' value='$vo.typeId'}active{/eq}"
+               href="{:url('Thread/index', $threadTypeParam . '&type=' . $vo['typeId'])}" style="color: {$vo.typeColor}">
+              {$vo.typeName}
+            </a>
+            {/volist}
+          </div>
+        </div>
+        {/notempty}
+
+        <div class="btn-group" role="group" aria-label="主题排列类型">
+          <button class="btn btn-secondary dropdown-toggle" id="threadSortByDropdownBtn" data-toggle="dropdown" type="button"
+                  aria-haspopup="true" aria-expanded="false">
+            排列
+          </button>
+          <div class="dropdown-menu" aria-labelledby="threadSortByDropdownBtn">
+            <a class="dropdown-item {eq name='orderway' value='postdate'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=postdate')}">按发表时间排列</a>
+            <a class="dropdown-item {eq name='orderway' value='lastpost'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=lastpost')}">按回复时间排列</a>
+            <a class="dropdown-item {eq name='orderway' value='hits'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=hits')}">按点击数排列</a>
+            <a class="dropdown-item {eq name='orderway' value='replies'}active{/eq}"
+               href="{:url('Thread/index', $threadSortByParam . '&orderway=replies')}">按回复数排列</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-5 text-right">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" id="publishThreadDropdownBtn" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-pencil" aria-hidden="true"></i> 发表主题
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="threadSortByDropdownBtn">
+          <a class="dropdown-item" href="{:url('Post/index?fid=' . $fid)}">发表主题</a>
+          <a class="dropdown-item" href="{:url('Post/index', 'fid=' . $fid . '&special=1')}">发表投票</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <hr>
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Thread/index?fid=' . $fid)}" data-exclude="fid" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$totalPageNum}页">
+          <span aria-hidden="true">..{$totalPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$totalPageNum}页">
+          <span aria-hidden="true">..{$totalPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  <!-- 主题列表 -->
+  <section class="row mb-3">
+    <ul class="list-group thread-list-group">
+      {volist name="threadList" id="vo"}
+      <li class="list-group-item thread-list-item">
+        <div class="thread-link-item">
+          <a class="thread-link" href="{$vo.threadUrl}" data-author="{$vo.author}" title="{$vo.threadName|htmlspecialchars}">
+            {notempty name="vo.status"}
+            {switch name="vo.status"}
+            {case value="顶"}{assign name="statusBadge" value="badge-danger" /}{/case}
+            {case value="票"}{assign name="statusBadge" value="badge-warning" /}{/case}
+            {case value="锁"}{assign name="statusBadge" value="badge-secondary" /}{/case}
+            {default /}{assign name="statusBadge" value="badge-secondary" /}
+            {/switch}
+            <span class="badge {$statusBadge}">{$vo.status}</span>
+            {/notempty}
+            {eq name="vo.isRating" value="true"}
+            <span class="badge badge-success">评</span>
+            {/eq}
+            {eq name="vo.isNewWorks" value="true"}
+            <span class="badge badge-danger">新作</span>
+            {/eq}
+            {notempty name="$vo.typeName"}
+            <small style="color: {$vo.typeColor}">[{$vo.typeName}]</small>
+            {/notempty}
+            {$vo.threadName}
+          </a>
+        </div>
+        <footer class="thread-footer">
+          <div class="col-4 thread-footer-column">
+            <a href="{:url('Profile/show', 'uid=' . $vo['authorUid'] . '&sf=' . $vo['sf'])}" title="作者" aria-label="作者">
+              <i class="fa fa-user" aria-hidden="true"></i> {$vo.author}
+            </a>
+            <span class="{eq name='vo.isNewThread' value='true'}text-danger{/eq}" title="发表时间：{$vo.publishTime}" aria-label="发表时间">
+              <i class="fa fa-calendar d-none d-sm-inline-block" aria-hidden="true"></i>
+              <time>{$vo.publishTime}</time>
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-center">
+            <span title="回复数：{$vo.replyNum}" aria-label="回复数">
+              <i class="fa fa-commenting-o" aria-hidden="true"></i> {$vo.replyNum}
+            </span>
+            |
+            <span title="点击数：{$vo.hitNum}" aria-label="点击数">
+              <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> {$vo.hitNum}
+            </span>
+          </div>
+          <div class="col-4 thread-footer-column text-right">
+            <a href="{$vo.threadUrl}/page/e#a" title="最后回复者" aria-label="最后回复者">
+              <i class="fa fa-reply" aria-hidden="true"></i> {$vo.lastReplier}
+            </a>
+            <span title="最后回复时间：{$vo.lastReplyTime}" aria-label="最后回复时间">
+              <i class="fa fa-calendar d-none d-sm-inline-block" aria-hidden="true"></i>
+              <time>{$vo.lastReplyTime}</time>
+            </span>
+          </div>
+        </footer>
+      </li>
+      {/volist}
+    </ul>
+  </section>
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('Thread/index?fid=' . $fid)}" data-exclude="fid" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$totalPageNum}页">
+          <span aria-hidden="true">..{$totalPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('Thread/index', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$totalPageNum}页">
+          <span aria-hidden="true">..{$totalPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

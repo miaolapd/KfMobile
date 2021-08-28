@@ -1,0 +1,83 @@
+// 根元素的字体大小
+html {
+  font-size: 14px;
+}
+
+// 超大字体
+$font-size-xl: 1.5rem; // ~21px
+$font-size-xs: 0.75rem; // 10.5px
+
+// 标准间隔
+$spacer: 1rem;
+// 较小间隔
+$spacer-2: $spacer * .5; // ~7px
+// 超小间隔
+$spacer-1: $spacer * .25; // ~3.5px
+
+// 颜色
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+$blue: #007bff;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
+
+// 背景透明度
+$bg-opacity: .5;
+$bg-opacity-light: .6;
+$bg-opacity-lighter: .7;
+$bg-opacity-lightest: .95;
+
+// 页面背景
+$body-bg: #fcfcfc;
+
+// 列表组背景
+$list-group-bg: rgba($white, $bg-opacity);
+// 列表组高亮背景
+$list-group-hover-bg: rgba(darken($gray-100, 5%), $bg-opacity);
+
+// 面包屑导航背景
+$breadcrumb-bg: rgba(darken($gray-200, 5%), $bg-opacity);
+
+// 选项卡背景（激活状态）
+$nav-tabs-link-active-bg: rgba($body-bg, $bg-opacity-light);
+// 选项卡边框颜色（悬停状态）
+$nav-tabs-link-active-border-color: darken($gray-300, 3%) darken($gray-300, 3%) $nav-tabs-link-active-bg;
+
+// 卡片背景
+$card-bg: rgba($white, $bg-opacity);
+// 分页背景
+$pagination-bg: rgba($white, $bg-opacity-light);
+// 分页背景（禁用状态）
+$pagination-disabled-bg: rgba($white, $bg-opacity-light);
+
+// 输入框背景
+$input-bg: rgba($white, $bg-opacity-light);
+// 自定义选择框背景
+$custom-select-bg: rgba($white, $bg-opacity-light);
+
+// 模态框头部边框颜色
+$modal-header-border-color: darken($gray-200, 7%);
+
+// 引用框背景
+$blockquote-bg: rgba(darken($body-bg, 7%), $bg-opacity-lighter);
+// 引用框边框宽度
+$blockquote-border-width: .3rem;
+// 引用框边框颜色
+$blockquote-border-color: darken($body-bg, 11%);

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$keyword} - 游戏搜索 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  <script>
+    Info.keyword = '{$keyword}';
+    Info.searchType = '{$searchType}';
+    Info.currentPageNum = {$currentPageNum};
+    Info.maxPageNum = {$maxPageNum};
+  </script>
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="gameIntroSearchPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">游戏搜索：“{$keyword}”</li>
+  </ol>
+
+  {include file="GameIntro/searchArea" /}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('GameIntro/search')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+  {notempty name="gameList"}
+  <!-- 游戏列表 -->
+  <ul class="row list-unstyled game-search-list mb-0">
+    {volist name="gameList" id="vo"}
+    <li class="col-12 media mb-3">
+      <a class="d-flex mr-3" href="{:url('GameIntro/game?id=' . $vo['id'])}">
+        <img class="game-search-img rounded" src="{$vo.img}" alt="游戏图片">
+      </a>
+      <div class="media-body">
+        <h6>
+          <a href="{:url('GameIntro/game?id=' . $vo['id'])}">{$vo.gameName}</a>
+        </h6>
+        <p class="font-size-sm mb-0">
+          别名：{$vo.aliasName|default="无"}<br>
+          会社：{$vo.company}<br>
+          发售时间：<time>{$vo.sellTime}</time><br>
+          类型：{$vo.type}<br>
+          属性：{$vo.property}
+        </p>
+      </div>
+    </li>
+    {/volist}
+  </ul>
+  {else /}
+  <div class="alert alert-danger text-center" role="alert">没有找到您查询的内容，请调整关键字再搜索。</div>
+  {/notempty}
+
+  <!-- 分页导航 -->
+  <nav aria-label="分页导航">
+    <ul class="pagination justify-content-center">
+      {eq name='currentPageNum' value='1'}
+      <li class="page-item disabled">
+        <span class="page-link">首页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link">上一页</span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=1')}">首页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=' . $prevPageNum)}">上一页</a>
+      </li>
+      {/eq}
+      <li class="page-item active">
+        <a class="page-link page-input" data-url="{:url('GameIntro/search')}" href="#">
+          {$currentPageNum} <span class="sr-only">(当前页)</span>
+        </a>
+      </li>
+      {eq name='currentPageNum' value='$maxPageNum'}
+      <li class="page-item disabled">
+        <span class="page-link">下一页</span>
+      </li>
+      <li class="page-item disabled">
+        <span class="page-link" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </span>
+      </li>
+      {else /}
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=' . $nextPageNum)}">下一页</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="{:url('GameIntro/search', $pageParam . '&page=' . $maxPageNum)}" aria-label="第{$maxPageNum}页">
+          <span aria-hidden="true">..{$maxPageNum}页</span>
+        </a>
+      </li>
+      {/eq}
+    </ul>
+  </nav>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

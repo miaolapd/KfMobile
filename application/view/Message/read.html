@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>{$msgTitle} - 短消息 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="readMessagePage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item"><a href="{:url('Message/index')}">短消息</a></li>
+    <li class="breadcrumb-item active">
+      {switch name="action"}
+      {case value="readsnd"}<a href="{:url('Message/index?action=sendbox')}">发件箱</a>{/case}
+      {case value="readscout"}<a href="{:url('Message/index?action=scout')}">消息跟踪</a>{/case}
+      {default /}<a href="{:url('Message/index?action=receivebox')}">收件箱</a>
+      {/switch}
+    </li>
+  </ol>
+
+  {include file="Message/nav" /}
+
+  <!-- 查看消息 -->
+  <div class="card message-box">
+    <h5 class="card-header">查看消息</h5>
+    <div class="card-body p-2">
+      <div class="message-header">
+        <p>
+          <i class="fa fa-user" aria-hidden="true"></i>
+          {eq name="action" value="read"}发件人{else /}收件人{/eq}：
+          <a class="not-click-link" href="{:url('Profile/show', 'username=' . $msgUserName)}"
+             data-not-click="{neq name='msgUserName|strtoupper' value='SYSTEM'}true{/neq}">{$msgUserName}</a>
+        </p>
+        <p>
+          <i class="fa fa-info-circle" aria-hidden="true"></i>
+          标题：{$msgTitle}
+        </p>
+        <p class="text-secondary">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          时间：<time>{$sendTime}</time>
+        </p>
+      </div>
+      <hr>
+      <div class="read-content message-content" aria-label="短消息内容">{$msgContent}</div>
+      <hr>
+      {eq name="action" value="read"}
+      <a class="btn btn-primary {eq name='isTransfer' value='true'}disabled{/eq}" href="{:url('Message/write?remid=' . $mid)}">
+        <i class="fa fa-reply" aria-hidden="true"></i> 回复
+      </a>
+      <a class="btn btn-success" href="{:url('Message/job', 'action=unread&mid=' . $mid)}" title="标记未读">
+        <i class="fa fa-bookmark" aria-hidden="true"></i> 未读
+      </a>
+      {else /}
+      <a class="btn btn-primary" href="{:url('Message/write?touid=' . $toUid)}">
+        <i class="fa fa-reply" aria-hidden="true"></i> 另发
+      </a>
+      {/eq}
+      <a class="btn btn-danger float-right" href="{:url('Message/job', 'action=del&towhere=' . $toWhere . '&delids=' . $mid)}"
+         onclick="return confirm('是否删除该短消息？');">
+        <i class="fa fa-trash" aria-hidden="true"></i> 删除
+      </a>
+    </div>
+  </div>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

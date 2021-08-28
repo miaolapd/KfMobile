@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>战力光环 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="haloPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">战力光环</li>
+  </ol>
+
+  {include file="Public/kfolNav" /}
+
+  <!-- 光环信息 -->
+  <section>
+    <div class="alert alert-info font-size-sm" role="alert">{$haloIntro}</div>
+
+    <div class="alert alert-success text-center font-size-lg" role="alert">
+      <strong>{$haloInfo}</strong>
+    </div>
+
+    <div class="row mb-2" id="buyHaloBtns">
+      <div class="col-6 col-md-3 mb-2">
+        <a class="btn btn-outline-primary btn-block" href="{:url('Fight/buyHalo', 'id=1&safeid=' . $safeId)}">花费[100KFB]</a>
+      </div>
+      <div class="col-6 col-md-3 mb-2">
+        <a class="btn btn-outline-primary btn-block" href="{:url('Fight/buyHalo', 'id=2&safeid=' . $safeId)}">花费[1000KFB]</a>
+      </div>
+      <div class="col-6 col-md-3 mb-2">
+        <a class="btn btn-outline-danger btn-block" href="{:url('Fight/buyHalo', 'id=11&safeid=' . $safeId)}">花费[0.2贡献]</a>
+      </div>
+      <div class="col-6 col-md-3 mb-2">
+        <a class="btn btn-outline-danger btn-block" href="{:url('Fight/buyHalo', 'id=12&safeid=' . $safeId)}">花费[2贡献]</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 排行列表 -->
+  <section class="row">
+    <table class="table table-sm table-striped table-hover table-center">
+      <thead>
+      <tr>
+        <th>排行</th>
+        <th>用户名</th>
+        <th>光环加成</th>
+      </tr>
+      </thead>
+      <tbody class="font-size-sm">
+      {volist name="rankList" id="vo"}
+      <tr class="{eq name='vo.userName' value='$userName'}table-warning{/eq}">
+        <th scope="row">{$vo.no}</th>
+        <td><a class="not-click-link" data-not-click="true" href="{:url('Profile/show', 'username=' . $vo['userName'])}" target="_blank">{$vo.userName}</a></td>
+        <td>{$vo.halo}</td>
+      </tr>
+      {/volist}
+      </tbody>
+    </table>
+  </section>
+
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

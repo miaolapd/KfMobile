@@ -1,0 +1,13 @@
+<!-- KFOL导航 -->
+<nav class="nav nav-pills flex-column flex-lg-row mb-3">
+  <a class="nav-link" href="/kf_fw_ig_index.php">争夺首页</a>
+  <a class="nav-link" href="/kf_fw_ig_mybp.php">我的物品</a>
+  <a class="nav-link {eq name='Request.action' value='halo'}active{/eq}" href="{:url('Fight/halo')}">战力光环</a>
+  <a class="nav-link {eq name='Request.action' value='rank'}active{/eq}" href="{:url('Fight/rank')}">争夺排行</a>
+  <a class="nav-link {eq name='Request.action' value='shop'}active{/eq}" href="{:url('Item/shop')}">物品商店</a>
+  <a class="nav-link" href="/kf_fw_ig_mycard.php">角色卡片</a>
+  <a class="nav-link text-secondary" href="/kf_fw_ig_my.php">我的道具</a>
+  <a class="nav-link text-secondary" href="/kf_fw_ig_renew.php">道具恢复</a>
+  <a class="nav-link text-secondary" href="/kf_fw_card_my.php">我的卡片</a>
+  <a class="nav-link {eq name='Request.action' value='readme'}active{/eq}" href="{:url('Fight/readme')}">帮助说明</a>
+</nav>

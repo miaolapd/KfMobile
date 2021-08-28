@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>好友列表 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="friendPage">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">好友列表</li>
+  </ol>
+
+  <form method="post" action="{:url('Profile/friend')}">
+    {notempty name="friendList"}
+    <!-- 好友列表 -->
+    <ul class="row list-group list-group-sm mb-3" id="friendList">
+      {volist name="friendList" id="vo"}
+      <li class="list-group-item">
+        <div class="form-group w-100">
+          {eq name="vo.isOnline" value="true"}
+          <span class="badge badge-success">在线</span>
+          {else /}
+          <span class="badge badge-secondary">离线</span>
+          {/eq}
+          <a class="not-click-link text-blue" href="{:url('Profile/show?uid=' . $vo['uid'])}" target="_blank" data-not-click="true">{$vo.name}</a>&nbsp;
+          <small class="text-secondary" title="加入时间" aria-label="加入时间">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            <time>{$vo.addTime}</time>
+          </small>
+          &nbsp;
+          <div class="form-check form-check-inline font-size-sm">
+            <input class="form-check-input" id="selid_{$i}" name="selid[]" type="checkbox" value="{$vo.uid}">
+            <label class="form-check-label text-secondary" for="selid_{$i}">删</label>
+          </div>
+        </div>
+        <div class="form-group w-100">
+          <input class="form-control form-control-sm" name="frienddb[{$vo.uid}]" type="text" value="{$vo.description}" placeholder="描述"
+                 aria-label="描述">
+        </div>
+      </li>
+      {/volist}
+    </ul>
+    {else /}
+    <div class="alert alert-danger text-center" role="alert">暂无好友</div>
+    {/notempty}
+
+    <!-- 功能区 -->
+    <section id="friendActionBtns">
+      <input name="job" type="hidden" value="submit">
+      <div class="form-inline mb-sm-2">
+        <label class="sr-only" for="friendUser">用户名</label>
+        <input class="form-control mb-2 mr-sm-2 mb-sm-0" name="pwuser" id="friendUser" type="text" placeholder="用户名">
+        <label class="sr-only" for="friendDescription">描述</label>
+        <input class="form-control mb-2 mb-sm-0" name="descrip" id="friendDescription" type="text" placeholder="描述">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-secondary" data-action="selectAll" type="button">全选</button>
+        <button class="btn btn-secondary" data-action="selectInverse" type="button">反选</button>
+        <button class="btn btn-primary" type="submit">提交</button>
+      </div>
+    </section>
+  </form>
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

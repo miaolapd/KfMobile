@@ -1,0 +1,31 @@
+{
+    "name": "miaolapd/kfmobile",
+    "description": "the KF mobile website",
+    "type": "project",
+    "keywords": [
+        "KfMobile",
+        "ThinkPHP",
+        "phpQuery",
+        "Bootstrap"
+    ],
+    "homepage": "https://github.com/miaolapd/KfMobile",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "miaolapd",
+            "email": "miaolapd@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "topthink/framework": "5.0.*",
+        "jaeger/phpquery-single": "0.9.7",
+        "topthink/think-image": "^1.0"
+    },
+    "extra": {
+        "think-path": "thinkphp"
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
