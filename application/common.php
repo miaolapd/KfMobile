@@ -163,7 +163,7 @@ function convert_url($url)
 function convert_to_current_domain_url($url)
 {
     $url = str_replace(request()->domain() . '/', '/', $url);
-    return preg_replace('/^https?:\/\/(?:[\w\.]+?\.)?(?:2dgal|ddgal|9gal|9baka|9moe|kfgal|2dkf|kfacg|ikfol|fygal|bakabbs|365gal|365galgame|kforz|kfmax|miaola|koyuki)\.\w+\/(.+)/i', '/$1', $url);
+    return preg_replace('/^https?:\/\/(?:[\w\.]+?\.)?(?:2dgal|ddgal|9gal|9baka|9moe|kfgal|2dkf|kfacg|ikfol|fygal|bakabbs|365gal|365galgame|kforz|kfmax|9shenmi|miaola|koyuki)\.\w+\/(.+)/i', '/$1', $url);
 }
 
 /**
