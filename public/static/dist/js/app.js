@@ -1417,12 +1417,12 @@ var handleAtTipsBtn = exports.handleAtTipsBtn = function handleAtTipsBtn() {
  * 处理首页主题链接面板
  */
 var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleIndexThreadPanel() {
-    if (Config.activeNewReplyPanel) {
-        $('a[data-toggle="tab"][href="' + Config.activeNewReplyPanel + '"]:not(:contains("\u7EFC\u5408"))').tab('show');
-    }
-    if (Config.activeNewPublishPanel) {
-        $('a[data-toggle="tab"][href="' + Config.activeNewPublishPanel + '"]:not(:contains("\u7EFC\u5408"))').tab('show');
-    }
+    // if (Config.activeNewReplyPanel) {
+    //     $(`a[data-toggle="tab"][href="${Config.activeNewReplyPanel}"]:not(:contains("综合"))`).tab('show');
+    // }
+    // if (Config.activeNewPublishPanel) {
+    //     $(`a[data-toggle="tab"][href="${Config.activeNewPublishPanel}"]:not(:contains("综合"))`).tab('show');
+    // }
     if (Config.activeNewExtraPanel) {
         $('a[data-toggle="tab"][href="' + Config.activeNewExtraPanel + '"]').tab('show');
     }
@@ -1430,8 +1430,11 @@ var handleIndexThreadPanel = exports.handleIndexThreadPanel = function handleInd
     $(document).on('shown.bs.tab', '[data-toggle="tab"]', function (e) {
         var $target = $(e.target);
         var targetPanel = $target.attr('href');
-        var typeName = '';
-        if (targetPanel.includes('newReplyPanel')) typeName = 'activeNewReplyPanel';else if (targetPanel.includes('newPublishPanel')) typeName = 'activeNewPublishPanel';else if (targetPanel.includes('newExtraPanel')) typeName = 'activeNewExtraPanel';
+        if (!targetPanel.includes('newExtraPanel')) return;
+        var typeName = 'activeNewExtraPanel';
+        // if (targetPanel.includes('newReplyPanel')) typeName = 'activeNewReplyPanel';
+        // else if (targetPanel.includes('newPublishPanel')) typeName = 'activeNewPublishPanel';
+        // else if (targetPanel.includes('newExtraPanel')) typeName = 'activeNewExtraPanel';
         if (typeName && Config[typeName] !== targetPanel) {
             (0, _config.read)();
             Config[typeName] = targetPanel;

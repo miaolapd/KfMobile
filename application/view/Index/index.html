@@ -17,8 +17,8 @@
   <!-- 功能区 -->
   <section class="mb-4">
     <a class="btn btn-outline-danger btn-block" href="{:url('GrowUp/index')}" title="{$smTips}"
-      data-smlevel="{$smLevel}" data-smrank="{$smRank}">
-      神秘<b>{$smLevel|intval|number_format}</b>级 (系数排名第<b class="text-primary">{$smRank}</b>位)
+      data-smlevel="{$smLevel}" data-smcoefficient="{$smCoefficient}" data-smrank="{$smRank}">
+      <b>{$smLevel|intval|number_format}</b>神秘 (<b class="text-primary">{$smCoefficient}</b>系数)
     </a>
     <a class="btn btn-outline-danger btn-block" data-kfb="{$kfb}" data-gongxian="{$gongXian}" href="javascript:;" title="网站虚拟货币">
       <b>{$kfb|number_format}</b>KFB | <b>{$gongXian}</b>贡献
@@ -219,75 +219,48 @@
       <span>
         <i class="fa fa-signal" aria-hidden="true"></i> 最新回复
       </span>
-
-      <a class="btn btn-outline-primary btn-sm px-2 ml-auto edit-index-layout-btn" href="{:url('Index/layout')}" title="自定义首页布局" aria-label="自定义首页布局">
-        <i class="fa fa-edit" aria-hidden="true"></i> 自定义
-      </a>
     </h4>
 
     <!-- 最新回复 Tab -->
     <ul class="col-12 nav nav-tabs mb-3" role="tablist">
-      {volist name="newReplyList" id="vo"}
+      {for start="0" end="$newReplyPageCount"}
       <li class="nav-item">
-        <a class="nav-link {eq name='i' value='1'}active{/eq}" data-toggle="tab" href="#newReplyPanel{$i}" role="tab"
-           aria-controls="newReplyPanel{$i}">{$vo.title}</a>
+        <a class="nav-link {eq name='i' value='0'}active{/eq}" data-toggle="tab" href="#newReplyPanel{$i + 1}" role="tab"
+           aria-controls="newReplyPanel{$i + 1}">第{$i + 1}页</a>
       </li>
-      {/volist}
+      {/for}
     </ul>
 
     <!-- 最新回复 Panel -->
     <div class="col-12 tab-content px-0">
-      {volist name="newReplyList" id="vo" key='index'}
-      <ul class="tab-pane list-group {eq name='index' value='1'}active{/eq}" id="newReplyPanel{$index}" role="tabpanel">
-        {volist name="vo['data']" id="link"}
+      {for start="0" end="$newReplyPageCount" name="page"}
+      <ul class="tab-pane list-group {eq name='page' value='0'}active{/eq}" id="newReplyPanel{$page + 1}" role="tabpanel">
+        {for start="0" end="$newReplyPerPageNum"}
+        {assign name="index" value="$i + ($page * $newReplyPerPageNum)" /}
+        {if condition="$index < count($newReplyList)"}
+        {assign name="link" value="$newReplyList[$index]" /}
         <li class="list-group-item thread-link-group">
-          <a class="thread-link" href="{$link.threadUrl}" title="《{$link.threadTitle}》">{$link.threadTitle}</a>
+          <a class="thread-link" href="{$link.threadUrl}" title="《{$link.threadTitle}》" data-author="{$link.threadAuthor}"
+             data-reply-num="{$link.threadReplyNum}">
+            <span class="badge badge-secondary">{$link.threadForumName}</span>
+            {$link.threadTitle}
+          </a>
           <a class="thread-link-jump" href="{$link.threadUrl}/page/e#a">{$link.threadTime}</a>
         </li>
-        {/volist}
+        {/if}
+        {/for}
       </ul>
-      {/volist}
+      {/for}
     </div>
   </section>
 
-  <!-- 最新发表 -->
+  <!-- 最新发表 && 最新被推 & 内部管理 -->
   <section class="row mb-4">
     <h4 class="col-12 mb-3">
-      <i class="fa fa-signal" aria-hidden="true"></i> 最新发表
+      <i class="fa fa-signal" aria-hidden="true"></i> 最新被推&发表
     </h4>
 
-    <!-- 最新发表 Tab -->
-    <ul class="col-12 nav nav-tabs mb-3" role="tablist">
-      {volist name="newPublishList" id="vo"}
-      <li class="nav-item">
-        <a class="nav-link {eq name='i' value='1'}active{/eq}" data-toggle="tab" href="#newPublishPanel{$i}" role="tab"
-           aria-controls="newPublishPanel{$i}">{$vo.title}</a>
-      </li>
-      {/volist}
-    </ul>
-
-    <!-- 最新发表 Panel -->
-    <div class="col-12 tab-content px-0">
-      {volist name="newPublishList" id="vo" key='index'}
-      <ul class="tab-pane list-group {eq name='index' value='1'}active{/eq}" id="newPublishPanel{$index}" role="tabpanel">
-        {volist name="vo['data']" id="link"}
-        <li class="list-group-item thread-link-group">
-          <a class="thread-link" href="{$link.threadUrl}" title="《{$link.threadTitle}》">{$link.threadTitle}</a>
-          <a class="thread-link-jump" href="{$link.threadUrl}/page/e#a">{$link.threadTime}</a>
-        </li>
-        {/volist}
-      </ul>
-      {/volist}
-    </div>
-  </section>
-
-  <!-- 最新被推 & 内部管理 -->
-  <section class="row mb-4">
-    <h4 class="col-12 mb-3">
-      <i class="fa fa-signal" aria-hidden="true"></i> 最新被推
-    </h4>
-
-    <!-- 最新被推 & 内部管理 Tab -->
+    <!-- 最新发表 && 最新被推 & 内部管理 Tab -->
     <ul class="col-12 nav nav-tabs mb-3 {eq name=':count($newExtraList)' value='1'}d-none{/eq}" role="tablist">
       {volist name="newExtraList" id="vo"}
       <li class="nav-item">
@@ -297,7 +270,7 @@
       {/volist}
     </ul>
 
-    <!-- 最新被推 & 内部管理 Panel -->
+    <!-- 最新发表 && 最新被推 & 内部管理 Panel -->
     <div class="col-12 tab-content px-0">
       {volist name="newExtraList" id="vo" key='index'}
       <ul class="tab-pane list-group {eq name='index' value='1'}active{/eq}" id="newExtraPanel{$index}" role="tabpanel">

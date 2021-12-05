@@ -30,94 +30,88 @@ class Index extends Responser
         $matches = [];
 
         // 功能区
+        $pqSmArea = pq('.k_ale.k_ale_blue');
+        $smLevel = trim($pqSmArea->find('> .k_lh40:first-child > .k_f32')->text());
+        $smTips = $pqSmArea->find('> .k_lh40:first-child > span:nth-child(2)')->attr('title');
+        $smCoefficient = trim($pqSmArea->find('> .k_lh40:nth-child(2) > .k_f24:first-child')->text());
+        $smRank = trim($pqSmArea->find('> .k_lh40:nth-child(2) > .k_f24:nth-child(2)')->text());
+
         $kfb = 0;
         $gongXian = 0;
-        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', pq('a.rightbox1[title="网站虚拟货币"]')->text(), $matches)) {
+        if (preg_match('/(-?\d+)KFB\s*\|\s*(-?\d+(?:\.\d+)?)贡献/', $pqSmArea->next('.k_ale')->find('> a:first-child'), $matches)) {
             $kfb = intval($matches[1]);
             $gongXian = floatval($matches[2]);
         }
-        $pqSmArea = pq('a.rightbox1[href="kf_growup.php"]');
-        $smLevel = 0;
-        $smRank = '';
-        if (preg_match('/神秘(-?\d+)级\s*\(系数排名第\s*(\d+\+?)\s*位\)/', $pqSmArea->text(), $matches)) {
-            $smLevel = intval($matches[1]);
-            $smRank = $matches[2];
-        }
-        $smTips = $pqSmArea->attr('title');
 
-        // 最新回复 & 最新主题
+        // 最新回复
         $newReplyList = [];
+        $pqNewReplyList = pq('.indexlbtc');
+        foreach ($pqNewReplyList as $newReplyNode) {
+            $pqNewReplyNode = pq($newReplyNode);
+            $pqLink = $pqNewReplyNode->find('> a');
+
+            $threadTitle = '';
+            if (preg_match('/《(.+?)》/', $pqLink->attr('title'), $matches)) {
+                $threadTitle = trim_strip($matches[1]);
+            }
+            $threadUrl = $pqLink->attr('href');
+            $threadForumName = trim($pqLink->find('> .indexlbtc_t > .indexlbtc_l')->text());
+            $threadForumName = mb_substr($threadForumName, 1, 2);
+            $threadReplyNum = trim($pqLink->find('> .indexlbtc_t > .indexlbtc_h')->text());
+            $threadTime = trim($pqLink->find('> .indexlbtc_s')->text());
+            $threadAuthor = $pqLink->attr('uname');
+
+            $linkData = [
+                'threadUrl' => convert_url($threadUrl),
+                'threadTitle' => $threadTitle,
+                'threadForumName' => $threadForumName,
+                'threadReplyNum' => $threadReplyNum,
+                'threadTime' => $threadTime,
+                'threadAuthor' => $threadAuthor,
+            ];
+            $newReplyList[] = $linkData;
+        }
+        $newReplyPerPageNum = 11; // 每页帖子数量
+        $newReplyPageCount = ceil(count($newReplyList) / $newReplyPerPageNum);
+
+        // 最新发表
         $newPublishList = [];
-        $pqPanelTitleList = pq('.indexlbtit2tit');
-        foreach ($pqPanelTitleList as $panelTitleNode) {
-            $pqPanelTitleNode = pq($panelTitleNode);
-            $panelTitle = trim($pqPanelTitleNode->text());
-            $pqPanel = $pqPanelTitleNode->parent('li')->parent('ul');
+        $pqNewPublishPanel = pq('.rightboxa:nth-type(2)');
+        foreach ($pqNewPublishPanel->find('> a') as $newPublishNode) {
+            $pqNewPublishNode = pq($newPublishNode);
+            $pqLink = $pqNewPublishNode->find('> a');
 
-            if (mb_strpos($panelTitle, '最新回复') > 0) {
-                $currentList = &$newReplyList;
-                $index = count($currentList);
-                $title = mb_ereg_replace('最新回复', '', $panelTitle);
-                if ($title == '综合') $title = $title . ($index + 1);
-                $currentList[$index] = [
-                    'title' => $title,
-                    'data' => [],
-                ];
-            } else {
-                $currentList = &$newPublishList;
-                $index = count($currentList);
-                $title = mb_ereg_replace('最新主题', '', $panelTitle);
-                if ($title == '综合') $title = $title . ($index + 1);
-                $currentList[$index] = [
-                    'title' => $title,
-                    'data' => [],
-                ];
-            }
+            $threadUrl = $pqLink->attr('href');
+            $threadTitle = $pqLink->find('.righttita')->text();
+            $threadTime = $pqLink->find('.k_fr')->text();
 
-            foreach ($pqPanel->find('> li.indexlbtit2 > a') as $i => $link) {
-                $pqLink = pq($link);
-                if ($i !== 0 && $i % 11 === 0) {
-                    $index++;
-                    $title = mb_ereg_replace(mb_strpos($panelTitle, '最新回复') > 0 ? '最新回复' : '最新主题', '', $panelTitle);
-                    if ($title == '综合') $title = $title . ($index + 1);
-                    $currentList[$index] = [
-                        'title' => $title,
-                        'data' => [],
-                    ];
-                }
-
-                $threadUrl = $pqLink->attr('href');
-                $threadTitle = $pqLink->find('.indexlbtit2_t')->text();
-                $threadTime = $pqLink->find('.indexlbtit2_s')->text();
-                $linkData = [
-                    'threadUrl' => convert_url($threadUrl),
-                    'threadTitle' => $threadTitle,
-                    'threadTime' => $threadTime,
-                ];
-                $currentList[$index]['data'][] = $linkData;
-            }
+            $linkData = [
+                'threadUrl' => convert_url($threadUrl),
+                'threadTitle' => $threadTitle,
+                'threadTime' => $threadTime,
+            ];
+            $newPublishList[] = $linkData;
         }
 
-
-        // 内部管理 & 最新被推
+        // 最新发表 & 最新被推 & 内部管理
         $newExtraList = [];
-        $pqPanelTitleList = pq('.rightlbtit_tit');
-        foreach ($pqPanelTitleList as $panelTitleNode) {
-            $pqPanelTitleNode = pq($panelTitleNode);
-            $panelTitle = trim($pqPanelTitleNode->text());
-            $pqPanel = $pqPanelTitleNode->parent('li')->parent('ul');
+        $pqPanelList = pq('.rightboxa');
+        foreach ($pqPanelList as $panelNode) {
+            $pqPanel = pq($panelNode);
+            $panelTitle = trim($pqPanel->find('.k_f18')->text());
 
             $index = count($newExtraList);
+            $tabTitle = $panelTitle == '内部管理区' ? '内部管理' : ($panelTitle == '最新被推帖' ? '最新被推' : '最新发表');
             $newExtraList[$index] = [
-                'title' => $panelTitle == '内部管理专用' ? '内部管理' : '最新被推',
+                'title' => $tabTitle,
                 'data' => [],
             ];
 
-            foreach ($pqPanel->find('> li.rightlbtit > a') as $i => $link) {
+            foreach ($pqPanel->find('> a') as $i => $link) {
                 $pqLink = pq($link);
                 $threadUrl = $pqLink->attr('href');
-                $threadTitle = $pqLink->find('.rightlbtit_t')->text();
-                $threadTime = $pqLink->find('.rightlbtit_s')->text();
+                $threadTitle = $pqLink->find('.righttita')->text();
+                $threadTime = $pqLink->find('.k_fr')->text();
                 $linkData = [
                     'threadUrl' => convert_url($threadUrl),
                     'threadTitle' => $threadTitle,
@@ -131,8 +125,11 @@ class Index extends Responser
             'kfb' => $kfb,
             'gongXian' => $gongXian,
             'smLevel' => $smLevel,
+            'smCoefficient' => $smCoefficient,
             'smRank' => $smRank,
             'smTips' => $smTips,
+            'newReplyPageCount' => $newReplyPageCount,
+            'newReplyPerPageNum' => $newReplyPerPageNum,
             'newReplyList' => $newReplyList,
             'newPublishList' => $newPublishList,
             'newExtraList' => $newExtraList,
