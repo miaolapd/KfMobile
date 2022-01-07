@@ -51,7 +51,7 @@ class Index extends Responser
             $pqLink = $pqNewReplyNode->find('> a');
 
             $threadTitle = '';
-            if (preg_match('/《(.+?)》/', $pqLink->attr('title'), $matches)) {
+            if (preg_match('/《(.+)》/', $pqLink->attr('title'), $matches)) {
                 $threadTitle = trim_strip($matches[1]);
             }
             $threadUrl = $pqLink->attr('href');
