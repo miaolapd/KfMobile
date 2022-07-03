@@ -296,6 +296,16 @@ class Read extends Responser
 
         // 处理表格节点
         $pqFloor->find('table')->addClass('table table-bordered table-sm')->removeAttr('style');
+
+        // 将资源区板块主题中的“请手动点击打开本图片”自动替换为实际图片
+        foreach ($pqFloor->find('span.k_f18') as $node) {
+            $pqNode = pq($node);
+            $pqLinkNode = $pqNode->parent('a');
+            $imgUrl = $pqLinkNode->attr('href');
+            if ($imgUrl) {
+                $pqNode->html('<img class="img" alt="[图片]" src="' . $imgUrl . '" />');
+            }
+        }
     }
 
     /**
