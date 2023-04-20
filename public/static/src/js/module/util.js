@@ -341,7 +341,7 @@ export const copyText = function ($target, $source = null) {
  * @param {Array} list 指定列表
  * @returns {number} 指定用户在列表中的索引号，-1表示不在该列表中
  */
-export const inFollowOrBlockUserList = (name, list) => list.findIndex(data => data.name && data.name === name);
+export const inFollowOrBlockUserList = (name, list) => list.findIndex(data => data.name && data.name == name);
 
 /**
  * 检测浏览器是否为Opera

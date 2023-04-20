@@ -4235,7 +4235,7 @@ var copyText = exports.copyText = function copyText($target) {
  */
 var inFollowOrBlockUserList = exports.inFollowOrBlockUserList = function inFollowOrBlockUserList(name, list) {
     return list.findIndex(function (data) {
-        return data.name && data.name === name;
+        return data.name && data.name == name;
     });
 };
 
