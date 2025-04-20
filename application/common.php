@@ -223,7 +223,7 @@ function replace_common_html_content($html)
 function replace_floor_content($html)
 {
     $html = preg_replace('/<img src="(\d+\/)/i', '<img class="smile" alt="[表情]" src="/$1', $html);
-    $html = preg_replace('/border="0" onclick="[^"]+" onload="[^"]+"/i', 'class="img" alt="[图片]"', $html);
+    $html = preg_replace('/border="0" onclick="[^"]+"/i', 'class="img" alt="[图片]"', $html);
     $html = preg_replace('/\[attachment=(\d+)\]/', '<span class="attach-label" data-aid="$1">$0</span>', $html);
     $html = preg_replace(
         '/\[audio\]([^\[]+)\[\/audio\](?!<\/fieldset>)/',
