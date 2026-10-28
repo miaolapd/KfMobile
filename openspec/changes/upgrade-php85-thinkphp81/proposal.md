@@ -6,7 +6,7 @@ KfMobile 目前固定在 PHP 5.6～7.1 与随仓库内置的 ThinkPHP 5.0.23 上
 
 ## What Changes
 
-- **BREAKING**：运行环境要求由 PHP 5.6～7.1 改为 PHP 8.5（TP8.1 的最低要求为 8.0，本项目以 8.5 为验证目标），并启用 `curl`、`mbstring`、`openssl` 扩展。
+- **BREAKING**：运行环境要求由 PHP 5.6～7.1 改为 PHP 8.5（TP8.1 的最低要求为 8.0，本项目以 8.5 为验证目标），并启用 `curl`、`mbstring`、`openssl`、`fileinfo` 扩展。
 - **BREAKING**：框架由仓库内置的 `thinkphp/`（ThinkPHP 5.0.23）替换为 Composer 管理的 `topthink/framework:^8.1`；删除 `thinkphp/` 目录，应用代码目录由 `application/` 重命名为 `app/`。
 - **BREAKING**：移除已不可用的游戏介绍（GameIntro）功能：删除对应控制器、响应类、视图、路由、`g_intro*.php` 链接映射、缩略图生成与前端入口；`/game/:id` 等入口改为应用内错误页。
 - 依赖调整：`jaeger/phpquery-single` 由 0.9.7 升级到 `^1.1`；引入 `topthink/think-view:^2.0`（含 `topthink/think-template`）；移除 `topthink/think-image`，不再需要 GD 扩展。

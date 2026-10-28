@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ac9bb8c5a940efdf1e54e7358a74dad",
+    "content-hash": "3aae080f27ea1f4812021941120f76c0",
     "packages": [
         {
             "name": "jaeger/phpquery-single",
@@ -616,6 +616,7 @@
     "platform": {
         "php": ">=8.1",
         "ext-curl": "*",
+        "ext-fileinfo": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*"
     },

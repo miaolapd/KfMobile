@@ -70,7 +70,8 @@ vendor/
 ```
 
 - 移除 `topthink/think-image`、`topthink/think-installer` 与 `extra.think-path`；GameIntro 移除后不再需要 `ext-gd`。
-- 不声明 `ext-fileinfo`/`ext-zip`：应用运行时不使用；Composer 安装阶段使用系统 `unzip`（本机 Git Bash 已提供），避免把开发期工具依赖变成生产要求。
+- 声明 `ext-fileinfo`：TP8 的 `think\File::getMime()` 与 `response\File` 的 MIME 探测直接调用 `finfo_open()`，缺少 fileinfo 会在运行时致命错误（框架自身未声明该依赖，需由应用声明）。
+- 不声明 `ext-zip`：应用、框架与已装依赖中均无 `ZipArchive`/`zip_open` 调用，仅 Composer 安装阶段解压依赖时可能用到，而 Composer 也可使用系统 `unzip`（本机 Git Bash 已提供）。本机 `php.ini` 中保持启用仅为方便本地安装依赖，不构成部署要求。
 - `think-view:^2.0.5` 引入 `think-template:^3.0.2`，两者在 PHP 8.5 下已完成渲染冒烟验证。
 - phpQuery 1.1.1 保留单文件 classmap 方式。已在 PHP 8.5.12 下用“TP8 式错误处理”（`E_ALL`，含 `E_DEPRECATED` 即抛异常）验证：phpQuery.php `php -l` 通过；应用实际使用的 270 个字面选择器、30 个伪类选择器与 `find/text/attr/html/val/eq/contents/parent/children/prev/next/is/addClass/removeClass/removeAttr/replaceWith/remove/wrap/wrapInner/prependTo/after/slice/hasClass/foreach` 全部执行通过，0 弃用、0 异常；1.1.1 已为 `Iterator/Countable/ArrayAccess` 方法添加 `#[ReturnTypeWillChange]`。残留的 `create_function()` 只存在于 `Callback` 类，应用未使用该类（选择器内部也不会实例化它），属于已知死代码风险。
 - 备选方案：自行 fork/patch phpQuery 0.9.7。被否决：改动面更大且仍需处理 `create_function()`；1.1.1 是同一作者维护线，API 兼容。
@@ -275,7 +276,7 @@ return [
 
 - 按用户决定：`composer.lock` 纳入版本控制（从 `.gitignore` 移除），`vendor/` 安装后提交。
 - 删除 `thinkphp/` 全部受控文件；`build.php`（TP5 构建配置）删除；`think` 改为 TP8 控制台入口。
-- 本机 `D:\Program Files\php-8.5\php.ini` 启用 `extension_dir="ext"` 及 `curl/mbstring/openssl`（GD、fileinfo、zip 均不再作为应用依赖）；本地 `startWeb.bat`（未跟踪）改用 PHP 8.5 的 `php.exe` 启动 `127.0.0.1:8022`，与 nginx `mtest.miaola.work` 站点中的 `proxy_pass http://mtest.miaola.work:8022` 保持一致。Composer 安装阶段使用系统 `unzip` 解压依赖。
+- 本机 `D:\Program Files\php-8.5\php.ini` 启用 `extension_dir="ext"` 及 `curl/mbstring/openssl/fileinfo/zip`（`zip` 仅供本地 Composer 解压，非部署要求；GD 不再需要）；本地 `startWeb.bat`（未跟踪）改用 PHP 8.5 的 `php.exe` 启动 `127.0.0.1:8022`，与 nginx `mtest.miaola.work` 站点中的 `proxy_pass http://mtest.miaola.work:8022` 保持一致。
 - README 更新环境要求（PHP 8.5、扩展列表）、调试/部署步骤（删除 `my.php`、清理 `runtime/temp`、TP8 optimize 命令）与目录说明。
 - 提交最小冒烟脚本 `tools/smoke.php`（CLI，无框架依赖），接受基础 URL 作为参数，检查保留路由、可选的只读 Cookie、`/game/1` 错误页以及响应中无 PHP 致命错误；不包含账号凭据、不执行写操作。不引入 PHPUnit。
 - 验收用 KF 测试账号仅存放在本地被忽略的 `vps/kf-test-account.txt`，README、OpenSpec 文档与提交信息只引用该路径，不记录明文凭据；若凭据曾出现在可共享的记录中，验收完成后应更换密码。

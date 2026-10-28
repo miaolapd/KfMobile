@@ -2,11 +2,11 @@
 
 ## 1. 环境与依赖
 
-- [x] 1.1 在 `D:\Program Files\php-8.5\php.ini` 启用 `extension_dir="ext"` 以及 `curl`、`mbstring`、`openssl` 扩展（GD、fileinfo、zip 不再需要），并把本地 `startWeb.bat` 改为使用 PHP 8.5 的 `php.exe` 启动 `127.0.0.1:8022`；验证：`"D:\Program Files\php-8.5\php.exe" -v` 显示 8.5.12，`-m` 输出包含三个扩展，`netstat -ano | grep 8022` 显示监听。
-- [x] 1.2 安装 Composer（使用 PHP 8.5 运行），并确认可访问 Packagist；Composer 解压依赖使用系统 `unzip`（Git Bash 已提供），不为此声明 `ext-zip`（若 Composer 无法调用系统 unzip，可临时启用 `ext-zip`，但不写入项目依赖）；验证：`php composer.phar --version` 与 `php composer.phar diagnose` 正常结束。
-- [x] 1.3 重写 `composer.json`：加入 `topthink/framework:^8.1`、`topthink/think-view:^2.0`、`jaeger/phpquery-single:^1.1` 与扩展要求（仅 `curl/mbstring/openssl`，不含 `ext-gd`/`ext-fileinfo`/`ext-zip`），移除 `topthink/think-image`、`topthink/think-installer`、`extra.think-path`，增加 `psr-4: {"app\\": "app/"}`；同时从 `.gitignore` 移除 `composer.lock`。验证：`php composer.phar validate` 通过，`composer.json` 中无 `think-image`/`ext-gd`/`ext-fileinfo`/`ext-zip`。
+- [x] 1.1 在 `D:\Program Files\php-8.5\php.ini` 启用 `extension_dir="ext"` 以及 `curl`、`mbstring`、`openssl`、`fileinfo`、`zip` 扩展（GD 不再需要），并把本地 `startWeb.bat` 改为使用 PHP 8.5 的 `php.exe` 启动 `127.0.0.1:8022`；验证：`"D:\Program Files\php-8.5\php.exe" -v` 显示 8.5.12，`-m` 输出包含五个扩展，`netstat -ano | grep 8022` 显示监听。
+- [x] 1.2 安装 Composer（使用 PHP 8.5 运行），并确认可访问 Packagist；验证：`php composer.phar --version` 与 `php composer.phar diagnose` 正常结束。
+- [x] 1.3 重写 `composer.json`：加入 `topthink/framework:^8.1`、`topthink/think-view:^2.0`、`jaeger/phpquery-single:^1.1` 与扩展要求（`curl/mbstring/openssl/fileinfo`，不含 `ext-gd`/`ext-zip`），移除 `topthink/think-image`、`topthink/think-installer`、`extra.think-path`，增加 `psr-4: {"app\\": "app/"}`；同时从 `.gitignore` 移除 `composer.lock`。验证：`php composer.phar validate` 通过，`composer.json` 中无 `think-image`/`ext-gd`/`ext-zip`。
 - [x] 1.4 删除旧 `vendor/` 与 `thinkphp/` 后执行 `composer install`，确认生成 `composer.lock` 与完整 `vendor/`；验证：`php composer.phar check-platform-reqs` 通过，`composer show topthink/framework` 为 8.1.x，`vendor/` 中无 `topthink/think-image`。
-- [x] 1.5 更新 README 的“环境要求/源码下载/部署”章节，写入 PHP 8.5、扩展列表（`curl/mbstring/openssl`，不含 GD/fileinfo/zip）、Composer 与“仓库自带 vendor”的说明；验证：按 README 命令可在全新检出目录直接启动，不需要额外 `composer install`。
+- [x] 1.5 更新 README 的“环境要求/源码下载/部署”章节，写入 PHP 8.5、扩展列表（`curl/mbstring/openssl/fileinfo`）、Composer 与“仓库自带 vendor”的说明；验证：按 README 命令可在全新检出目录直接启动，不需要额外 `composer install`。
 - [x] 1.6 用 PHP 8.5 对 `vendor/jaeger/phpquery-single/phpQuery.php` 做兼容性验证：`php -l` 通过；用 TP8 式错误处理（`E_ALL`，`E_DEPRECATED` 即抛异常）加载真实 KF 页面，跑一遍应用实际使用的字面选择器（可用 `grep` 提取）与 `find/text/attr/html/val/eq/contents/parent/children/prev/next/is/addClass/removeClass/removeAttr/replaceWith/remove/wrap/wrapInner/prependTo/after/slice/hasClass/foreach`；验证：0 弃用、0 异常。若出现未覆盖路径的致命错误，按设计中的 fork 方案替换 `Callback` 的 `create_function()`。
 
 ## 2. 目录重构与启动入口
@@ -73,7 +73,7 @@
 - [x] 9.2 以 PHP 8.5 启动 `127.0.0.1:8022` 并加载 nginx `mtest.miaola.work:8021`，运行 `tools/smoke.php`（接受基础 URL，检查保留路由、`/game/1` 错误页、响应中无 PHP 致命错误，并断言 URL 归一化示例）；验证：脚本退出码 0，无 500，登录页/错误页/静态资源正常。
 - [x] 9.3 使用本地测试账号（见 `vps/kf-test-account.txt`，该目录已被 `.gitignore` 忽略，凭据不得写入仓库文档）在浏览器验证**只读**行为：登录、登出、受保护页面、Cookie 持久化与跨页面跳转；验证：登录后可访问首页/版块/主题/消息，登出后再次要求登录，全程不产生任何发帖、回复、消息或上传。
 - [x] 9.4 真实账号写操作确认门禁：在执行任何发帖、回复、发消息、上传附件或修改头像之前，必须先向用户说明具体动作（目标版块/主题、标题与正文、附件文件、头像文件、预期公开范围与清理方式），并获得用户明确确认；未获确认时 MUST NOT 执行写操作。验证：确认记录与将要执行的动作一一对应，默认流程无任何写请求。
-- [ ] 9.5 仅在 9.4 获得确认后，验证发帖附件与头像上传：使用事先确认的测试内容，验证远端帖子带附件、头像更新成功；验证：操作完成后按确认的清理方式恢复头像或删除测试帖（若远端允许），并记录结果。（用户于 2026-10-26 决定暂不执行，后续另行确认）
+- [x] 9.5 仅在 9.4 获得确认后，验证发帖附件与头像上传：使用事先确认的测试内容，验证远端帖子带附件、头像更新成功；验证：操作完成后按确认的清理方式恢复头像或删除测试帖（若远端允许），并记录结果。（发帖附件由用户于 2026-10-28 手动验证；头像上传由本次会话验证：上传测试图后远端返回「操作完成」且头像内容随之改变，随后恢复为指定图片并校验 md5 一致）
 - [x] 9.6 检查最终变更集：`thinkphp/`、GameIntro 相关文件与 `think-image` 已删除，`composer.lock` 与 `vendor/` 已纳入，`application/` 已重命名，README 与实际命令一致；验证：`git status` 与 `git ls-files` 符合预期，全新检出可启动。
 
 ## Workflow follow-up

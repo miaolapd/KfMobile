@@ -19,6 +19,7 @@
     "require": {
         "php": ">=8.1",
         "ext-curl": "*",
+        "ext-fileinfo": "*",
         "ext-mbstring": "*",
         "ext-openssl": "*",
         "topthink/framework": "^8.1",

@@ -23,6 +23,7 @@ https://bbs.kfmax.com/read.php?tid=564787&sf=406
     cURL PHP Extension
     mbstring PHP Extension
     OpenSSL PHP Extension
+    fileinfo PHP Extension
 
 依赖已随仓库提交（`vendor/` 与 `composer.lock`），下载源码后无需在部署机执行 `composer install`。
 

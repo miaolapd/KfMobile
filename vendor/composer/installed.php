@@ -3,7 +3,7 @@
         'name' => 'miaolapd/kfmobile',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '6860134298e7b27e11c8db16d0cc02a984dd2989',
+        'reference' => '72aba94f1a5180eadf272026f02ab7e9cd45b42d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'miaolapd/kfmobile' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6860134298e7b27e11c8db16d0cc02a984dd2989',
+            'reference' => '72aba94f1a5180eadf272026f02ab7e9cd45b42d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
