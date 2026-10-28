@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>进度分 - {$Think.config.site_name}</title>
+  {include file="Public/head" /}
+  {/* 编辑器提示用
+  <link rel="stylesheet" href="/public/static/src/css/app.css">
+  <link rel="stylesheet" href="/public/static/src/css/font-awesome.css">
+  */}
+</head>
+<body id="lv200Page">
+{include file="Public/header" /}
+<main class="container pt-3">
+  <!-- 面包屑导航 -->
+  <ol class="breadcrumb mb-3">
+    <li class="breadcrumb-item"><a href="__PUBLIC__">首页</a></li>
+    <li class="breadcrumb-item active">进度分</li>
+  </ol>
+
+  <!-- 当前进度分 -->
+  <section class="card mb-3">
+    <h5 class="card-header">当前进度分</h5>
+    <div class="card-body">
+      <p class="display-4 text-center text-primary mb-3"><b>{$progressScore}</b></p>
+      {notempty name="progressRule"}
+      <div class="font-size-sm text-secondary">{$progressRule}</div>
+      {/notempty}
+    </div>
+  </section>
+
+  <!-- 扣分记录 -->
+  {notempty name="deductRecord"}
+  <section class="card mb-3">
+    <div class="card-body">{$deductRecord}</div>
+  </section>
+  {/notempty}
+</main>
+{include file="Public/footer" /}
+</body>
+</html>

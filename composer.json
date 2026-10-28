@@ -17,15 +17,23 @@
         }
     ],
     "require": {
-        "php": ">=5.6.0",
-        "topthink/framework": "5.0.*",
-        "jaeger/phpquery-single": "0.9.7",
-        "topthink/think-image": "^1.0"
+        "php": ">=8.1",
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "topthink/framework": "^8.1",
+        "topthink/think-view": "^2.0",
+        "jaeger/phpquery-single": "^1.1"
     },
-    "extra": {
-        "think-path": "thinkphp"
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        }
     },
     "config": {
-        "preferred-install": "dist"
-    }
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

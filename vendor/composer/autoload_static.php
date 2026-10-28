@@ -4,25 +4,67 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita5897687aba23da0c253e82765616b8e
+class ComposerStaticInit8ac9bb8c5a940efdf1e54e7358a74dad
 {
+    public static $files = array (
+        '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
+        '15ec93fa4ce4b2d53816a1a5f2c514e2' => __DIR__ . '/..' . '/topthink/think-validate/src/helper.php',
+        '7448f3465e10b5f033e4babb31eb0b06' => __DIR__ . '/..' . '/topthink/think-orm/src/helper.php',
+        '35fab96057f1bf5e7aba31a8a6d5fdde' => __DIR__ . '/..' . '/topthink/think-orm/stubs/load_stubs.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
-        't' => 
+        't' =>
         array (
-            'think\\composer\\' => 15,
+            'think\\view\\driver\\' => 18,
             'think\\' => 6,
+        ),
+        'a' =>
+        array (
+            'app\\' => 4,
+        ),
+        'P' =>
+        array (
+            'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
+            'Psr\\Container\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'think\\composer\\' => 
+        'think\\view\\driver\\' =>
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-installer/src',
+            0 => __DIR__ . '/..' . '/topthink/think-view/src',
         ),
-        'think\\' => 
+        'think\\' =>
         array (
-            0 => __DIR__ . '/../..' . '/thinkphp/library/think',
-            1 => __DIR__ . '/..' . '/topthink/think-image/src',
+            0 => __DIR__ . '/..' . '/topthink/framework/src/think',
+            1 => __DIR__ . '/..' . '/topthink/think-template/src',
+            2 => __DIR__ . '/..' . '/topthink/think-orm/src',
+            3 => __DIR__ . '/..' . '/topthink/think-validate/src',
+            4 => __DIR__ . '/..' . '/topthink/think-container/src',
+            5 => __DIR__ . '/..' . '/topthink/think-helper/src',
+        ),
+        'app\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/app',
+        ),
+        'Psr\\SimpleCache\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
+        'Psr\\Http\\Message\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Psr\\Container\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
         ),
     );
 
@@ -33,6 +75,7 @@ class ComposerStaticInita5897687aba23da0c253e82765616b8e
         'CallbackParameterToReference' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'CallbackReturnReference' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'CallbackReturnValue' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'DOMDocumentWrapper' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'DOMEvent' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'ICallbackNamed' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
@@ -45,9 +88,9 @@ class ComposerStaticInita5897687aba23da0c253e82765616b8e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita5897687aba23da0c253e82765616b8e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita5897687aba23da0c253e82765616b8e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita5897687aba23da0c253e82765616b8e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8ac9bb8c5a940efdf1e54e7358a74dad::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8ac9bb8c5a940efdf1e54e7358a74dad::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8ac9bb8c5a940efdf1e54e7358a74dad::$classMap;
 
         }, null, ClassLoader::class);
     }

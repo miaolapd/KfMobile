@@ -14,12 +14,17 @@ https://bbs.kfmax.com/read.php?tid=564787&sf=406
 ## 更新日志
 [详细日志请参见此页面&raquo;](https://github.com/miaolapd/KfMobile/releases)
 
-## 环境要求
-本项目基于ThinkPHP、phpQuery以及Bootstrap打造，环境要求：
+> 从 PHP 8.5 / ThinkPHP 8.1 升级版本开始，原“游戏介绍”功能已废弃：`/game/:id` 不再提供并进入错误页，远端页面中的 `g_intro*.php` 链接也不再重写。
 
-    php >= 5.6.0 && < 7.2.0
+## 环境要求
+本项目基于ThinkPHP 8.1、phpQuery以及Bootstrap打造，环境要求：
+
+    php >= 8.5
     cURL PHP Extension
     mbstring PHP Extension
+    OpenSSL PHP Extension
+
+依赖已随仓库提交（`vendor/` 与 `composer.lock`），下载源码后无需在部署机执行 `composer install`。
 
 ## 源码下载方式
 共分为两种方式：
@@ -34,7 +39,7 @@ https://bbs.kfmax.com/read.php?tid=564787&sf=406
 以后在项目目录下执行`git pull`即可获取更新。
 
 ## 调试
-在`application`目录下将`my.debug.php`示例文件复制一份并将其命名为`my.php`即可开启调试模式。  
+在`app`目录下将`my.debug.php`示例文件复制一份并将其命名为`my.php`即可开启调试模式。  
 注：Linux下，如出现`mkdir(): Permission denied`的错误，请将`runtime`目录的权限改为0777（如找不到该目录请自行建立）
 
 ### 编译静态资源文件
@@ -43,9 +48,18 @@ https://bbs.kfmax.com/read.php?tid=564787&sf=406
 执行`gulp watch`，可监视静态资源文件的改动并立即进行编译；
 
 ## 部署
-删除`application`目录下之前用于调试的`my.php`文件，并在该目录下将`my.product.php`示例文件复制一份且将其命名为`my.php`。  
-可修改`my.php`文件里的配置，还可增加任何在`application/config.php`文件中你想覆盖的配置。  
-注：每次更新KfMobile之后，如发现网站界面未更新（在非调试模式下），请删除`runtime`目录下的`temp`模板缓存文件夹。
+删除`app`目录下之前用于调试的`my.php`文件，并在该目录下将`my.product.php`示例文件复制一份且将其命名为`my.php`。  
+可修改`my.php`文件里的配置，还可增加任何在`app/config.php`文件中你想覆盖的配置。  
+注：每次更新KfMobile之后，如发现网站界面未更新（在非调试模式下），请删除`runtime`目录下的`temp`模板缓存文件夹；如曾生成配置/路由缓存，也需一并清理。`app/my.php`中的`exception_tmpl`仍可用于指定生产环境的 PHP 错误页模板。
+
+需要生成配置/路由缓存时，可执行：
+
+    php think optimize:config
+    php think optimize:route
+
+回滚时恢复上一版本代码并清空`runtime`目录下的缓存即可；本次升级不涉及数据库或外部存储迁移。
+
+PHP 弃用信息（`E_DEPRECATED`/`E_USER_DEPRECATED`）会记录到`runtime/log`目录，但不会中断页面响应；其他错误仍按正常异常流程显示错误页。
 
 ### 虚拟主机配置
 网站的入口为`public/index.php`文件，因此请将虚拟主机的root目录设为项目目录下的`public`文件夹。
@@ -119,7 +133,7 @@ Nginx虚拟主机配置参考：
     
         location ~ \.php$ {
             try_files      $uri =404;
-            fastcgi_pass   unix:/run/php/php7.0-fpm.sock;
+            fastcgi_pass   unix:/run/php/php8.5-fpm.sock;
             fastcgi_index  index.php;
             fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
             include        fastcgi_params;

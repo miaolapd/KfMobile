@@ -124,12 +124,6 @@ const init = function () {
         Other.handleUserPageBtns();
         Other.handleProfilePage();
     }
-    else if (pageId === 'gameIntroSearchPage') {
-        Other.handleGameIntroSearchArea();
-    }
-    else if (['gameIntroPage', 'gameIntroCompanyPage', 'gameIntroTypePage', 'gameIntroPropertyPage'].includes(pageId)) {
-        Other.tuiGame();
-    }
     else if (pageId === 'favorPage') {
         Other.bindFavorPageBtnsClick();
     }

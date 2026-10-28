@@ -3,8 +3,7 @@ node_modules/
 runtime/
 vps/
 public/my/
-application/my.php
-composer.lock
+app/my.php
 *.log
 build.bat
 buildCustomScripts.bat

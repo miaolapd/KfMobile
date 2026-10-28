@@ -29,57 +29,6 @@ export const highlightUnReadAtTipsMsg = function () {
 };
 
 /**
- * 处理游戏搜索区域
- */
-export const handleGameIntroSearchArea = function () {
-    $('#gameSearchKeyword').val(Info.keyword);
-    $('#gameSearchType').val(Info.searchType);
-};
-
-/**
- * 推游戏
- */
-export const tuiGame = function () {
-    $('.tui-btn').click(function (e) {
-        e.preventDefault();
-        let $this = $(this);
-        if ($this.data('wait')) return;
-
-        let type = $this.data('type');
-        let cookieName = '';
-        if (type === 'company') cookieName = 'g_intro_inc_tui_';
-        else if (type === 'type') cookieName = 'g_intro_adv_tui_';
-        else if (type === 'property') cookieName = 'g_intro_moe_tui_';
-        else cookieName = 'g_intro_tui_';
-        cookieName += Info.id;
-        if (Util.getCookie(cookieName, '')) {
-            alert('你在48小时内已经推过');
-            return;
-        }
-
-        $this.data('wait', true);
-        $.ajax({
-            type: 'GET',
-            url: $this.data('url'),
-            success: function () {
-                let $num = $this.find('span:first');
-                let num = parseInt($num.text());
-                $num.text('+1');
-                setTimeout(() => {
-                    $num.text(++num);
-                }, 1000);
-            },
-            error: function () {
-                alert('操作失败');
-            },
-            complete: function () {
-                $this.removeData('wait');
-            }
-        });
-    });
-};
-
-/**
  * 绑定收藏夹页面按钮点击事件
  */
 export const bindFavorPageBtnsClick = function () {
