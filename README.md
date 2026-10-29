@@ -44,9 +44,13 @@ https://bbs.kfmax.com/read.php?tid=564787&sf=406
 注：Linux下，如出现`mkdir(): Permission denied`的错误，请将`runtime`目录的权限改为0777（如找不到该目录请自行建立）
 
 ### 编译静态资源文件
-在项目目录下执行`npm install`安装依赖包（需安装Node.js）；  
-执行`gulp bulid`，可对静态资源文件进行编译；  
-执行`gulp watch`，可监视静态资源文件的改动并立即进行编译；
+在项目目录下执行`npm install`安装依赖包（需安装Node.js v22或更高版本）；  
+执行`npm run build`，可对静态资源文件进行编译；  
+执行`npm run watch`，可监视静态资源文件的改动并立即进行编译。
+
+构建产物的语法目标为ES2019（不面向IE等旧浏览器），实际兼容门槛为Chrome 66+ / Firefox 58+ / Safari 11.1+ / iOS 11.3+ / Edge 79+。仓库内已提交编译产物到`public/static/dist/`，普通部署无需执行构建。
+
+另：执行`npm run build-scripts`可将`public/static/src/js/userScript/es6/`下的自定义脚本转译为`es2019/`目录，供「自定义脚本」功能使用。
 
 ## 部署
 删除`app`目录下之前用于调试的`my.php`文件，并在该目录下将`my.product.php`示例文件复制一份且将其命名为`my.php`。  
@@ -100,7 +104,7 @@ Nginx虚拟主机配置参考：
         }
     
         location ~ ^/(ys|js|data|\d+)/ {
-            proxy_pass https://www.kfmax.com;
+            proxy_pass https://www.kfpromax.com;
             expires 1d;
     
             proxy_cache_key       'kf_$request_uri';
@@ -119,17 +123,17 @@ Nginx虚拟主机配置参考：
         }
     
         location ~ ^/(?!index)\w+\.php$ {
-            proxy_pass https://www.kfmax.com;
+            proxy_pass https://www.kfpromax.com;
             proxy_redirect off;
     
             proxy_set_header Host www.kfmax.com;
             proxy_set_header User-Agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0';
-            proxy_set_header Referer https://www.kfmax.com;
+            proxy_set_header Referer https://www.kfpromax.com;
             proxy_set_header Accept-Encoding '';
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $remote_addr;
     
-            sub_filter 'https://www.kfmax.com' '$scheme://$host';
+            sub_filter 'https://www.kfpromax.com' '$scheme://$host';
         }
     
         location ~ \.php$ {

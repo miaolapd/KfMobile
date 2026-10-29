@@ -135,9 +135,6 @@ const init = function () {
         Other.assignBirthdayField();
         Other.handleUploadAvatarFileBtn();
     }
-    else if (pageId === 'bankPage') {
-        Other.transferKfbAlert();
-    }
     else if (pageId === 'messagePage') {
         Other.bindMessageActionBtnsClick();
     }

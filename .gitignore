@@ -10,4 +10,3 @@ buildCustomScripts.bat
 composerUpdate.bat
 startWeb.bat
 .env
-gulp.cmd
