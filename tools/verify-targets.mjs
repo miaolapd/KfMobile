@@ -71,7 +71,8 @@ for (const { name, pattern } of FORBIDDEN_SYNTAX) {
     check('app.js 不含 ' + name, !pattern.test(rawJs));
 }
 check('产物中最高级别语法 = ES2019 可选 catch 绑定', /catch\s*\{/.test(minJs));
-check('未使用任何 ES2019+ 运行时 API（polyfill 无需扩展）',
+// 页面已不加载任何 polyfill，因此这一步是硬约束：用到门槛外的 API 会直接报错。
+check('未使用超出门槛的运行时 API（页面无 polyfill 兜底）',
     !/\.flat(?:Map)?\(|fromEntries|trimStart|trimEnd|allSettled|replaceAll|Object\.hasOwn|\.at\(/.test(minJs));
 
 console.log('== 样式产物前缀覆盖 ==');

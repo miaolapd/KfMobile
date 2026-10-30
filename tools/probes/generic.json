@@ -1,0 +1,18 @@
+{
+  "url": "location.href",
+  "pageId": "document.body.id",
+  "title": "document.title",
+  "rootFontSize": "getComputedStyle(document.documentElement).fontSize",
+  "bodyFontSize": "getComputedStyle(document.body).fontSize",
+  "hasHScroll": "document.documentElement.scrollWidth > document.documentElement.clientWidth",
+  "viewport": "document.documentElement.clientWidth",
+  "containerWidth": "(() => { const c = document.querySelector('.container'); return c ? Math.round(c.getBoundingClientRect().width) : null; })()",
+  "gutterX": "(() => { const r = document.createElement('div'); r.className = 'row'; document.body.appendChild(r); const v = getComputedStyle(r).getPropertyValue('--bs-gutter-x').trim(); r.remove(); return v; })()",
+  "jqueryVersion": "typeof jQuery !== 'undefined' ? jQuery.fn.jquery : 'MISSING'",
+  "bootstrapLoaded": "typeof bootstrap !== 'undefined' && !!bootstrap.Tooltip",
+  "iconTotal": "document.querySelectorAll('i[class*=\"fa-\"]').length",
+  "iconMissingGlyph": "Array.from(document.querySelectorAll('i[class*=\"fa-\"]')).filter(e => { const c = getComputedStyle(e, '::before').content; return !c || c === 'none' || c === 'normal'; }).map(e => e.className)",
+  "fontAwesomeCss": "Array.from(document.styleSheets).some(s => (s.href || '').includes('font-awesome'))",
+  "bs4ResidueInDom": "document.querySelectorAll('.form-group, .btn-block, .sr-only, .input-group-append, .input-group-prepend, .custom-select, .no-gutters, .navbar-light, .badge-primary, .text-right, .text-left, .ml-auto, .mr-auto, .float-right, .float-left, .pre-scrollable, .media-body').length",
+  "oldDataAttrsInDom": "document.querySelectorAll('[data-toggle], [data-target], [data-parent], [data-dismiss=\"modal\"]').length"
+}
