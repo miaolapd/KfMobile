@@ -10,3 +10,4 @@ buildCustomScripts.bat
 composerUpdate.bat
 startWeb.bat
 .env
+openspec/
