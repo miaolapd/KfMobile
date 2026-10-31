@@ -4,9 +4,9 @@ return [
     // 应用版本号
     'app_version' => '5.3',
     // 反向代理的KF目标域名
-    'proxy_domain' => 'https://kf.miaola.work/',
+    'proxy_domain' => 'https://www.kfpromax.com/',
     // 注册页面反向代理的KF目标域名
-    'register_page_proxy_domain' => 'https://kf.miaola.work/',
+    'register_page_proxy_domain' => 'https://www.kfpromax.com/',
     // 电脑版的域名
     'pc_version_domain' => 'https://kf.miaola.work/',
     // 反向代理的User Agent
