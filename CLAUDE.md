@@ -10,7 +10,7 @@ KfMobile 是绯月论坛（KF）的**移动版反向代理**：没有数据库�
 
 ## 常用命令
 
-需 PHP 8.5 与 Node.js 22+ 的 CLI（可能未加入 PATH，必要时用完整路径调用；被 gitignore 的 `startWeb.bat` 中记录了本机路径）：
+需 PHP 8.5 与 Node.js 22+ 的 CLI：
 
 ```bash
 # 本地起服务（docroot 必须是 public/）
